@@ -1,0 +1,848 @@
+/* index */
+.bg-scout{
+    background:#486B34;
+}
+
+.hero{
+    background:url('../img/likankura.png');
+    background-size:cover;
+    background-position:center;
+    min-height:650px;
+}
+
+.hero-overlay{
+    background:rgba(45,90,35,.45);
+    min-height:650px;
+    display:flex;
+    align-items:center;
+    color:white;
+}
+
+.btn-scout{
+    background:#5d7f2b;
+    color:white;
+    border:none;
+}
+
+.btn-scout:hover{
+    background:#486B34;
+    color:white;
+}
+
+.btn-login{
+    background:#6d8f37;
+    color:white;
+}
+
+.card-home{
+    border-radius:20px;
+}
+
+.footer{
+    background:#2f5b46;
+    color:white;
+    padding:30px 0;
+}
+
+.footer-link{
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+.logo-likankura{
+    width: 50px;
+}
+.img-map{
+    width: 270px;
+}
+/* login */
+.login-page{
+    min-height:calc(100vh - 140px);
+    padding:60px 0;
+    background:#f7f6f2;
+}
+
+.logo-login{
+    max-width:220px;
+}
+
+.login-card{
+    border-radius:30px;
+}
+
+.login-card .form-control{
+    height:50px;
+}
+
+.recover-link{
+    color:#486B34;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.recover-link:hover{
+    color:#355024;
+}
+
+.input-group-text{
+    background:#486B34;
+    color:white;
+    border:none;
+}
+
+.form-control:focus{
+    border-color:#486B34;
+    box-shadow:0 0 0 .25rem rgba(72,107,52,.25);
+}
+/* nosotros */
+.nosotros-page{
+    padding:60px 0;
+    min-height:70vh;
+}
+
+.section-title{
+    color:#355024;
+    font-weight:700;
+}
+
+.tabs-nosotros{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.tab-nosotros{
+    min-width:180px;
+    padding:20px;
+    text-align:center;
+    text-decoration:none;
+    color:#355024;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+    transition:.3s;
+}
+
+.tab-nosotros:hover{
+    transform:translateY(-3px);
+    color:#355024;
+}
+
+.tab-nosotros.active{
+    border:2px solid #486B34;
+    font-weight:700;
+}
+
+.content-card{
+    border-radius:20px;
+}
+
+.lista-scout li{
+    margin-bottom:12px;
+    line-height:1.7;
+}
+/* vision */
+.vision-item{
+    display:flex;
+    align-items:flex-start;
+    gap:15px;
+    padding:18px;
+    border-radius:12px;
+    background:#f8f9fa;
+    height:100%;
+}
+
+.vision-item i{
+    color:#486B34;
+    font-size:1.5rem;
+    margin-top:3px;
+}
+
+.vision-item span{
+    line-height:1.6;
+}
+/* mision */
+.mision-card{
+    background:#f8f9fa;
+    padding:25px;
+    border-radius:15px;
+    height:100%;
+    transition:.3s;
+}
+
+.mision-card:hover{
+    transform:translateY(-5px);
+}
+
+.mision-card i{
+    font-size:2rem;
+    color:#486B34;
+    margin-bottom:15px;
+}
+
+.mision-card h5{
+    margin-bottom:12px;
+    color:#355024;
+}
+
+.mision-card p{
+    margin-bottom:0;
+    line-height:1.7;
+}
+/* ramas */
+.rama-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:35px;
+    height:100%;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.rama-card:hover{
+    transform:translateY(-5px);
+}
+
+.rama-icon{
+    width:80px;
+    height:80px;
+    background:#486B34;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:20px;
+}
+
+.rama-icon i{
+    font-size:2rem;
+}
+
+.rama-card h3{
+    color:#355024;
+    margin-bottom:10px;
+}
+
+.rama-edad{
+    display:inline-block;
+    background:#eef5e9;
+    color:#486B34;
+    font-weight:600;
+    padding:8px 15px;
+    border-radius:30px;
+    margin-bottom:20px;
+}
+
+.rama-card p{
+    line-height:1.8;
+    margin-bottom:0;
+}
+/* ubicacion */
+.page-banner{
+    background:rgba(45,90,35,.45);;
+    color:white;
+    padding:80px 0;
+    text-align:center;
+}
+
+.page-banner h1{
+    font-size:3rem;
+    font-weight:700;
+}
+
+.location-card{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.10);
+    height:100%;
+}
+
+.location-image img{
+    width:80px;
+    object-fit:cover;
+}
+
+.location-content{
+    padding:25px;
+}
+
+.location-badge{
+    display:inline-block;
+    background:#eef5e9;
+    color:#486B34;
+    padding:8px 15px;
+    border-radius:20px;
+    font-size:.85rem;
+    margin-bottom:15px;
+}
+
+.location-content h3{
+    color:#355024;
+    margin-bottom:15px;
+}
+
+.location-content p{
+    margin-bottom:20px;
+}
+
+.location-content i{
+    color:#486B34;
+}
+
+.map-card{
+    background:white;
+    border-radius:20px;
+    padding:40px;
+    box-shadow:0 5px 20px rgba(0,0,0,.10);
+}
+
+.map-placeholder{
+    min-height:350px;
+    background:#f8f9fa;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.map-placeholder i{
+    font-size:5rem;
+    color:#486B34;
+    margin-bottom:20px;
+}
+.img-fluid-ubi{
+    width: 100;
+}
+/* donacion */
+.donacion-hero{
+    background:rgba(45,90,35,.45);
+    color:white;
+    padding:100px 0;
+}
+
+.donacion-hero h1{
+    font-size:3rem;
+    font-weight:700;
+}
+
+.donacion-feature{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    height:100%;
+}
+
+.donacion-feature i{
+    font-size:3rem;
+    color:#486B34;
+    margin-bottom:20px;
+}
+
+.donacion-cta{
+    background:#486B34;
+    color:white;
+    text-align:center;
+    padding:60px;
+    border-radius:20px;
+}
+
+.donacion-cta h2{
+    margin-bottom:20px;
+}
+
+.donacion-cta p{
+    margin-bottom:30px;
+}
+.img-fluid{
+    width: 200px;
+}
+/* formulario de la donacion */
+.donacion-form-section{
+    padding:80px 0;
+    background:#f7f6f2;
+}
+
+.donation-card{
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.donation-header{
+    background:#486B34;
+    color:white;
+    padding:25px;
+    text-align:center;
+}
+
+.donation-card .form-control,
+.donation-card .form-select{
+    min-height:50px;
+}
+
+.donation-card textarea{
+    min-height:120px;
+}
+
+.donation-card .input-group-text{
+    background:#486B34;
+    color:white;
+    border:none;
+}
+/* eventos */
+.evento-item{
+    background:#ffffff;
+    padding:25px;
+    margin-bottom:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.evento-item img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.evento-header{
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+    margin-bottom:20px;
+    align-items:center;
+}
+
+.evento-header h3{
+    color:#355024;
+    margin:0;
+    min-width:220px;
+}
+
+.evento-header span{
+    color:#666;
+    font-weight:500;
+}
+
+.evento-item p{
+    margin-bottom:0;
+    line-height:1.8;
+}
+
+@media(max-width:768px){
+
+    .evento-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+
+}
+/* noticias */
+.timeline{
+    position:relative;
+    max-width:1000px;
+    margin:auto;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:30px;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:#486B34;
+    border-radius:10px;
+}
+
+.timeline-item{
+    position:relative;
+    padding-left:90px;
+    margin-bottom:40px;
+}
+
+.timeline-item::before{
+    content:"";
+    position:absolute;
+    left:18px;
+    top:10px;
+    width:28px;
+    height:28px;
+    background:#486B34;
+    border:5px solid #eef5e9;
+    border-radius:50%;
+}
+
+.timeline-content{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.timeline-header{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.timeline-header h3{
+    color:#355024;
+    margin:0;
+    min-width:220px;
+}
+
+.timeline-header span{
+    color:#666;
+    font-weight:500;
+}
+
+.timeline-content p{
+    margin-bottom:0;
+    line-height:1.8;
+}
+
+@media(max-width:768px){
+
+    .timeline::before{
+        left:15px;
+    }
+
+    .timeline-item{
+        padding-left:50px;
+    }
+
+    .timeline-item::before{
+        left:3px;
+    }
+
+    .timeline-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:8px;
+    }
+
+}
+/* perfilusuario */
+.profile-title{
+    color:#355024;
+    font-size:3rem;
+    font-weight:700;
+}
+
+.profile-description{
+    font-size:1.1rem;
+    line-height:2;
+    color:#4a4a4a;
+}
+
+/* .profile-photo,
+.family-photo{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:#0f5d86;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-size:1.5rem;
+} */
+
+/* .family-photo{
+    width:160px;
+    height:160px;
+} */
+
+.profile-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.profile-card ul{
+    padding-left:20px;
+}
+
+.profile-card li{
+    margin-bottom:10px;
+}
+
+.profile-icon{
+    color:#486B34;
+    font-size:1.5rem;
+}
+.icon-color{
+    /* color: #f5f5f5; */
+    /* fill: #ddd; */
+    filter: invert(99%) sepia(3%) saturate(415%) hue-rotate(182deg) brightness(113%) contrast(87%);
+}
+/* mensajes */
+.message-row{
+    background:#ffffff;
+    border-radius:15px;
+    padding:20px 30px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.message-title{
+    font-size:1.2rem;
+    font-weight:600;
+    color:#355024;
+}
+
+@media(max-width:768px){
+
+    .message-row{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+}
+/* detalle-mensaje */
+.message-detail-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.message-detail-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.message-detail-header h3{
+    color:#355024;
+    margin:0;
+}
+
+.message-detail-header span{
+    color:#777;
+    font-weight:500;
+}
+
+.message-detail-body{
+    margin-top:25px;
+}
+
+.message-detail-body p{
+    line-height:1.9;
+    margin-bottom:20px;
+}
+
+.message-detail-actions{
+    margin-top:35px;
+    display:flex;
+    gap:15px;
+}
+
+@media(max-width:768px){
+
+    .message-detail-actions{
+        flex-direction:column;
+    }
+
+}
+/* responder msm */
+.message-form-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.message-form-card .form-control{
+    min-height:50px;
+}
+
+.message-form-card textarea{
+    min-height:220px;
+    resize:vertical;
+}
+/* estedo de cuentas */
+.quota-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.quota-card table{
+    margin-bottom:0;
+}
+
+.quota-card thead{
+    background:#486B34;
+    color:white;
+}
+
+.quota-card th{
+    white-space:nowrap;
+}
+/* nueva compra */
+.product-item{
+    background:#ffffff;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    height:100%;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.product-item:hover{
+    transform:translateY(-5px);
+}
+
+.product-image{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.product-item h5{
+    color:#355024;
+    font-weight:600;
+    min-height:10px;
+}
+
+.product-price{
+    font-size:1.2rem;
+    font-weight:700;
+    color:#355024;
+}
+
+.product-item .form-check{
+    margin-top:15px;
+}
+
+.product-item input[type="checkbox"]{
+    transform:scale(1.2);
+}
+
+.product-item input[type="number"]{
+    text-align:center;
+}
+
+@media(max-width:991px){
+
+    .product-image{
+        height:100px;
+    }
+
+}
+/* validar compra */
+.purchase-summary-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.purchase-summary-card table{
+    margin-bottom:0;
+}
+
+.purchase-summary-card thead{
+    background:#486B34;
+    color:#ffffff;
+}
+
+.purchase-summary-card tfoot{
+    font-size:1.1rem;
+    font-weight:700;
+}
+
+.purchase-actions{
+    margin-top:30px;
+    display:flex;
+    justify-content:flex-end;
+    gap:15px;
+}
+
+@media(max-width:768px){
+
+    .purchase-actions{
+        flex-direction:column;
+    }
+
+}
+/* dato personal */
+.document-card{
+    background:#ffffff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.document-viewer{
+    margin-top:20px;
+    border:1px solid #ddd;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.document-viewer iframe{
+    display:block;
+    border:none;
+}
+
+.family-image{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+}
+/* evento inicio */
+.event-card{
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.event-image{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:15px;
+}
+/* eventos galerias */
+.gallery-image{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:15px;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.gallery-image:hover{
+    transform:scale(1.03);
+}
+
+.modal-content{
+    border:none;
+    background:transparent;
+}

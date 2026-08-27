@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil | Comunidad Scout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-scout">
+        <div class="container">
+            <a class="navbar-brand fw-bold"
+               href="index.html">
+               <img class="logo-likankura" src="img/logo.png" alt="logo">Comunidad Scout</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="nosotros.html">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="eventos-usuario.html">Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="noticias-usuario.html">Noticias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="donacion.html">Donación</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="perfil-usuario.html"><img class="icon-color" src="img/person.svg" alt="mail" height="35"></a>
+                    <a href="mensajes.html"><img class="icon-color" src="img/envelope.svg" alt="mail" height="35"></a>
+                    <a href="index.html" class="btn btn-scout">Salir</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PERFIL -->
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="profile-title">Esteban Salas</h1>
+                <p class="profile-description">
+                    Me gusta jugar video juegos y a la pelota
+                    en la plaza con mis amigos, me gusta comer
+                    papas fritas con pollo asado, en el colegio
+                    tengo 2 amigos y me gusta matemáticas.
+                </p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="col-md-4 text-center">
+                    <img src="img/nino.png" alt="Usuario" class="profile-image">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ACCIONES -->
+    <section class="container pb-5">
+        <div class="row g-4">
+            <div class="col-lg-2">
+                <div class="profile-menu">
+                    <a href="estado-cuotas.html" class="btn btn-scout w-100">Cuotas</a>
+                    <a href="mensajes.html" class="btn btn-scout w-100 mt-3">Mensajes</a>
+                    <a href="compras.html" class="btn btn-scout w-100 mt-3">Compras</a>
+                    <a href="datos-personales.html" class="btn btn-scout w-100 mt-3">datos personales</a>
+                </div>
+            </div>
+            <div class="col-lg-3 text-center">
+                <img src="img/papa.png" class="family-image" alt="Padre">
+                <h5 class="mt-2">Nombre del padre</h5>
+            </div>
+            <div class="col-lg-3 text-center">
+                <img src="img/mama.png" class="family-image" alt="Madre">
+                <h5 class="mt-2">Nombre de la madre</h5>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <img class="logo-likankura" src="img/logo.png" alt="">
+                    Comunidad Scout
+                </div>
+                <div class="col-md-5 text-center">
+                    <a href="#" class="footer-link">Contacto</a>
+                    <a href="#" class="footer-link">Preguntas frecuentes</a>
+                    <a href="#" class="footer-link">Política de privacidad</a>
+                </div>
+                <div class="col-md-3 text-end">
+                    <i class="fab fa-facebook fa-2x"></i>
+                    <i class="fab fa-instagram fa-2x mx-3"></i>
+                    <i class="fab fa-youtube fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
