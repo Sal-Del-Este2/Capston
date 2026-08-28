@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar sesión | Comunidad Scout</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<a href="index.html" class="boton-volver">
+    ← Volver al inicio
+</a>
+
+<body>
+    <section id="login" class="seccion-login">
+
+            <div class="contenedor-login">
+
+                <div class="login-info">
+                    <span class="simbolo-login">⚜</span>
+
+                    <h2>Bienvenido a Comunidad Scout</h2>
+
+                    <p>
+                        Ingresa a tu cuenta para acceder a actividades,
+                        grupos, eventos y contenidos de la comunidad.
+                    </p>
+                </div>
+
+                <div class="login-formulario">
+
+                    <h3>Iniciar sesión</h3>
+
+                    <form id="form-login">
+
+                        <div class="campo-login">
+                            <label for="correo-login">Correo electrónico</label>
+
+                            <input
+                                type="email"
+                                id="correo-login"
+                                placeholder="correo@ejemplo.cl"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo-login">
+                            <label for="password-login">Contraseña</label>
+
+                            <input
+                                type="password"
+                                id="password-login"
+                                placeholder="Ingresa tu contraseña"
+                                required
+                            >
+                        </div>
+
+                        <div class="opciones-login">
+
+                            <label class="recordarme">
+                                <input type="checkbox" id="recordarme">
+                                Recordarme
+                            </label>
+
+                            <a href="#">¿Olvidaste tu contraseña?</a>
+
+                        </div>
+
+                        <button type="submit" class="boton-login">
+                            Ingresar
+                        </button>
+
+                        <p class="registro-login">
+                            ¿No tienes cuenta?
+                            <a href="registro.html">Regístrate</a>
+                        </p>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    <script src="login.js"></script>
+
+</body>
+
+</html>
