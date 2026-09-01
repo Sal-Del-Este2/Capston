@@ -379,11 +379,11 @@
     margin-bottom: 15px;
 }
 
-.contenedor-productos {
+/* .contenedor-productos {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
-}
+} */
 
 .tarjeta-producto {
     background-color: #f8f8f8;
@@ -430,9 +430,9 @@
     padding: 10px 18px;
     border-radius: 8px;
 }
-.contenedor-productos {
+/* .contenedor-productos {
     grid-template-columns: 1fr;
-}
+} */
 .imagen-producto {
     height: 170px;
     padding: 15px;
@@ -853,12 +853,15 @@ REGISTRO
 
 .navbar-scout .carrito {
     padding: 8px 14px;
-    background-color: #f0a52b;
-    color: #163b2c;
-    border: none;
+    background-color: transparent;
+    /* background-color: #f0a52b; */
+    color: #77ac96;
+    /* border: none; */
+    border: 2px solid #77ac96;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /**Estilo tienda**/
@@ -3084,4 +3087,235 @@ REGISTRO
     .boton-guardar-admin {
         width: 100%;
     }
+}
+
+/* ==========================================
+   TABLET (768px - 1024px)
+========================================== */
+@media (max-width: 1024px) {
+
+    /* Nosotros */
+    .contenido-nosotros {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .texto-nosotros,
+    .imagen-nosotros {
+        width: 100%;
+    }
+
+    /* Ramas */
+    .contenedor-ramas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Eventos */
+    .contenedor-eventos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Noticias */
+    .contenedor-noticias {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Grupos */
+    .contenedor-grupos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Tienda */
+    /* .contenedor-productos {
+        grid-template-columns: repeat(2, 1fr);
+    } */
+
+    /* Footer */
+    .contenido-footer {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Encabezados */
+    .encabezado-eventos {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+
+/* ==========================================
+   SMARTPHONE (<768px)
+========================================== */
+@media (max-width: 768px) {
+
+    /* Espaciado general */
+    .seccion-nosotros,
+    .seccion-ramas,
+    .seccion-eventos,
+    .seccion-noticias,
+    .seccion-grupos,
+    .seccion-tienda {
+        padding: 60px 5%;
+    }
+
+    /* Nosotros */
+    .contenido-nosotros {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .texto-nosotros,
+    .imagen-nosotros {
+        width: 100%;
+    }
+
+    .texto-nosotros h2 {
+        font-size: 30px;
+    }
+
+    .marco-imagen img {
+        height: auto;
+    }
+
+    /* Ramas */
+    .contenedor-ramas {
+        grid-template-columns: 1fr;
+    }
+
+    /* Eventos */
+    .contenedor-eventos {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta-evento {
+        flex-direction: column;
+    }
+
+    /* Noticias */
+    .contenedor-noticias {
+        grid-template-columns: 1fr;
+    }
+
+    /* Grupos */
+    .contenedor-grupos {
+        grid-template-columns: 1fr;
+    }
+
+    /* Tienda */
+    .contenedor-productos {
+        grid-template-columns: 1fr;
+    }
+
+    /* Footer */
+    .contenido-footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-marca p {
+        max-width: 100%;
+    }
+
+    /* Navbar */
+    .navbar-brand {
+        font-size: 0.9rem;
+    }
+
+    .navbar-brand img {
+        width: 45px !important;
+    }
+
+    /* Titulos */
+    .encabezado-ramas h2,
+    .encabezado-eventos h2,
+    .encabezado-noticias h2,
+    .encabezado-grupos h2,
+    .encabezado-tienda h2 {
+        font-size: 30px;
+    }
+
+    /* Barra tienda */
+    .barra-tienda {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    /* Modal */
+    .contenido-modal {
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+
+/* ==========================================
+   CELULARES PEQUEÑOS (<480px)
+========================================== */
+@media (max-width: 480px) {
+
+    .texto-nosotros h2,
+    .encabezado-ramas h2,
+    .encabezado-eventos h2,
+    .encabezado-noticias h2,
+    .encabezado-grupos h2,
+    .encabezado-tienda h2 {
+        font-size: 26px;
+    }
+
+    .tarjeta-rama,
+    .tarjeta-evento,
+    .tarjeta-noticia,
+    .tarjeta-grupo,
+    .tarjeta-producto {
+        padding: 20px;
+    }
+
+    .boton-nosotros,
+    .boton-grupo,
+    .boton-producto {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Botón volver arriba */
+
+#btnSubir {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+
+    width: 55px;
+    height: 55px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #1f5c43;
+    color: white;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    display: none;
+
+    z-index: 9999;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+    transition: all 0.3s ease;
+}
+
+#btnSubir:hover {
+    /* background-color: #163b2c; */
+    transform: translateY(-3px);
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
 }

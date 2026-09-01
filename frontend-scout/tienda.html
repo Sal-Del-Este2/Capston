@@ -4,253 +4,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Tienda | Comunidad Scout</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
+    <title> Tienda | Comunidad Scout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"    >
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
-
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-
-                <a class="navbar-brand fw-bold" href="index.html">
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuTienda"
-                    aria-controls="menuTienda"
-                    aria-expanded="false"
-                    aria-label="Abrir menú"
-                >
+                <a class="navbar-brand fw-bold" href="index.html"><img src="img/iconos/flor-de-lis.svg" width="80px" alt="flor-de-lis"> Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuTienda" aria-controls="menuTienda" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="menuTienda">
-
                     <div class="navbar-nav mx-auto">
-                        <a class="nav-link" href="index.html">
-                            Inicio
-                        </a>
-
-                        <a
-                            class="nav-link active"
-                            aria-current="page"
-                            href="tienda.html"
-                        >
-                            Tienda
-                        </a>
-
-                        <a class="nav-link" href="login.html">
-                            Iniciar sesión
-                        </a>
-
-                        <a class="nav-link" href="registro.html">
-                            Registrarse
-                        </a>
+                        <a class="nav-link" href="index.html"> Inicio</a>
+                        <a class="nav-link active" aria-current="page" href="tienda.html"> Tienda</a>
+                        <a class="nav-link" href="login.html"> Iniciar sesión</a>
+                        <a class="nav-link" href="registro.html"> Registrarse </a>
                     </div>
-
-                    <button
-                        class="carrito"
-                        id="abrir-carrito"
-                        type="button"
-                    >
-                        🛒 Carrito:
+                    <button class="carrito" id="abrir-carrito" type="button"><img src="img/iconos/carrito.svg" width="30px" alt="carrito"> 
                         <span id="cantidad-carrito">0</span>
                     </button>
-
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
-
         <section id="tienda" class="seccion-tienda">
-
             <div class="encabezado-tienda">
                 <p class="subtitulo-seccion">
                     Equipamiento y comunidad
                 </p>
-
                 <h1>Tienda Scout</h1>
-
-                <p>
-                    Conoce algunos productos y artículos relacionados
-                    con la vida scout.
-                </p>
+                <p>Conoce algunos productos y artículos relacionados con la vida scout.</p>
             </div>
-
             <div class="contenedor-productos">
-
                 <!-- Pañolín Scout -->
                 <article class="tarjeta-producto">
-
                     <div class="imagen-producto">
-                        <img
-                            src="img/panolin.jpg"
-                            alt="Pañolín Scout"
-                        >
+                        <img src="img/panolin.jpg" alt="Pañolín Scout">
                     </div>
-
                     <div class="contenido-producto">
                         <h2>Pañolín Scout</h2>
-
-                        <p>
-                            Accesorio representativo para actividades
-                            y ceremonias.
-                        </p>
-
+                        <p>Accesorio representativo para actividades y ceremonias.</p>
                         <strong>$8.990</strong>
-
-                        <a
-                            href="#"
-                            class="boton-producto"
-                            data-nombre="Pañolín Scout"
-                            data-precio="$8.990"
-                            data-descripcion="Accesorio representativo para actividades y ceremonias."
-                        >
-                            Ver producto
-                        </a>
+                        <a href="#" class="boton-producto" data-nombre="Pañolín Scout" data-precio="$8.990"
+                        data-descripcion="Accesorio representativo para actividades y ceremonias.">Ver producto</a>
                     </div>
-
                 </article>
-
                 <!-- Cantimplora -->
                 <article class="tarjeta-producto">
-
                     <div class="imagen-producto">
-                        <img
-                            src="img/cantinflora.png"
-                            alt="Cantimplora"
-                        >
+                        <img src="img/cantinflora.png" alt="Cantimplora">
                     </div>
-
                     <div class="contenido-producto">
                         <h2>Cantimplora</h2>
-
-                        <p>
-                            Ideal para campamentos, excursiones y
-                            actividades al aire libre.
-                        </p>
-
+                        <p>Ideal para campamentos, excursiones y actividades al aire libre.</p>
                         <strong>$12.990</strong>
-
-                        <a
-                            href="#"
-                            class="boton-producto"
-                            data-nombre="Cantimplora"
-                            data-precio="$12.990"
-                            data-descripcion="Ideal para campamentos, excursiones y actividades al aire libre."
-                        >
-                            Ver producto
-                        </a>
+                        <a href="#" class="boton-producto" data-nombre="Cantimplora" data-precio="$12.990"
+                        data-descripcion="Ideal para campamentos, excursiones y actividades al aire libre.">Ver producto</a>
                     </div>
-
                 </article>
-
                 <!-- Linterna -->
                 <article class="tarjeta-producto">
-
                     <div class="imagen-producto">
-                        <img
-                            src="img/linterna.jpg"
-                            alt="Linterna"
-                        >
+                        <img src="img/linterna.jpg" alt="Linterna">
                     </div>
-
                     <div class="contenido-producto">
                         <h2>Linterna</h2>
-
-                        <p>
-                            Elemento útil para campamentos y
-                            actividades nocturnas.
-                        </p>
-
+                        <p>Elemento útil para campamentos y actividades nocturnas.</p>
                         <strong>$9.990</strong>
-
-                        <a
-                            href="#"
-                            class="boton-producto"
-                            data-nombre="Linterna"
-                            data-precio="$9.990"
-                            data-descripcion="Elemento útil para campamentos y actividades nocturnas."
-                        >
-                            Ver producto
-                        </a>
+                        <a href="#" class="boton-producto" data-nombre="Linterna" data-precio="$9.990"
+                        data-descripcion="Elemento útil para campamentos y actividades nocturnas.">Ver producto</a>
                     </div>
-
                 </article>
-
             </div>
-
         </section>
-
     </main>
 
     <!-- Modal con información del producto -->
     <div id="modal-producto" class="modal">
-
         <div class="contenido-modal">
-
             <span class="cerrar-producto">&times;</span>
-
             <h2 id="nombre-producto-modal"></h2>
-
             <p id="descripcion-producto-modal"></p>
-
             <strong id="precio-producto-modal"></strong>
-
-            <button id="agregar-carrito" type="button">
-                Agregar al carrito
-            </button>
-
+            <button id="agregar-carrito" type="button">Agregar al carrito</button>
         </div>
-
     </div>
-
     <!-- Modal del carrito -->
     <div id="modal-carrito" class="modal">
-
         <div class="contenido-modal">
-
             <span class="cerrar-carrito">&times;</span>
-
-            <h2>🛒 Mi carrito</h2>
-
+            <h2><img src="img/iconos/carrito.svg" width="40px" alt="carrito"> Mi carrito</h2>
             <div id="lista-carrito">
                 <p>Tu carrito está vacío.</p>
             </div>
-
             <hr>
-
-            <h3>
-                Total:
-                <span id="total-carrito">$0</span>
-            </h3>
-            <button id="vaciar-carrito" type="button">
-                Vaciar carrito
-            </button>
-
+            <h3> Total: <span id="total-carrito">$0</span></h3>
+            <button id="vaciar-carrito" type="button">Vaciar carrito</button>
         </div>
 
     </div>
+    <footer class="footer">
+        <div class="contenido-footer">
+            <div class="footer-marca">
+                <h3><img src="img/iconos/flor-de-lis.svg" width="50px" alt="flor-de-lis"> Comunidad Scout</h3>
+                <p>Aventura, servicio y comunidad <br> para construir un mundo mejor.</p>
+            </div>
+            <div class="footer-enlaces">
 
+            </div>
+            <div class="footer-contacto">
+                <h4>Contacto</h4>
+                <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Santiago, Chile</p>
+                <p><img src="img/iconos/email.svg" width="20px" alt="email"> contacto@comunidadscout.cl</p>
+            </div>
+        </div>
+        <div class="footer-inferior">
+            <p>&copy; 2026 Comunidad Scout</p>
+        </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="tienda.js"></script>
-
 </body>
-
 </html>
