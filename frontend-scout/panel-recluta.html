@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel del recluta | Comunidad Scout</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-panel-recluta">
+
+    <header>
+        <nav
+            class="navbar navbar-expand-lg navbar-dark navbar-scout"
+        >
+            <div class="container">
+
+                <a
+                    class="navbar-brand fw-bold"
+                    href="panel-recluta.html"
+                >
+                    <span class="simbolo-logo">⚜</span>
+                    Comunidad Scout
+                </a>
+
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuRecluta"
+                    aria-controls="menuRecluta"
+                    aria-expanded="false"
+                    aria-label="Abrir menú"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="menuRecluta"
+                >
+                    <div class="navbar-nav ms-auto">
+
+                        <a
+                            class="nav-link active"
+                            href="panel-recluta.html"
+                        >
+                            Mi inicio
+                        </a>
+
+                        <a
+                            class="nav-link"
+                            href="perfil-recluta.html"
+                        >
+                            Mi perfil
+                        </a>
+
+                        <a
+                            class="nav-link"
+                            href="mensajes-recluta.html"
+                        >
+                            Mensajes
+                        </a>
+
+                        <a
+                            class="nav-link"
+                            href="fotos-recluta.html"
+                        >
+                            Mis fotos
+                        </a>
+
+                        <a
+                            class="nav-link"
+                            href="#"
+                            id="salir-panel-recluta"
+                        >
+                            Salir
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main class="panel-recluta">
+
+        <section class="bienvenida-recluta">
+
+            <div>
+                <p class="subtitulo-panel">
+                    Área del recluta
+                </p>
+
+                <h1>
+                    ¡Hola,
+                    <span id="nombre-recluta-panel">
+                        Recluta
+                    </span>!
+                </h1>
+
+                <p>
+                    Desde aquí puedes revisar tu perfil,
+                    conversar con tu grupo y compartir
+                    fotografías de tus actividades.
+                </p>
+            </div>
+
+            <div
+                class="avatar-recluta"
+                aria-hidden="true"
+            >
+                🧭
+            </div>
+
+        </section>
+
+        <section
+            class="informacion-recluta-panel"
+            aria-label="Información del recluta"
+        >
+
+            <article class="dato-recluta-panel">
+                <span>Nickname</span>
+
+                <strong id="nickname-recluta-panel">
+                    @recluta
+                </strong>
+            </article>
+
+            <article class="dato-recluta-panel">
+                <span>Grupo Scout</span>
+
+                <strong id="grupo-recluta-panel">
+                    Sin información
+                </strong>
+            </article>
+
+            <article class="dato-recluta-panel">
+                <span>Rama</span>
+
+                <strong id="rama-recluta-panel">
+                    Sin información
+                </strong>
+            </article>
+
+        </section>
+
+        <section
+            class="opciones-recluta"
+            aria-labelledby="titulo-opciones-recluta"
+        >
+
+            <div class="encabezado-panel-recluta">
+
+                <p class="subtitulo-panel">
+                    Mis herramientas
+                </p>
+
+                <h2 id="titulo-opciones-recluta">
+                    ¿Qué deseas hacer?
+                </h2>
+
+            </div>
+
+            <div class="contenedor-tarjetas-recluta">
+
+                <article class="tarjeta-panel-recluta">
+
+                    <span
+                        class="icono-panel-recluta"
+                        aria-hidden="true"
+                    >
+                        👤
+                    </span>
+
+                    <h3>Mi perfil</h3>
+
+                    <p>
+                        Revisa tus datos personales,
+                        tu grupo y tu rama scout.
+                    </p>
+
+                    <a
+                        href="perfil-recluta.html"
+                        class="boton-panel-recluta"
+                    >
+                        Ver mi perfil
+                    </a>
+
+                </article>
+
+                <article class="tarjeta-panel-recluta">
+
+                    <span
+                        class="icono-panel-recluta"
+                        aria-hidden="true"
+                    >
+                        ✉️
+                    </span>
+
+                    <h3>Mensajes</h3>
+
+                    <p>
+                        Conversa con otros reclutas
+                        autorizados y con tu apoderado.
+                    </p>
+
+                    <a
+                        href="mensajes-recluta.html"
+                        class="boton-panel-recluta"
+                    >
+                        Ver mensajes
+                    </a>
+
+                </article>
+
+                <article class="tarjeta-panel-recluta">
+
+                    <span
+                        class="icono-panel-recluta"
+                        aria-hidden="true"
+                    >
+                        📷
+                    </span>
+
+                    <h3>Cargar fotos</h3>
+
+                    <p>
+                        Comparte fotografías de tus
+                        actividades para su revisión.
+                    </p>
+
+                    <a
+                        href="fotos-recluta.html"
+                        class="boton-panel-recluta"
+                    >
+                        Gestionar fotos
+                    </a>
+
+                </article>
+
+            </div>
+        </section>
+
+        <section
+            id="aviso-supervision-recluta"
+            class="aviso-supervision-recluta"
+        >
+            <span aria-hidden="true">🛡️</span>
+
+            <div>
+                <h2>Espacio protegido</h2>
+
+                <p>
+                    Los mensajes y fotografías se encuentran
+                    sujetos a las normas de convivencia y
+                    supervisión de la comunidad.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <script src="panel-recluta.js"></script>
+
+</body>
+
+</html>

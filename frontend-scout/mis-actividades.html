@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis actividades | Comunidad Scout</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+
+</head>
+
+<body>
+        <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+
+                <a href="panel-usuario.html" class="navbar-brand fw-bold">
+                    <span class="simbolo-logo">⚜</span>
+                    Comunidad Scout
+                </a>
+
+                <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggler="collapse"
+                data-bs-target="#menuUsuario"
+                aria-controls="menuUsuario"
+                aria-expanded="false"
+                aria-label="Abrir menú"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="menuUsuario"">
+                    <div class="navbar-nav ms-auto">
+                        <a href="panel-usuario.html" class="nav-link">Mi cuenta</a>
+                        <a href="mis-actividades.html" class="nav-link active">Mis actividades</a>
+                        <a href="#"class="nav-link"id="cerrar-sesion" >Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        </header>
+        <main class="mis-actividades">
+            <section class="encabezado-actividades">
+                <div>
+                    <p class="subtitulo-panel">Área privada</p>
+                    <h1> Mis actividades</h1>
+                    <p>
+                        Consulta las actividades en las que estás inscrito
+                        y revisa sus fechas, lugares y estados.
+                    </p>
+                </div>
+                <a href="panel-usuario.html" class="boton-volver-panel"> ← Volver a mi cuenta</a>
+            </section>
+            <section class="resumen-actividades" aria-label="Resumen de actividades">
+                <article class="tarjeta-resumen-actividad">
+                    <p>Total de inscripciones</p>
+                    <strong id="total-actividades">0</strong>
+                </article>
+
+                <article class="tarjeta-resumen-actividad">
+                    <p>Próximas actividades</p>
+                    <strong id="actividades-proximas">0</strong>
+                </article>
+
+                <article class="tarjeta-resumen-actividad">
+                    <p>Actividades finalizadas</p>
+                    <strong id="actividades-finalizadas">0</strong>
+                </article>
+            </section>
+            <section class="contenedor-actividades">
+
+            <div class="encabezado-lista-actividades">
+
+                    <div>
+                        <p class="subtitulo-panel">Tus inscripciones</p>
+                        <h2>Actividades registradas</h2>
+                    </div>
+
+                    <a
+                        href="index.html#eventos"
+                        class="boton-ver-eventos"
+                    >
+                        Ver nuevos eventos
+                    </a>
+
+                </div>
+
+                <div
+                    id="lista-actividades"
+                    class="lista-actividades"
+                >
+                    <!-- Se completará desde mis-actividades.js -->
+                </div>
+
+            </section>
+
+        </main>
+        <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        ></script>
+
+        <script src="panel-usuario.js"></script>
+        <script src="mis-actividades.js"></script>
+
+</body>
+</html>

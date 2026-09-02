@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi cuenta | Comunidad Scout</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-panel">
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+
+                <a class="navbar-brand fw-bold" href="panel-usuario.html">
+                    <span class="simbolo-logo">⚜</span>
+                    Comunidad Scout
+                </a>
+
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuUsuario"
+                    aria-controls="menuUsuario"
+                    aria-expanded="false"
+                    aria-label="Abrir menú"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="menuUsuario"
+                >
+                    <div class="navbar-nav ms-auto">
+                        <a
+                            class="nav-link active"
+                            href="panel-usuario.html"
+                        >
+                            Mi cuenta
+                        </a>
+
+                        <a class="nav-link" href="index.html">
+                            Ver sitio
+                        </a>
+
+                        <a class="nav-link" href="index.html" id="cerrar-sesion">
+                            Cerrar sesión
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main class="panel-usuario">
+
+        <section class="bienvenida-usuario">
+            <div>
+                <p class="subtitulo-panel">Área privada</p>
+
+                <h1>¡Bienvenido a tu comunidad!</h1>
+
+                <p>
+                    Desde aquí podrás revisar tus datos, cuotas,
+                    compras, actividades y mensajes.
+                </p>
+            </div>
+
+            <div class="avatar-usuario" aria-hidden="true">
+                👤
+            </div>
+        </section>
+
+        <section
+            class="opciones-panel"
+            aria-labelledby="titulo-opciones"
+        >
+            <div class="encabezado-panel">
+                <p class="subtitulo-panel">Servicios disponibles</p>
+                <h2 id="titulo-opciones">¿Qué deseas revisar?</h2>
+            </div>
+
+            <div class="contenedor-opciones-panel">
+
+                <article class="tarjeta-panel">
+                    <span class="icono-panel" aria-hidden="true">👤</span>
+
+                    <h3>Mi perfil</h3>
+
+                    <p>
+                        Revisa y actualiza tus datos personales.
+                    </p>
+
+                    <a href="perfil-usuario.html" class="boton-panel">
+                        Ver perfil
+                    </a>
+                </article>
+
+                <article class="tarjeta-panel">
+                    <span class="icono-panel" aria-hidden="true">💳</span>
+
+                    <h3>Estado de cuotas</h3>
+
+                    <p>
+                        Consulta tus cuotas pagadas y pendientes.
+                    </p>
+
+                    <a href="estado-cuotas.html" class="boton-panel">
+                        Ver cuotas
+                    </a>
+                </article>
+
+                <article class="tarjeta-panel">
+                    <span class="icono-panel" aria-hidden="true">🛍️</span>
+
+                    <h3>Mis compras</h3>
+
+                    <p>
+                        Revisa el historial de productos adquiridos.
+                    </p>
+
+                    <a href="mis-compras.html" class="boton-panel">
+                        Ver compras
+                    </a>
+                </article>
+
+                <article class="tarjeta-panel">
+                    <span class="icono-panel" aria-hidden="true">✉️</span>
+
+                    <h3>Mensajes</h3>
+
+                    <p>
+                        Comunícate con la administración de la comunidad.
+                    </p>
+
+                    <a href="mensaje.html" class="boton-panel">
+                        Ver mensajes
+                    </a>
+                </article>
+
+                <article class="tarjeta-panel">
+                    <span class="icono-panel" aria-hidden="true">📅</span>
+
+                    <h3>Mis actividades</h3>
+
+                    <p>
+                        Consulta las actividades en las que estas inscrito.
+                    </p>
+
+                    <a href="mis-actividades.html" class="boton-panel">
+                        Ver actividades
+                    </a>
+                </article>
+
+                <article class="tarjeta-panel">
+                    <span class="icono-panel" aria-hidden="true">❤️</span>
+
+                    <h3>Pagos y donaciones</h3>
+
+                    <p>
+                        Paga tu membresía o realiza una donación voluntaria.
+                    </p>
+
+                    <a href="pagos-donaciones.html" class="boton-panel">
+                        Ingresar
+                    </a>
+                </article>
+                <article class="tarjeta-panel">
+                    <span
+                        class="icono-panel"
+                        aria-hidden="true"
+                    >
+                        🧒
+                    </span>
+
+                    <h3>Mis reclutas</h3>
+
+                    <p>
+                        Administra los perfiles de los reclutas
+                        asociados a tu cuenta.
+                    </p>
+
+                    <a
+                        href="mis-reclutas.html"
+                        class="boton-panel"
+                    >
+                        Ver mis reclutas
+                    </a>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="contenido-footer">
+
+            <div class="footer-marca">
+                <h3>⚜ Comunidad Scout</h3>
+
+                <p>
+                    Aventura, servicio y comunidad para construir
+                    un mundo mejor.
+                </p>
+            </div>
+
+            <div class="footer-contacto">
+                <h4>Contacto</h4>
+                <p>📍 Santiago, Chile</p>
+                <p>✉ contacto@comunidadscout.cl</p>
+            </div>
+
+        </div>
+
+        <div class="footer-inferior">
+            <p>© 2026 Comunidad Scout</p>
+        </div>
+    </footer>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+    <script src="panel-usuario.js"></script>
+
+</body>
+
+
+
+</html>

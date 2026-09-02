@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestión de mensajes | Comunidad Scout</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-admin">
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+
+                <a class="navbar-brand fw-bold" href="panel-admin.html">
+                    <span class="simbolo-logo">⚜</span>
+                    Comunidad Scout
+                </a>
+
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador"
+                    aria-controls="menuAdministrador"
+                    aria-expanded="false"
+                    aria-label="Abrir menú"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="menuAdministrador"
+                >
+                    <div class="navbar-nav ms-auto">
+
+                        <a class="nav-link" href="panel-admin.html">
+                            Administración
+                        </a>
+
+                        <a
+                            class="nav-link active"
+                            href="admin-mensajes.html"
+                        >
+                            Mensajes
+                        </a>
+
+                        <a
+                            class="nav-link"
+                            href="#"
+                            id="cerrar-sesion-admin"
+                        >
+                            Cerrar sesión
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main class="gestion-admin">
+
+        <section class="encabezado-gestion-admin">
+
+            <div>
+                <p class="subtitulo-admin">Administración</p>
+
+                <h1>Gestión de mensajes</h1>
+
+                <p>
+                    Responde consultas y envía comunicaciones
+                    a uno o varios usuarios.
+                </p>
+            </div>
+
+            <a
+                href="panel-admin.html"
+                class="boton-volver-panel"
+            >
+                ← Volver al panel
+            </a>
+
+        </section>
+
+        <section class="resumen-gestion-admin">
+
+            <article class="tarjeta-indicador-admin">
+                <span>Total de mensajes</span>
+                <strong id="total-mensajes-admin">0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>No leídos</span>
+                <strong id="mensajes-no-leidos-admin">0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>Recibidos</span>
+                <strong id="mensajes-recibidos-admin">0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>Enviados</span>
+                <strong id="mensajes-enviados-admin">0</strong>
+            </article>
+
+        </section>
+
+        <div class="pestanas-admin">
+
+            <button
+                type="button"
+                id="pestana-recibidos"
+                class="pestana-admin activa"
+            >
+                Recibidos
+            </button>
+
+            <button
+                type="button"
+                id="pestana-enviados"
+                class="pestana-admin"
+            >
+                Enviados
+            </button>
+
+        </div>
+
+        <section class="contenedor-gestion-admin">
+
+            <div class="encabezado-listado-admin">
+
+                <div>
+                    <p class="subtitulo-admin">
+                        Comunicaciones
+                    </p>
+
+                    <h2 id="titulo-listado-mensajes">
+                        Mensajes recibidos
+                    </h2>
+                </div>
+
+                <button
+                    type="button"
+                    id="boton-nuevo-mensaje-admin"
+                    class="boton-nuevo-admin"
+                >
+                    + Nuevo mensaje
+                </button>
+
+            </div>
+
+            <div class="filtros-admin">
+
+                <div class="campo-filtro-admin">
+                    <label for="buscar-mensaje-admin">
+                        Buscar
+                    </label>
+
+                    <input
+                        type="search"
+                        id="buscar-mensaje-admin"
+                        placeholder="Asunto, remitente o destinatario"
+                    >
+                </div>
+
+                <div class="campo-filtro-admin">
+                    <label for="filtro-estado-mensaje-admin">
+                        Estado
+                    </label>
+
+                    <select id="filtro-estado-mensaje-admin">
+                        <option value="TODOS">Todos</option>
+                        <option value="No leído">No leído</option>
+                        <option value="Leído">Leído</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="acciones-mensajes-admin">
+
+                <label>
+                    <input
+                        type="checkbox"
+                        id="seleccionar-todos-admin"
+                    >
+                    Seleccionar todos
+                </label>
+
+                <span id="contador-seleccionados-admin">
+                    0 mensajes seleccionados
+                </span>
+
+                <button
+                    type="button"
+                    id="eliminar-seleccionados-admin"
+                    class="boton-eliminar-seleccionados"
+                    disabled
+                >
+                    Eliminar seleccionados
+                </button>
+
+            </div>
+
+            <div
+                id="lista-mensajes-admin"
+                class="lista-mensajes-admin"
+            >
+                <!-- Se cargará desde JavaScript -->
+            </div>
+
+            <p
+                id="sin-resultados-mensajes-admin"
+                class="mensaje-sin-resultados"
+                hidden
+            >
+                No se encontraron mensajes.
+            </p>
+
+        </section>
+
+        <!-- Formulario de nuevo mensaje -->
+
+        <section
+            id="contenedor-formulario-mensaje-admin"
+            class="contenedor-formulario-admin"
+            hidden
+        >
+
+            <div class="encabezado-formulario-admin">
+
+                <div>
+                    <p class="subtitulo-admin">
+                        Nueva comunicación
+                    </p>
+
+                    <h2>Enviar mensaje</h2>
+                </div>
+
+                <button
+                    type="button"
+                    id="cerrar-formulario-mensaje-admin"
+                    class="boton-cerrar-formulario"
+                    aria-label="Cerrar formulario"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <form id="form-mensaje-admin">
+
+                <div class="campo-admin">
+                    <label for="destinatarios-admin">
+                        Destinatarios
+                    </label>
+
+                    <select
+                        id="destinatarios-admin"
+                        multiple
+                        size="6"
+                        required
+                    >
+                        <!-- Se cargará desde JavaScript -->
+                    </select>
+
+                    <small>
+                        Mantén presionada Ctrl para seleccionar
+                        varios usuarios.
+                    </small>
+                </div>
+
+                <div class="campo-admin campo-mensaje-admin">
+                    <label for="asunto-mensaje-admin">
+                        Asunto
+                    </label>
+
+                    <input
+                        type="text"
+                        id="asunto-mensaje-admin"
+                        maxlength="120"
+                        required
+                    >
+                </div>
+
+                <div class="campo-admin campo-mensaje-admin">
+                    <label for="contenido-mensaje-admin">
+                        Mensaje
+                    </label>
+
+                    <textarea
+                        id="contenido-mensaje-admin"
+                        rows="6"
+                        maxlength="1000"
+                        required
+                    ></textarea>
+
+                    <small>
+                        Máximo 1.000 caracteres.
+                    </small>
+                </div>
+
+                <div class="acciones-formulario-admin">
+
+                    <button
+                        type="button"
+                        id="cancelar-formulario-mensaje-admin"
+                        class="boton-cancelar-admin"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="boton-guardar-admin"
+                    >
+                        Enviar mensaje
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <script src="admin-mensajes.js"></script>
+
+</body>
+
+</html>
