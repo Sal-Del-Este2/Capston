@@ -1,4 +1,5 @@
-const formularioLogin = document.getElementById("form-login");
+const formularioLogin =
+    document.getElementById("form-login");
 
 if (formularioLogin) {
     formularioLogin.addEventListener("submit", function (evento) {

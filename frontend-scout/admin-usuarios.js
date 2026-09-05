@@ -9,6 +9,7 @@ const USUARIO_ADMINISTRADOR_INICIAL = {
 
 let usuarios = [];
 
+
 const listaUsuarios =
     document.getElementById("lista-usuarios");
 
@@ -124,6 +125,7 @@ function guardarUsuarios() {
 }
 
 
+
 function actualizarIndicadores() {
     const activos = usuarios.filter(
         function (usuario) {
@@ -152,6 +154,7 @@ function actualizarIndicadores() {
     totalAdministradores.textContent =
         administradores.length;
 }
+
 
 
 function obtenerUsuariosFiltrados() {
@@ -195,6 +198,7 @@ function obtenerUsuariosFiltrados() {
         }
     );
 }
+
 
 
 function mostrarUsuarios() {
@@ -285,6 +289,7 @@ function mostrarUsuarios() {
 }
 
 
+
 function activarBotonesTabla() {
     const botonesEditar =
         document.querySelectorAll(
@@ -318,6 +323,7 @@ function activarBotonesTabla() {
         );
     });
 }
+
 
 
 function abrirFormularioNuevo() {
@@ -402,6 +408,7 @@ function cerrarFormularioUsuario() {
 }
 
 
+
 function cambiarEstadoUsuario(idUsuario) {
     const usuario = usuarios.find(
         function (elemento) {
@@ -445,6 +452,63 @@ function cambiarEstadoUsuario(idUsuario) {
     mostrarUsuarios();
 }
 
+
+
+function solicitarRestablecimientoClave(
+    idUsuario
+) {
+    const usuario = usuarios.find(
+        function (elemento) {
+            return elemento.id === idUsuario;
+        }
+    );
+
+    if (!usuario) {
+        return;
+    }
+
+    if (usuario.estado !== "activo") {
+        alert(
+            "No se puede restablecer la contraseña " +
+            "de un usuario inactivo."
+        );
+
+        return;
+    }
+
+    const confirmarSolicitud = confirm(
+        `¿Deseas enviar un enlace para ` +
+        `restablecer la contraseña a ` +
+        `${usuario.correo}?`
+    );
+
+    if (!confirmarSolicitud) {
+        return;
+    }
+
+    /*
+     * Posteriormente se conectará con:
+     *
+     * POST /api/auth/restablecer-clave
+     *
+     * {
+     *     "usuarioId": usuario.id,
+     *     "correo": usuario.correo
+     * }
+     */
+
+    alert(
+        "Solicitud generada correctamente.\n\n" +
+        `Se enviará un enlace temporal a ` +
+        `${usuario.correo}.\n\n` +
+        "Actualmente funciona en modo " +
+        "de demostración."
+    );
+}
+
+
+/* ========================================
+GUARDAR USUARIO
 
 formularioUsuario.addEventListener(
     "submit",
@@ -579,6 +643,7 @@ formularioUsuario.addEventListener(
 );
 
 
+
 buscadorUsuario.addEventListener(
     "input",
     mostrarUsuarios
@@ -608,6 +673,7 @@ cancelarFormulario.addEventListener(
     "click",
     cerrarFormularioUsuario
 );
+
 
 
 cargarUsuarios();

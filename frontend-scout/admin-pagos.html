@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pagos y donaciones | Comunidad Scout</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-admin">
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+
+                <a class="navbar-brand fw-bold" href="panel-admin.html">
+                    <span class="simbolo-logo">⚜</span>
+                    Comunidad Scout
+                </a>
+
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador"
+                    aria-controls="menuAdministrador"
+                    aria-expanded="false"
+                    aria-label="Abrir menú"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="menuAdministrador"
+                >
+                    <div class="navbar-nav ms-auto">
+
+                        <a class="nav-link" href="panel-admin.html">
+                            Administración
+                        </a>
+
+                        <a
+                            class="nav-link active"
+                            href="admin-pagos.html"
+                        >
+                            Pagos y donaciones
+                        </a>
+
+                        <a
+                            class="nav-link"
+                            href="#"
+                            id="cerrar-sesion-admin"
+                        >
+                            Cerrar sesión
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main class="gestion-admin">
+
+        <section class="encabezado-gestion-admin">
+
+            <div>
+                <p class="subtitulo-admin">Administración</p>
+
+                <h1>Pagos y donaciones</h1>
+
+                <p>
+                    Revisa las operaciones realizadas,
+                    sus estados y referencias de pago.
+                </p>
+            </div>
+
+            <a
+                href="panel-admin.html"
+                class="boton-volver-panel"
+            >
+                ← Volver al panel
+            </a>
+
+        </section>
+
+        <section class="resumen-gestion-admin">
+
+            <article class="tarjeta-indicador-admin">
+                <span>Total recaudado</span>
+                <strong id="total-recaudado-admin">$0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>Pagos de membresía</span>
+                <strong id="total-membresias-admin">$0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>Donaciones recibidas</span>
+                <strong id="total-donaciones-admin">$0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>Operaciones pendientes</span>
+                <strong id="operaciones-pendientes-admin">0</strong>
+            </article>
+
+        </section>
+
+        <section class="contenedor-gestion-admin">
+
+            <div class="encabezado-listado-admin">
+
+                <div>
+                    <p class="subtitulo-admin">
+                        Movimientos registrados
+                    </p>
+
+                    <h2>Historial de operaciones</h2>
+                </div>
+
+            </div>
+
+            <div class="filtros-pagos-admin">
+
+                <div class="campo-filtro-admin">
+                    <label for="buscar-operacion-admin">
+                        Buscar
+                    </label>
+
+                    <input
+                        type="search"
+                        id="buscar-operacion-admin"
+                        placeholder="Referencia, nombre o nickname"
+                    >
+                </div>
+
+                <div class="campo-filtro-admin">
+                    <label for="filtro-tipo-operacion-admin">
+                        Tipo
+                    </label>
+
+                    <select id="filtro-tipo-operacion-admin">
+                        <option value="TODOS">Todos</option>
+                        <option value="MEMBRESIA">Membresía</option>
+                        <option value="DONACION">Donación</option>
+                        <option value="PEDIDO">Compra</option>
+                    </select>
+                </div>
+
+                <div class="campo-filtro-admin">
+                    <label for="filtro-estado-pago-admin">
+                        Estado
+                    </label>
+
+                    <select id="filtro-estado-pago-admin">
+                        <option value="TODOS">Todos</option>
+                        <option value="PAGADO">Pagado</option>
+                        <option value="PENDIENTE">Pendiente</option>
+                        <option value="RECHAZADO">Rechazado</option>
+                        <option value="ANULADO">Anulado</option>
+                    </select>
+                </div>
+
+                <div class="campo-filtro-admin">
+                    <label for="filtro-fecha-desde">
+                        Desde
+                    </label>
+
+                    <input
+                        type="date"
+                        id="filtro-fecha-desde"
+                    >
+                </div>
+
+                <div class="campo-filtro-admin">
+                    <label for="filtro-fecha-hasta">
+                        Hasta
+                    </label>
+
+                    <input
+                        type="date"
+                        id="filtro-fecha-hasta"
+                    >
+                </div>
+
+            </div>
+
+            <div class="tabla-responsive">
+                <table class="tabla-admin">
+
+                    <thead>
+                        <tr>
+                            <th>Referencia</th>
+                            <th>Fecha</th>
+                            <th>Usuario</th>
+                            <th>Operación</th>
+                            <th>Detalle</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="lista-pagos-admin">
+                        <!-- Se cargará desde JavaScript -->
+                    </tbody>
+
+                </table>
+            </div>
+
+            <p
+                id="sin-resultados-pagos-admin"
+                class="mensaje-sin-resultados"
+                hidden
+            >
+                No se encontraron operaciones.
+            </p>
+
+        </section>
+
+        <!-- Detalle de la operación -->
+
+        <section
+            id="detalle-operacion-admin"
+            class="contenedor-formulario-admin"
+            hidden
+        >
+
+            <div class="encabezado-formulario-admin">
+
+                <div>
+                    <p class="subtitulo-admin">
+                        Trazabilidad
+                    </p>
+
+                    <h2>Detalle de la operación</h2>
+                </div>
+
+                <button
+                    type="button"
+                    id="cerrar-detalle-operacion"
+                    class="boton-cerrar-formulario"
+                    aria-label="Cerrar detalle"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <div
+                id="contenido-detalle-operacion"
+                class="contenido-detalle-operacion"
+            >
+                <!-- Se cargará desde JavaScript -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <script src="admin-pagos.js"></script>
+
+</body>
+
+</html>
