@@ -3,298 +3,124 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi perfil | Comunidad Scout</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    >
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body class="pagina-perfil-recluta">
 
     <header>
-        <nav
-            class="navbar navbar-expand-lg navbar-dark navbar-scout"
-        >
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-
-                <a
-                    class="navbar-brand fw-bold"
-                    href="panel-recluta.html"
-                >
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuPerfilRecluta"
-                    aria-controls="menuPerfilRecluta"
-                    aria-expanded="false"
-                    aria-label="Abrir menú"
-                >
+                <a class="navbar-brand fw-bold" href="panel-recluta.html">
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
+                            alt="flor-de-lis"></span> Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuPerfilRecluta" aria-controls="menuPerfilRecluta" aria-expanded="false"
+                    aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div
-                    class="collapse navbar-collapse"
-                    id="menuPerfilRecluta"
-                >
+                <div class="collapse navbar-collapse" id="menuPerfilRecluta">
                     <div class="navbar-nav ms-auto">
-
-                        <a
-                            class="nav-link"
-                            href="panel-recluta.html"
-                        >
-                            Mi inicio
-                        </a>
-
-                        <a
-                            class="nav-link active"
-                            href="perfil-recluta.html"
-                        >
-                            Mi perfil
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="mensajes-recluta.html"
-                        >
-                            Mensajes
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="fotos-recluta.html"
-                        >
-                            Mis fotos
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="#"
-                            id="salir-perfil-recluta"
-                        >
-                            Salir
-                        </a>
-
+                        <a class="nav-link" href="panel-recluta.html"> Mi inicio</a>
+                        <a class="nav-link active" href="perfil-recluta.html"> Mi perfil</a>
+                        <a class="nav-link" href="mensajes-recluta.html"> Mensajes</a>
+                        <a class="nav-link" href="fotos-recluta.html"> Mis fotos</a>
+                        <a class="nav-link" href="#" id="salir-perfil-recluta"> Salir</a>
                     </div>
                 </div>
-
             </div>
         </nav>
     </header>
-
     <main class="perfil-recluta">
-
         <section class="encabezado-perfil-recluta">
-
             <div>
-                <p class="subtitulo-panel">
-                    Mi cuenta scout
-                </p>
-
+                <p class="subtitulo-panel">Mi cuenta scout</p>
                 <h1>Mi perfil</h1>
-
-                <p>
-                    Revisa la información asociada a tu cuenta.
-                </p>
+                <p>Revisa la información asociada a tu cuenta.</p>
             </div>
-
-            <a
-                href="panel-recluta.html"
-                class="boton-volver-panel"
-            >
-                ← Volver a mi inicio
-            </a>
-
+            <a href="panel-recluta.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="30px"
+                    alt="atras"> Volver a mi inicio</a>
         </section>
-
         <section class="resumen-perfil-recluta">
-
-            <div
-                class="avatar-perfil-recluta"
-                aria-hidden="true"
-            >
-                🧭
+            <div class="avatar-perfil-recluta" aria-hidden="true">
+                <img src="img/iconos/brujula.svg" width="80px" alt="brujula">
             </div>
-
             <div>
-                <h2 id="nombre-perfil-recluta">
-                    Recluta
-                </h2>
-
-                <p id="nickname-perfil-recluta">
-                    @recluta
-                </p>
-
-                <span
-                    id="estado-perfil-recluta"
-                    class="estado-perfil-recluta"
-                >
-                    Activo
-                </span>
+                <h2 id="nombre-perfil-recluta"> Recluta</h2>
+                <p id="nickname-perfil-recluta"> @recluta</p>
+                <span id="estado-perfil-recluta" class="estado-perfil-recluta"> Activo</span>
             </div>
-
         </section>
-
-        <section
-            class="datos-perfil-recluta"
-            aria-labelledby="titulo-datos-recluta"
-        >
-
+        <section class="datos-perfil-recluta" aria-labelledby="titulo-datos-recluta">
             <div class="encabezado-seccion-perfil">
-
                 <div>
-                    <p class="subtitulo-panel">
-                        Información personal
-                    </p>
-
-                    <h2 id="titulo-datos-recluta">
-                        Mis datos
-                    </h2>
+                    <p class="subtitulo-panel"> Información personal</p>
+                    <h2 id="titulo-datos-recluta"> Mis datos</h2>
                 </div>
-
             </div>
-
             <div class="cuadricula-datos-recluta">
-
                 <article class="dato-perfil-recluta">
                     <span>Nombre completo</span>
-
-                    <strong id="dato-nombre-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-nombre-recluta"> Sin información</strong>
                 </article>
-
                 <article class="dato-perfil-recluta">
                     <span>Nickname</span>
-
-                    <strong id="dato-nickname-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-nickname-recluta"> Sin información</strong>
                 </article>
-
                 <article class="dato-perfil-recluta">
                     <span>Fecha de nacimiento</span>
-
-                    <strong id="dato-nacimiento-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-nacimiento-recluta"> Sin información</strong>
                 </article>
-
                 <article class="dato-perfil-recluta">
                     <span>Edad</span>
-
-                    <strong id="dato-edad-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-edad-recluta"> Sin información</strong>
                 </article>
-
                 <article class="dato-perfil-recluta">
                     <span>Grupo Scout</span>
-
-                    <strong id="dato-grupo-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-grupo-recluta"> Sin información</strong>
                 </article>
-
                 <article class="dato-perfil-recluta">
                     <span>Rama</span>
-
-                    <strong id="dato-rama-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-rama-recluta"> Sin información</strong>
                 </article>
-
             </div>
-
         </section>
-
-        <section
-            class="contacto-perfil-recluta"
-            aria-labelledby="titulo-contacto-recluta"
-        >
-
+        <section class="contacto-perfil-recluta" aria-labelledby="titulo-contacto-recluta">
             <div class="encabezado-seccion-perfil">
-
                 <div>
-                    <p class="subtitulo-panel">
-                        Información protegida
-                    </p>
-
-                    <h2 id="titulo-contacto-recluta">
-                        Contactos asociados
-                    </h2>
+                    <p class="subtitulo-panel"> Información protegida</p>
+                    <h2 id="titulo-contacto-recluta"> Contactos asociados</h2>
                 </div>
-
             </div>
-
             <div class="cuadricula-datos-recluta">
-
                 <article class="dato-perfil-recluta">
                     <span>Correo del apoderado</span>
-
-                    <strong id="dato-apoderado-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-apoderado-recluta"> Sin información</strong>
                 </article>
-
                 <article class="dato-perfil-recluta">
                     <span>Contacto de emergencia</span>
-
-                    <strong id="dato-contacto-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-contacto-recluta"> Sin información</strong>
                 </article>
-
                 <article class="dato-perfil-recluta">
                     <span>Teléfono de emergencia</span>
-
-                    <strong id="dato-telefono-recluta">
-                        Sin información
-                    </strong>
+                    <strong id="dato-telefono-recluta"> Sin información</strong>
                 </article>
-
             </div>
-
         </section>
-
         <section class="aviso-edicion-recluta">
-
-            <span aria-hidden="true">🛡️</span>
-
+            <span aria-hidden="true"><img src="img/iconos/escudo.png" width="80px" alt="escudo"></span>
             <div>
                 <h2>Datos protegidos por tu apoderado</h2>
-
-                <p>
-                    Si necesitas modificar alguno de estos datos,
-                    solicita a tu apoderado que lo actualice desde
-                    su cuenta.
-                </p>
+                <p>Si necesitas modificar alguno de estos datos, solicita a tu apoderado que lo actualice desde su
+                    cuenta.</p>
             </div>
-
         </section>
-
     </main>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="perfil-recluta.js"></script>
-
 </body>
 
 </html>
