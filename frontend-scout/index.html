@@ -7,308 +7,211 @@
     
     <title>Comunidad Scout</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="estilos.css">
-
 </head>
-<body class="pagina-inicio">
-    <header id="inicio">
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
-        <div class="container">
-
-            <a class="navbar-brand fw-bold" href="#inicio">
-                <span class="simbolo-logo">⚜</span>
-                Comunidad Scout
-            </a>
-
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#menuScout"
-                aria-controls="menuScout"
-                aria-expanded="false"
-                aria-label="Abrir menú"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menuScout">
-
-                <div class="navbar-nav mx-auto">
-                    <a class="nav-link" href="#inicio">Inicio</a>
-                    <a class="nav-link" href="#nosotros">Nosotros</a>
-                    <a class="nav-link" href="#ramas">Ramas</a>
-                    <a class="nav-link" href="#eventos">Eventos</a>
-                    <a class="nav-link" href="#noticias">Noticias</a>
-                    <a class="nav-link" href="tienda.html">Tienda</a>
-                    <a class="nav-link" href="#grupos">Grupos</a>
-                    <a class="nav-link" href="login.html">Iniciar sesión</a>
-                    <a class="nav-link" href="registro.html">Registrarse</a>
+<button id="btnSubir" title="Volver arriba"><img src="img/iconos/flecha-hacia-arriba.png" width="35px" alt="flecha"></button>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#inicio">
+                    <span class="simbolo-logo">
+                        <img src="img/iconos/flor-de-lis.svg" width="80px" alt="flor-de-lis"> Comunidad Scout
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuScout" aria-controls="menuScout" aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuScout">
+                    <div class="navbar-nav mx-auto">
+                        <a class="nav-link" href="#inicio">Inicio</a>
+                        <a class="nav-link" href="#nosotros">Nosotros</a>
+                        <a class="nav-link" href="#ramas">Ramas</a>
+                        <a class="nav-link" href="#eventos">Eventos</a>
+                        <a class="nav-link" href="#noticias">Noticias</a>
+                        <a class="nav-link" href="tienda.html">Tienda</a>
+                        <a class="nav-link" href="#grupos">Grupos</a>
+                        <a class="nav-link" href="login.html">Iniciar sesión</a>
+                        <a class="nav-link" href="registro.html">Registrarse</a>
+                    </div>
                 </div>
-
-
-
             </div>
-        </div>
-    </nav>
+        </nav>
     </header>
-
     <main>
-
         <section id="nosotros" class="seccion-nosotros">
-            
             <div class="contenido-nosotros">
                 <div class="texto-nosotros">
-                <p class="subtitulo-seccion"> Nuestra comunidad</p>
-                <h2>Construimos un mundo mejor</h2>
-
-                <p> Somos una comunidad scout comprometida con el aprendizaje,
-                    el servicio y el cuidado de nuestro entorno.
-                </p>
-
-                <p> Mediante actividades, proyectos y aventuras, ayudamos a niños,
-                    jóvenes y adultos a desarrollar habilidades, para la vida.
-                </p>
-                <a href="#ramas" class="boton-nosotros">Explora nuestras ramas
-
-                </a>
-
+                    <p class="subtitulo-seccion"> Nuestra comunidad</p>
+                    <h2>Construimos un mundo mejor</h2>
+                    <p> Somos una comunidad scout comprometida con el aprendizaje,
+                        el servicio y el cuidado de nuestro entorno.</p>
+                    <p> Mediante actividades, proyectos y aventuras, ayudamos a niños,
+                        jóvenes y adultos a desarrollar habilidades, para la vida.</p>
+                    <a href="#ramas" class="boton-nosotros">Explora nuestras ramas</a>
                 </div>
-
                 <div class="imagen-nosotros">
                     <div class="marco-imagen">
-                    <img 
-                    src="img/comunidad.jpg" 
-                    alt="Imagen de la comunidad scout"
-                    >
+                        <img src="img/comunidad.jpg" alt="Imagen de la comunidad scout">
                     </div>
                 </div>
             </div>
         </section>
-
-
         <section id="ramas" class="seccion-ramas">
-
             <div class="encabezado-ramas">
                 <p class="subtitulo-seccion">Encuentra tu camino</p>
                 <h2>Nuestras ramas</h2>
-                <p>
-                    Cada etapa ofrece aventuras y aprendizajes adaptados
-                    a la edad de sus integrantes.
-                </p>
+                <p>Cada etapa ofrece aventuras y aprendizajes adaptados
+                    a la edad de sus integrantes.</p>
             </div>
-
             <div class="contenedor-ramas">
-
                 <article class="tarjeta-rama">
-                    <div class="icono-rama">🐺</div>
-                    <h3>Manada</h3>
+                    <div class="icono-rama">
+                        <h3><img src="img/iconos/lobo.svg" width="80px" alt="lobo"> Manada</h3>
+                    </div>
                     <p class="edad-rama">7 a 11 años</p>
-                    <p>
-                        Juegos, naturaleza y trabajo en equipo para descubrir
-                        el mundo que los rodea.
-                    </p>
+                    <p>Juegos, naturaleza y trabajo en equipo para descubrir el mundo que los rodea.</p>
                 </article>
-
                 <article class="tarjeta-rama">
-                    <div class="icono-rama">🧭</div>
-                    <h3>Tropa</h3>
-                    <p class="edad-rama">11 a 15 años</p>
-                    <p>
-                        Aventuras y desafíos que desarrollan autonomía,
-                        liderazgo y compañerismo.
-                    </p>
+                    <div class="icono-rama">
+                        <h3><img src="img/iconos/brujula.svg" width="80px" alt="brujula"> Tropa</h3>
+                    </div>
+                    <p class="edad-rama"> 11 a 15 años</p>
+                    <p>Aventuras y desafíos que desarrollan autonomía, liderazgo y compañerismo.</p>
                 </article>
-
                 <article class="tarjeta-rama">
-                    <div class="icono-rama">⛺</div>
-                    <h3>Avanzada</h3>
+                    <div class="icono-rama">
+                        <h3><img src="img/iconos/carpa.svg" width="80px" alt="carpa"> Avanzada</h3>
+                    </div>
                     <p class="edad-rama">15 a 17 años</p>
-                    <p>
-                        Proyectos y experiencias orientados al crecimiento
-                        personal y al servicio.
-                    </p>
+                    <p>Proyectos y experiencias orientados al crecimiento personal y al servicio.</p>
                 </article>
 
                 <article class="tarjeta-rama">
-                    <div class="icono-rama">🔥</div>
-                    <h3>Clan</h3>
+                    <div class="icono-rama">
+                        <h3><img src="img/iconos/fuego.svg" width="80px" alt="fuego"> Clan</h3>
+                    </div>
                     <p class="edad-rama">17 a 21 años</p>
-                    <p>
-                        Liderazgo, compromiso comunitario y preparación
-                        para la vida adulta.
-                    </p>
+                    <p>Liderazgo, compromiso comunitario y preparación para la vida adulta.</p>
                 </article>
-
             </div>
-
         </section>
-
         <section id="eventos" class="seccion-eventos">
-
             <div class="encabezado-eventos">
-            <div>
-                <p class="subtitulo-seccion">Próximas actividades</p>
-                <h2>Eventos destacados</h2>
+                <div>
+                    <p class="subtitulo-seccion">Próximas actividades</p>
+                    <h2>Eventos destacados</h2>
+                </div>
+                <a href="#" class="enlace-eventos">Ver todos los eventos →</a>
             </div>
-
-            <a href="#" class="enlace-eventos">Ver todos los eventos →</a>
-            </div>
-
             <div class="contenedor-eventos">
-
-            <article class="tarjeta-evento">
-                <div class="fecha-evento">
-                    <strong>12</strong>
-                    <span>SEP</span>
-                </div>
-
-                <div class="informacion-evento">
-                    <p class="tipo-evento">Campamento</p>
-                    <h3>Campamento de primavera</h3>
-                    <p>📍 Parque Nacional Río Clarillo</p>
-                    <p>🕘 09:00 horas</p>
-                </div>
-            </article>
-
-            <article class="tarjeta-evento">
-                <div class="fecha-evento">
-                    <strong>20</strong>
-                    <span>SEP</span>
-                </div>
-
-                <div class="informacion-evento">
-                    <p class="tipo-evento">Servicio comunitario</p>
-                    <h3>Jornada de limpieza ambiental</h3>
-                    <p>📍 Parque por definir</p>
-                    <p>🕘 10:00 horas</p>
-                </div>
-            </article>
-
-            <article class="tarjeta-evento">
-                <div class="fecha-evento">
-                    <strong>04</strong>
-                    <span>OCT</span>
-                </div>
-
-                <div class="informacion-evento">
-                    <p class="tipo-evento">Encuentro</p>
-                    <h3>Encuentro de grupos Scout</h3>
-                    <p>📍 Santiago</p>
-                    <p>🕘 09:30 horas</p>
-                </div>
-            </article>
-
+                <article class="tarjeta-evento">
+                    <div class="fecha-evento">
+                        <strong>12</strong>
+                        <span>SEP</span>
+                    </div>
+                    <div class="informacion-evento">
+                        <p class="tipo-evento">Campamento</p>
+                        <h3>Campamento de primavera</h3>
+                        <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Parque Nacional Río Clarillo</p>
+                        <p><img src="img/iconos/reloj.svg" width="20px" alt="reloj"> 09:00 horas</p>
+                    </div>
+                </article>
+                <article class="tarjeta-evento">
+                    <div class="fecha-evento">
+                        <strong>20</strong>
+                        <span>SEP</span>
+                    </div>
+                    <div class="informacion-evento">
+                        <p class="tipo-evento">Servicio comunitario</p>
+                        <h3>Jornada de limpieza ambiental</h3>
+                        <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Parque por definir</p>
+                        <p><img src="img/iconos/reloj.svg" width="20px" alt="reloj"> 10:00 horas</p>
+                    </div>
+                </article>
+                <article class="tarjeta-evento">
+                    <div class="fecha-evento">
+                        <strong>04</strong>
+                        <span>OCT</span>
+                    </div>
+                    <div class="informacion-evento">
+                        <p class="tipo-evento">Encuentro</p>
+                        <h3>Encuentro de grupos Scout</h3>
+                        <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Santiago</p>
+                        <p><img src="img/iconos/reloj.svg" width="20px" alt="reloj"> 09:30 horas</p>
+                    </div>
+                </article>
             </div>
-
         </section>
-
         <section id="noticias" class="seccion-noticias">
-
-            <div class="encabezado-noticias">
+            <div class="ecabezado-noticias">
                 <p class="subtitulo-seccion">Novedades</p>
                 <h2>Últimas noticias</h2>
-                <p>
-                    Conoce las actividades, proyectos y experiencias  de nuestra comunidad.
-                </p>
+                <p>Conoce las actividades, proyectos y experiencias  de nuestra comunidad.</p>
             </div>
             <div class= "contenedor-noticias">
                 <article class=" tarjeta-noticias">
                     <div class="tarjeta-noticia">
-                        <img 
-                        src=img/noticia1.jpg
-                        alt="Juramento a la comunidad scout"
-                        >
+                        <div class="marco-imagen">
+                            <img src=img/noticia1.jpg alt="Juramento a la comunidad scout">
+                        </div>
                     </div>
                     <div class="contenido-noticia">
                         <p class="fecha-noticia"> 24 de agosto de 2026</p>
                         <h3>Juramento a la comunidad scout</h3>
-                        <p>
-                            Un grupo de nuevos integrantes realizó
-                            su juramento a la comunidad scout,
-                            comprometiéndose a vivir los valores
-                            y principios del movimiento.
-                        </p>
+                        <p> Un grupo de nuevos integrantes realizó su juramento
+                            a la comunidad scout, comprometiéndose a vivir los valores
+                            y principios del movimiento.</p>
                         <a href="#">Leer noticia →</a>
                     </div>
-
                 </article>
-
                 <article class="tarjeta-noticia">
                     <div class="imagen-noticia">
-                        <img 
-                        src="img/noticia2.jpg"
-                        alt="Campamento de verano"
-                        >
+                        <img src=img/noticia2.jpg alt="Campamento de verano">
                     </div>
-
                     <div class="contenido-noticia">
                         <p class="fecha-noticia"> 01 de enero 2027 </p>
                         <h3>Campamento de verano</h3>
-                        <p>
-                            Se realizara el campamento de verano, donde los jóvenes pudieron disfrutar de actividades recreativas y aprender valores importantes.
-                        </p>
+                        <p>Se realizara el campamento de verano, donde los jóvenes pudieron disfrutar de actividades recreativas y aprender valores importantes.</p>
                         <a href="#">Leer noticia →</a>
                     </div>
                 </article>
             </div>
-
         </section>
-        
-
-        
         <section id="grupos" class="seccion-grupos">
-
             <div class="encabezado-grupos">
                 <p class="subtitulo-seccion">Conoce tu comunidad</p>
                 <h2>Grupos Scout</h2>
-                <p>
-                    Encuentra un grupo cercano y conoce las ramas,
-                    actividades y oportunidades disponibles.
-                </p>
+                <p>Encuentra un grupo cercano y conoce las ramas,
+                    actividades y oportunidades disponibles.</p>
             </div>
-
             <div class="contenedor-grupos">
-
                 <article class="tarjeta-grupo">
                     <h3>Grupo Scout Peñalolén</h3>
-                    <p>📍 Peñalolén</p>
+                    <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Peñalolén</p>
                     <p>Ramas: Manada, Tropa, Avanzada y Clan</p>
                     <a href="#" class="boton-grupo" data-ubicacion="Peñalolén" data-nombre="Grupo Scout Peñalolén" data-ramas="Manada, Tropa, Avanzada y Clan">Ver grupo</a>
                 </article>
-
                 <article class="tarjeta-grupo">
                     <h3>Grupo Scout La Reina</h3>
-                    <p>📍 La Reina</p>
+                    <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> La Reina</p>
                     <p>Ramas: Manada, Tropa y Clan</p>
                     <a href="#" class="boton-grupo" data-nombre="Grupo Scout La Reina" data-ubicacion="La Reina" data-ramas="Manada, Tropa y Clan">Ver grupo</a>
                 </article>
-
                 <article class="tarjeta-grupo">
                     <h3>Grupo Scout Ñuñoa</h3>
-                    <p>📍 Ñuñoa</p>
+                    <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Ñuñoa</p>
                     <p>Ramas: Manada, Tropa, Avanzada y Clan</p>
                     <a href="#" class="boton-grupo" data-nombre="Grupo Scout Ñuñoa" data-ubicacion="Ñuñoa" data-ramas="Manada, Tropa, Avanzada y Clan">Ver grupo</a>
                 </article>
-
             </div>
-
         </section>
-
-
     </main>
-
     <footer class="footer">
-                <div class="contenido-footer">
-
+        <div class="contenido-footer">
             <div class="footer-marca">
-                <h3>⚜ Comunidad Scout</h3>
-                <p>
-                    Aventura, servicio y comunidad para construir
-                    un mundo mejor.
-                </p>
+                <h3><img src="img/iconos/flor-de-lis.svg" width="50px" alt="flor-de-lis"> Comunidad Scout</h3>
+                <p>Aventura, servicio y comunidad <br> para construir un mundo mejor.</p>
             </div>
-
             <div class="footer-enlaces">
                 <h4>Explora</h4>
                 <a href="#nosotros">Nosotros</a>
@@ -316,45 +219,16 @@
                 <a href="#eventos">Eventos</a>
                 <a href="#grupos">Grupos</a>
             </div>
-
             <div class="footer-contacto">
                 <h4>Contacto</h4>
-                <p>📍 Santiago, Chile</p>
-                <p>✉ contacto@comunidadscout.cl</p>
+                <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Santiago, Chile</p>
+                <p><img src="img/iconos/email.svg" width="20px" alt="email"> contacto@comunidadscout.cl</p>
             </div>
-
         </div>
-
         <div class="footer-inferior">
-            <p>© 2026 Comunidad Scout</p>
+            <p>&copy; 2026 Comunidad Scout</p>
         </div>
     </footer>
-
-    
-    <div id="modal-grupo" class="modal">
-        <div class="contenido-modal">
-            <span class="cerrar-modal">&times;</span>
-            <h2 id="titulo-modal">Grupo Scout Peñalolén</h2>
-            <p id="ubicacion-modal"></p>
-            <p id="ramas-modal"></p>
-            <p>
-                Este grupo participa en actividades comunitarias,
-                campamentos y encuentros scout durante el año.
-            </p>
-
-        </div>
-    </div>
-    <a
-    href="#inicio"
-    id="boton-volver-arriba"
-    class="boton-volver-arriba"
-    aria-label="Volver al inicio de la página"
-    title="Volver arriba"
->
-    ↑
-    </a>
-
-
     <script src="app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -10,85 +10,56 @@
     <link rel="stylesheet" href="estilos.css">
 </head>
 
-<a href="index.html" class="boton-volver">
-    ← Volver al inicio
-</a>
-
+<a href="index.html" class="boton-volver"><img src="img/iconos/atras.svg" width="30px" alt="atras"> Volver al inicio</a>
 <body>
     <section id="login" class="seccion-login">
-
             <div class="contenedor-login">
-
                 <div class="login-info">
-                    <span class="simbolo-login">⚜</span>
-
+                    <span class="simbolo-login"><img src="img/iconos/flor-de-lis.svg" width="80px" alt="flor-de-lis"></span>
                     <h2>Bienvenido a Comunidad Scout</h2>
-
-                    <p>
-                        Ingresa a tu cuenta para acceder a actividades,
-                        grupos, eventos y contenidos de la comunidad.
-                    </p>
+                    <p>Ingresa a tu cuenta para acceder a actividades, grupos, eventos y contenidos de la comunidad.</p>
                 </div>
-
                 <div class="login-formulario">
-
                     <h3>Iniciar sesión</h3>
-
                     <form id="form-login">
-
                         <div class="campo-login">
                             <label for="correo-login">Correo electrónico</label>
-
-                            <input
-                                type="email"
-                                id="correo-login"
-                                placeholder="correo@ejemplo.cl"
-                                required
-                            >
+                            <input type="email" id="correo-login" placeholder="correo@ejemplo.cl" required>
                         </div>
-
                         <div class="campo-login">
                             <label for="password-login">Contraseña</label>
-
-                            <input
-                                type="password"
-                                id="password-login"
-                                placeholder="Ingresa tu contraseña"
-                                required
-                            >
+                            <input type="password" id="password-login" placeholder="Ingresa tu contraseña" required>
                         </div>
-
                         <div class="opciones-login">
-
                             <label class="recordarme">
-                                <input type="checkbox" id="recordarme">
-                                Recordarme
+                                <input type="checkbox" id="recordarme">Recordarme
                             </label>
-
                             <a href="#">¿Olvidaste tu contraseña?</a>
-
                         </div>
-
-                        <button type="submit" class="boton-login">
-                            Ingresar
-                        </button>
-
-                        <p class="registro-login">
-                            ¿No tienes cuenta?
-                            <a href="registro.html">Regístrate</a>
-                        </p>
-
+                        <button type="submit" class="boton-login">Ingresar</button>
+                        <p class="registro-login"> ¿No tienes cuenta?<a href="registro.html">Regístrate</a></p>
                     </form>
-
                 </div>
-
             </div>
-
         </section>
-
-
     <script src="login.js"></script>
-
+        <footer class="footer">
+        <div class="contenido-footer">
+            <div class="footer-marca">
+                <h3><img src="img/iconos/flor-de-lis.svg" width="50px" alt="flor-de-lis"> Comunidad Scout</h3>
+                <p>Aventura, servicio y comunidad <br> para construir un mundo mejor.</p>
+            </div>
+            <div class="footer-enlaces">
+            </div>
+            <div class="footer-contacto">
+                <h4>Contacto</h4>
+                <p><img src="img/iconos/alfiler.svg" width="20px" alt="alfiler"> Santiago, Chile</p>
+                <p><img src="img/iconos/email.svg" width="20px" alt="email"> contacto@comunidadscout.cl</p>
+            </div>
+        </div>
+        <div class="footer-inferior">
+            <p>&copy; 2026 Comunidad Scout</p>
+        </div>
+    </footer>
 </body>
-
 </html>

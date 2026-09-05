@@ -380,11 +380,11 @@
     margin-bottom: 15px;
 }
 
-.contenedor-productos {
+/* .contenedor-productos {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
-}
+} */
 
 .tarjeta-producto {
     background-color: #f8f8f8;
@@ -425,6 +425,9 @@
     padding: 10px 18px;
     border-radius: 8px;
 }
+/* .contenedor-productos {
+    grid-template-columns: 1fr;
+} */
 .imagen-producto {
     height: 220px;
     padding: 15px;
@@ -845,12 +848,15 @@ REGISTRO
 
 .navbar-scout .carrito {
     padding: 8px 14px;
-    background-color: #f0a52b;
-    color: #163b2c;
-    border: none;
+    background-color: transparent;
+    /* background-color: #f0a52b; */
+    color: #77ac96;
+    /* border: none; */
+    border: 2px solid #77ac96;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /**Estilo tienda**/
@@ -3077,589 +3083,6 @@ REGISTRO
         width: 100%;
     }
 }
-.boton-clave-admin {
-    background-color: transparent;
-    color: #8a5a00;
-    border: 2px solid #d69a2d;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-.boton-clave-admin:hover {
-    background-color: #d69a2d;
-    color: #ffffff;
-}
-.estado-pendiente-admin {
-    background-color: #fff0cf;
-    color: #8a5a00;
-}
-
-.boton-pagar-admin {
-    background-color: transparent;
-    color: #315b94;
-    border: 2px solid #315b94;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-.boton-pagar-admin:hover {
-    background-color: #315b94;
-    color: #ffffff;
-}
-.campo-descripcion-admin {
-    margin-top: 20px;
-}
-
-.campo-descripcion-admin textarea {
-    width: 100%;
-    border: 1px solid #cfd8d1;
-    border-radius: 8px;
-    padding: 11px;
-    color: #334039;
-    font: inherit;
-    resize: vertical;
-}
-
-.campo-descripcion-admin textarea:focus {
-    outline: 3px solid rgba(214, 154, 45, 0.22);
-    border-color: #d69a2d;
-}
-
-.estado-finalizada-admin {
-    background-color: #e5e7e9;
-    color: #5d6468;
-}
-
-.boton-inscritos-admin,
-.boton-finalizar-admin,
-.boton-cancelar-actividad {
-    background-color: transparent;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-.boton-inscritos-admin {
-    color: #315b94;
-    border: 2px solid #315b94;
-}
-
-.boton-inscritos-admin:hover {
-    background-color: #315b94;
-    color: #ffffff;
-}
-
-.boton-finalizar-admin {
-    color: #286944;
-    border: 2px solid #286944;
-}
-
-.boton-finalizar-admin:hover {
-    background-color: #286944;
-    color: #ffffff;
-}
-
-.boton-cancelar-actividad {
-    color: #9d3030;
-    border: 2px solid #9d3030;
-}
-
-.boton-cancelar-actividad:hover {
-    background-color: #9d3030;
-    color: #ffffff;
-}
-.pestanas-admin {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.pestana-admin {
-    background-color: #dfe7e1;
-    color: #244d34;
-    border: none;
-    border-radius: 9px 9px 0 0;
-    padding: 12px 22px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.pestana-admin.activa {
-    background-color: #286944;
-    color: #ffffff;
-}
-
-.stock-bajo {
-    color: #a63232;
-    font-weight: 700;
-}
-
-.stock-disponible {
-    color: #246b39;
-    font-weight: 700;
-}
-
-.boton-estado-producto,
-.boton-detalle-pedido,
-.boton-avanzar-pedido,
-.boton-cancelar-pedido {
-    background-color: transparent;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-.boton-estado-producto,
-.boton-cancelar-pedido {
-    color: #9d3030;
-    border: 2px solid #9d3030;
-}
-
-.boton-estado-producto:hover,
-.boton-cancelar-pedido:hover {
-    background-color: #9d3030;
-    color: #ffffff;
-}
-
-.boton-detalle-pedido {
-    color: #315b94;
-    border: 2px solid #315b94;
-}
-
-.boton-detalle-pedido:hover {
-    background-color: #315b94;
-    color: #ffffff;
-}
-
-.boton-avanzar-pedido {
-    color: #286944;
-    border: 2px solid #286944;
-}
-
-.boton-avanzar-pedido:hover {
-    background-color: #286944;
-    color: #ffffff;
-}
-.campo-imagen-producto {
-    margin-top: 22px;
-}
-
-.campo-imagen-producto small {
-    color: #68756c;
-}
-
-.contenedor-vista-previa {
-    width: fit-content;
-    margin-top: 15px;
-    padding: 12px;
-    border: 1px solid #dce4de;
-    border-radius: 12px;
-    background-color: #f7faf7;
-}
-
-.contenedor-vista-previa img {
-    display: block;
-    width: 180px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 9px;
-    margin-bottom: 10px;
-}
-
-.boton-eliminar-imagen {
-    width: 100%;
-    background-color: transparent;
-    color: #9d3030;
-    border: 2px solid #9d3030;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.boton-eliminar-imagen:hover {
-    background-color: #9d3030;
-    color: #ffffff;
-}
-
-.miniatura-producto-admin {
-    width: 58px;
-    height: 58px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #dce4de;
-}
-
-.producto-sin-imagen {
-    display: inline-block;
-    width: 58px;
-    color: #7b867f;
-    font-size: 0.72rem;
-    text-align: center;
-}
-.acciones-mensajes-admin {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    background-color: #edf3ee;
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 20px;
-}
-
-.acciones-mensajes-admin label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #244d34;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.acciones-mensajes-admin input,
-.seleccionar-mensaje-admin {
-    width: 18px;
-    height: 18px;
-    accent-color: #286944;
-}
-
-#eliminar-seleccionados-admin {
-    margin-left: auto;
-}
-
-.lista-mensajes-admin {
-    display: grid;
-    gap: 15px;
-}
-
-.tarjeta-mensaje-admin {
-    display: flex;
-    gap: 16px;
-    padding: 20px;
-    border: 1px solid #dfe6e1;
-    border-radius: 13px;
-    background-color: #fafcf9;
-}
-
-.selector-mensaje-admin {
-    padding-top: 5px;
-}
-
-.contenido-mensaje-admin {
-    flex: 1;
-    min-width: 0;
-}
-
-.encabezado-mensaje-admin {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 12px;
-}
-
-.encabezado-mensaje-admin h3 {
-    color: #244d34;
-    font-size: 1.15rem;
-    margin-bottom: 5px;
-}
-
-.encabezado-mensaje-admin p,
-.encabezado-mensaje-admin small {
-    color: #68756c;
-    margin: 0;
-}
-
-.texto-mensaje-admin {
-    color: #536158;
-    margin-bottom: 15px;
-}
-
-.campo-mensaje-admin {
-    margin-top: 20px;
-}
-
-.campo-mensaje-admin textarea {
-    width: 100%;
-    border: 1px solid #cfd8d1;
-    border-radius: 8px;
-    padding: 11px;
-    font: inherit;
-    resize: vertical;
-}
-
-.boton-ver-mensaje-admin,
-.boton-responder-admin,
-.boton-eliminar-mensaje-admin {
-    background-color: transparent;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.boton-ver-mensaje-admin {
-    color: #315b94;
-    border: 2px solid #315b94;
-}
-
-.boton-responder-admin {
-    color: #286944;
-    border: 2px solid #286944;
-}
-
-.boton-eliminar-mensaje-admin {
-    color: #9d3030;
-    border: 2px solid #9d3030;
-}
-
-.boton-ver-mensaje-admin:hover {
-    background-color: #315b94;
-    color: #ffffff;
-}
-
-.boton-responder-admin:hover {
-    background-color: #286944;
-    color: #ffffff;
-}
-
-.boton-eliminar-mensaje-admin:hover {
-    background-color: #9d3030;
-    color: #ffffff;
-}
-
-@media (max-width: 650px) {
-    #eliminar-seleccionados-admin {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .encabezado-mensaje-admin {
-        flex-direction: column;
-    }
-}
-.filtros-pagos-admin {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-    gap: 16px;
-    background-color: #edf3ee;
-    border-radius: 13px;
-    padding: 18px;
-    margin-bottom: 22px;
-}
-
-.donacion-anonima {
-    color: #68756c;
-    font-style: italic;
-}
-
-.boton-detalle-operacion,
-.boton-anular-operacion {
-    background-color: transparent;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.boton-detalle-operacion {
-    color: #315b94;
-    border: 2px solid #315b94;
-}
-
-.boton-detalle-operacion:hover {
-    background-color: #315b94;
-    color: #ffffff;
-}
-
-.boton-anular-operacion {
-    color: #9d3030;
-    border: 2px solid #9d3030;
-}
-
-.boton-anular-operacion:hover {
-    background-color: #9d3030;
-    color: #ffffff;
-}
-
-.contenido-detalle-operacion {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.dato-detalle-operacion {
-    background-color: #edf3ee;
-    border-radius: 10px;
-    padding: 15px;
-}
-
-.dato-detalle-operacion span {
-    display: block;
-    color: #68756c;
-    font-size: 0.85rem;
-    margin-bottom: 5px;
-}
-
-.dato-detalle-operacion strong {
-    color: #244d34;
-}
-
-@media (max-width: 1000px) {
-    .filtros-pagos-admin {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 650px) {
-    .filtros-pagos-admin,
-    .contenido-detalle-operacion {
-        grid-template-columns: 1fr;
-    }
-}
-.contenedor-filtros-reportes {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.5fr auto auto;
-    align-items: end;
-    gap: 16px;
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 28px;
-    box-shadow: 0 8px 24px rgba(36, 77, 52, 0.08);
-}
-
-.cuadricula-reportes {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-    margin-bottom: 28px;
-}
-
-.tarjeta-reporte {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 8px 24px rgba(36, 77, 52, 0.08);
-}
-
-.encabezado-reporte {
-    margin-bottom: 22px;
-}
-
-.encabezado-reporte h2 {
-    color: #244d34;
-    font-size: 1.4rem;
-    margin-bottom: 0;
-}
-
-.grafico-barras-admin {
-    display: grid;
-    gap: 18px;
-}
-
-.fila-grafico-admin {
-    display: grid;
-    gap: 7px;
-}
-
-.etiqueta-grafico-admin {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    color: #536158;
-}
-
-.etiqueta-grafico-admin strong {
-    color: #244d34;
-}
-
-.fondo-barra-admin {
-    width: 100%;
-    height: 14px;
-    overflow: hidden;
-    background-color: #e4e9e5;
-    border-radius: 20px;
-}
-
-.barra-admin {
-    min-width: 2px;
-    height: 100%;
-    border-radius: 20px;
-    transition: width 0.4s ease;
-}
-
-.barra-verde {
-    background-color: #286944;
-}
-
-.barra-amarilla {
-    background-color: #d69a2d;
-}
-
-.barra-azul {
-    background-color: #315b94;
-}
-
-#exportar-reporte-csv:disabled {
-    background-color: #a8b0aa;
-    cursor: not-allowed;
-}
-
-@media (max-width: 1000px) {
-    .contenedor-filtros-reportes {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 750px) {
-    .cuadricula-reportes,
-    .contenedor-filtros-reportes {
-        grid-template-columns: 1fr;
-    }
-}
-/*----Modulo mis reclutas----*/
-
-.pagina-reclutas {
-    min-height: 100vh;
-    margin: 0;
-    background-color: #f4f7f5;
-    color: #173c2d;
-}
-
-.pagina-reclutas [hidden] {
-    display: none !important;
-}
-
-.pagina-reclutas .navbar-scout {
-    background-color: #195c43;
-}
-
-.gestion-reclutas {
-    width: min(1180px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 40px 0 60px;
-}
-
-/* ==================================================
-   ENCABEZADO
-================================================== */
 
 .encabezado-reclutas {
     display: flex;
@@ -3699,7 +3122,6 @@ REGISTRO
 
 /* ==================================================
    TARJETAS DE RESUMEN
-================================================== */
 
 .resumen-reclutas {
     display: grid;
@@ -3734,7 +3156,6 @@ REGISTRO
 
 /* ==================================================
    LISTADO DE RECLUTAS
-================================================== */
 
 .contenedor-reclutas {
     margin-bottom: 30px;
@@ -3879,7 +3300,6 @@ REGISTRO
 
 /* ==================================================
    FORMULARIO DE RECLUTA
-================================================== */
 
 .contenedor-formulario-recluta {
     max-width: 900px;
@@ -4020,7 +3440,6 @@ REGISTRO
 
 /* ==================================================
    DISEÑO RESPONSIVO
-================================================== */
 
 @media (max-width: 768px) {
     .encabezado-reclutas,
@@ -4074,7 +3493,6 @@ REGISTRO
 }
 /* ==================================================
    PANEL DEL RECLUTA
-================================================== */
 
 .pagina-panel-recluta {
     min-height: 100vh;
@@ -4091,7 +3509,6 @@ REGISTRO
 
 /* ==================================================
    BIENVENIDA
-================================================== */
 
 .bienvenida-recluta {
     display: flex;
@@ -4142,7 +3559,6 @@ REGISTRO
 
 /* ==================================================
    INFORMACIÓN DEL RECLUTA
-================================================== */
 
 .informacion-recluta-panel {
     display: grid;
@@ -4177,7 +3593,6 @@ REGISTRO
 
 /* ==================================================
    TARJETAS DEL RECLUTA
-================================================== */
 
 .opciones-recluta {
     margin-top: 10px;
@@ -4265,7 +3680,6 @@ REGISTRO
 
 /* ==================================================
    AVISO DE SUPERVISIÓN
-================================================== */
 
 .aviso-supervision-recluta {
     display: flex;
@@ -4297,7 +3711,6 @@ REGISTRO
 
 /* ==================================================
    PANEL DEL RECLUTA RESPONSIVO
-================================================== */
 
 @media (max-width: 850px) {
     .contenedor-tarjetas-recluta {
@@ -4346,7 +3759,6 @@ REGISTRO
 }
 /* ==================================================
    PERFIL DEL RECLUTA
-================================================== */
 
 .pagina-perfil-recluta {
     min-height: 100vh;
@@ -4363,7 +3775,6 @@ REGISTRO
 
 /* ==================================================
    ENCABEZADO DEL PERFIL
-================================================== */
 
 .encabezado-perfil-recluta {
     display: flex;
@@ -4386,7 +3797,6 @@ REGISTRO
 
 /* ==================================================
    RESUMEN DEL PERFIL
-================================================== */
 
 .resumen-perfil-recluta {
     display: flex;
@@ -4449,7 +3859,6 @@ REGISTRO
 
 /* ==================================================
    SECCIONES DE DATOS
-================================================== */
 
 .datos-perfil-recluta,
 .contacto-perfil-recluta {
@@ -4504,7 +3913,6 @@ REGISTRO
 
 /* ==================================================
    AVISO DE EDICIÓN
-================================================== */
 
 .aviso-edicion-recluta {
     display: flex;
@@ -4535,7 +3943,6 @@ REGISTRO
 
 /* ==================================================
    PERFIL DEL RECLUTA RESPONSIVO
-================================================== */
 
 @media (max-width: 700px) {
     .encabezado-perfil-recluta {
@@ -4571,7 +3978,6 @@ REGISTRO
 }
 /* ==================================================
    MENSAJES DEL RECLUTA
-================================================== */
 
 .pagina-mensajes-recluta {
     min-height: 100vh;
@@ -4592,7 +3998,6 @@ REGISTRO
 
 /* ==================================================
    ENCABEZADO
-================================================== */
 
 .encabezado-mensajes-recluta {
     display: flex;
@@ -4635,7 +4040,6 @@ REGISTRO
 
 /* ==================================================
    AVISO DE SEGURIDAD
-================================================== */
 
 .aviso-mensajes-protegidos {
     display: flex;
@@ -4667,7 +4071,6 @@ REGISTRO
 
 /* ==================================================
    FORMULARIO DE MENSAJE
-================================================== */
 
 .contenedor-formulario-mensaje-recluta {
     margin-bottom: 30px;
@@ -4758,7 +4161,6 @@ REGISTRO
 
 /* ==================================================
    BANDEJA DE MENSAJES
-================================================== */
 
 .bandeja-mensajes-recluta {
     padding: 27px;
@@ -4826,7 +4228,6 @@ REGISTRO
 
 /* ==================================================
    TARJETAS DE MENSAJES
-================================================== */
 
 .lista-mensajes-recluta {
     display: flex;
@@ -4949,7 +4350,6 @@ REGISTRO
 
 /* ==================================================
    MENSAJES RESPONSIVOS
-================================================== */
 
 @media (max-width: 850px) {
     .encabezado-mensajes-recluta,
@@ -5007,7 +4407,6 @@ REGISTRO
 }
 /* ==================================================
    FOTOGRAFÍAS DEL RECLUTA
-================================================== */
 
 .pagina-fotos-recluta {
     min-height: 100vh;
@@ -5028,7 +4427,6 @@ REGISTRO
 
 /* ==================================================
    ENCABEZADO
-================================================== */
 
 .encabezado-fotos-recluta {
     display: flex;
@@ -5071,7 +4469,6 @@ REGISTRO
 
 /* ==================================================
    RESUMEN DE FOTOGRAFÍAS
-================================================== */
 
 .resumen-fotos-recluta {
     display: grid;
@@ -5106,7 +4503,6 @@ REGISTRO
 
 /* ==================================================
    AVISO DE MODERACIÓN
-================================================== */
 
 .aviso-moderacion-fotos {
     display: flex;
@@ -5138,7 +4534,6 @@ REGISTRO
 
 /* ==================================================
    FORMULARIO DE FOTOGRAFÍA
-================================================== */
 
 .contenedor-formulario-foto-recluta {
     margin-bottom: 30px;
@@ -5229,7 +4624,6 @@ REGISTRO
 
 /* ==================================================
    VISTA PREVIA
-================================================== */
 
 .vista-previa-foto-recluta {
     margin-top: 24px;
@@ -5284,7 +4678,6 @@ REGISTRO
 
 /* ==================================================
    GALERÍA
-================================================== */
 
 .galeria-fotos-recluta {
     padding: 27px;
@@ -5454,7 +4847,6 @@ REGISTRO
 
 /* ==================================================
    FOTOGRAFÍAS RESPONSIVAS
-================================================== */
 
 @media (max-width: 900px) {
     .resumen-fotos-recluta {
@@ -5527,7 +4919,6 @@ REGISTRO
 }
 /* ==================================================
    ADMINISTRACIÓN DE FOTOGRAFÍAS
-================================================== */
 
 .pagina-admin-fotos {
     min-height: 100vh;
@@ -5548,7 +4939,6 @@ REGISTRO
 
 /* ==================================================
    ENCABEZADO
-================================================== */
 
 .encabezado-admin-fotos {
     display: flex;
@@ -5571,7 +4961,6 @@ REGISTRO
 
 /* ==================================================
    RESUMEN ADMINISTRATIVO
-================================================== */
 
 .resumen-admin-fotos {
     display: grid;
@@ -5606,7 +4995,6 @@ REGISTRO
 
 /* ==================================================
    FILTROS
-================================================== */
 
 .filtros-admin-fotos {
     display: grid;
@@ -5670,7 +5058,6 @@ REGISTRO
 
 /* ==================================================
    LISTADO DE MODERACIÓN
-================================================== */
 
 .contenedor-moderacion-fotos {
     padding: 27px;
@@ -5798,7 +5185,6 @@ REGISTRO
 
 /* ==================================================
    DETALLE DE LA FOTOGRAFÍA
-================================================== */
 
 .detalle-admin-foto {
     margin-top: 28px;
@@ -5887,7 +5273,6 @@ REGISTRO
 
 /* ==================================================
    FORMULARIO DE RECHAZO
-================================================== */
 
 .formulario-rechazo-admin-foto {
     max-width: 750px;
@@ -5964,7 +5349,6 @@ REGISTRO
 
 /* ==================================================
    ADMIN FOTOS RESPONSIVO
-================================================== */
 
 @media (max-width: 1000px) {
     .filtros-admin-fotos {
@@ -6056,7 +5440,6 @@ REGISTRO
 }
 /* ==================================================
    CORRECCIÓN RESPONSIVA: INDEX Y TIENDA
-================================================== */
 
 .pagina-inicio *,
 .pagina-tienda * {
@@ -6077,7 +5460,6 @@ REGISTRO
 
 /* ==================================================
    NAVEGACIÓN
-================================================== */
 
 .pagina-inicio .navbar-brand,
 .pagina-tienda .navbar-brand {
@@ -6114,7 +5496,6 @@ REGISTRO
 
 /* ==================================================
    INDEX: SECCIÓN NOSOTROS
-================================================== */
 
 .pagina-inicio .seccion-nosotros {
     padding: 80px max(24px, 8%);
@@ -6148,7 +5529,6 @@ REGISTRO
 
 /* ==================================================
    INDEX: CUADRÍCULAS
-================================================== */
 
 .pagina-inicio .contenedor-ramas {
     grid-template-columns: repeat(
@@ -6218,7 +5598,6 @@ REGISTRO
 
 /* ==================================================
    TIENDA
-================================================== */
 
 .pagina-tienda .seccion-tienda {
     min-height: calc(100vh - 76px);
@@ -6287,7 +5666,6 @@ REGISTRO
 
 /* ==================================================
    MODALES DEL INDEX Y LA TIENDA
-================================================== */
 
 .pagina-inicio .modal,
 .pagina-tienda .modal {
@@ -6363,7 +5741,6 @@ REGISTRO
 
 /* ==================================================
    FOOTER RESPONSIVO
-================================================== */
 
 .pagina-inicio .contenido-footer {
     grid-template-columns:
@@ -6374,7 +5751,6 @@ REGISTRO
 
 /* ==================================================
    TABLET
-================================================== */
 
 @media (max-width: 991px) {
     .pagina-inicio .contenido-nosotros {
@@ -6409,7 +5785,6 @@ REGISTRO
 
 /* ==================================================
    TELÉFONO
-================================================== */
 
 @media (max-width: 700px) {
     .pagina-inicio .seccion-nosotros,
@@ -6465,7 +5840,6 @@ REGISTRO
 
 /* ==================================================
    TELÉFONOS PEQUEÑOS
-================================================== */
 
 @media (max-width: 420px) {
     .pagina-inicio .navbar-brand,
@@ -6498,7 +5872,6 @@ REGISTRO
 }
 /* ==================================================
    BOTÓN VOLVER ARRIBA
-================================================== */
 
 html {
     scroll-behavior: smooth;
@@ -6564,4 +5937,232 @@ html {
         height: 44px;
         font-size: 1.3rem;
     }
+}
+
+/* ==========================================
+   TABLET (768px - 1024px)
+@media (max-width: 1024px) {
+
+    /* Nosotros */
+    .contenido-nosotros {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .texto-nosotros,
+    .imagen-nosotros {
+        width: 100%;
+    }
+
+    /* Ramas */
+    .contenedor-ramas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Eventos */
+    .contenedor-eventos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Noticias */
+    .contenedor-noticias {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Grupos */
+    .contenedor-grupos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Tienda */
+    /* .contenedor-productos {
+        grid-template-columns: repeat(2, 1fr);
+    } */
+
+    /* Footer */
+    .contenido-footer {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Encabezados */
+    .encabezado-eventos {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+
+/* ==========================================
+   SMARTPHONE (<768px)
+@media (max-width: 768px) {
+
+    /* Espaciado general */
+    .seccion-nosotros,
+    .seccion-ramas,
+    .seccion-eventos,
+    .seccion-noticias,
+    .seccion-grupos,
+    .seccion-tienda {
+        padding: 60px 5%;
+    }
+
+    /* Nosotros */
+    .contenido-nosotros {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .texto-nosotros,
+    .imagen-nosotros {
+        width: 100%;
+    }
+
+    .texto-nosotros h2 {
+        font-size: 30px;
+    }
+
+    .marco-imagen img {
+        height: auto;
+    }
+
+    /* Ramas */
+    .contenedor-ramas {
+        grid-template-columns: 1fr;
+    }
+
+    /* Eventos */
+    .contenedor-eventos {
+        grid-template-columns: 1fr;
+    }
+
+    .tarjeta-evento {
+        flex-direction: column;
+    }
+
+    /* Noticias */
+    .contenedor-noticias {
+        grid-template-columns: 1fr;
+    }
+
+    /* Grupos */
+    .contenedor-grupos {
+        grid-template-columns: 1fr;
+    }
+
+    /* Tienda */
+    .contenedor-productos {
+        grid-template-columns: 1fr;
+    }
+
+    /* Footer */
+    .contenido-footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-marca p {
+        max-width: 100%;
+    }
+
+    /* Navbar */
+    .navbar-brand {
+        font-size: 0.9rem;
+    }
+
+    .navbar-brand img {
+        width: 45px !important;
+    }
+
+    /* Titulos */
+    .encabezado-ramas h2,
+    .encabezado-eventos h2,
+    .encabezado-noticias h2,
+    .encabezado-grupos h2,
+    .encabezado-tienda h2 {
+        font-size: 30px;
+    }
+
+    /* Barra tienda */
+    .barra-tienda {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    /* Modal */
+    .contenido-modal {
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+
+/* ==========================================
+   CELULARES PEQUEÑOS (<480px)
+@media (max-width: 480px) {
+
+    .texto-nosotros h2,
+    .encabezado-ramas h2,
+    .encabezado-eventos h2,
+    .encabezado-noticias h2,
+    .encabezado-grupos h2,
+    .encabezado-tienda h2 {
+        font-size: 26px;
+    }
+
+    .tarjeta-rama,
+    .tarjeta-evento,
+    .tarjeta-noticia,
+    .tarjeta-grupo,
+    .tarjeta-producto {
+        padding: 20px;
+    }
+
+    .boton-nosotros,
+    .boton-grupo,
+    .boton-producto {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Botón volver arriba */
+
+#btnSubir {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+
+    width: 55px;
+    height: 55px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #1f5c43;
+    color: white;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    display: none;
+
+    z-index: 9999;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+    transition: all 0.3s ease;
+}
+
+#btnSubir:hover {
+    /* background-color: #163b2c; */
+    transform: translateY(-3px);
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
 }

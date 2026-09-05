@@ -42,45 +42,24 @@ document.addEventListener("keydown", function (evento) {
     }
 });
 
-/*-------------------Volver arriba-------------------*/
+// nuevo
 
-const botonVolverArriba =
-    document.getElementById(
-        "boton-volver-arriba"
-    );
+const btnSubir = document.getElementById("btnSubir");
 
-if (botonVolverArriba) {
-    function actualizarBotonVolverArriba() {
-        if (window.scrollY > 400) {
-            botonVolverArriba.classList.add(
-                "visible"
-            );
-        } else {
-            botonVolverArriba.classList.remove(
-                "visible"
-            );
-        }
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 300) {
+        btnSubir.style.display = "block";
+    } else {
+        btnSubir.style.display = "none";
     }
+});
 
-    window.addEventListener(
-        "scroll",
-        actualizarBotonVolverArriba,
-        {
-            passive: true
-        }
-    );
+btnSubir.addEventListener("click", () => {
 
-    botonVolverArriba.addEventListener(
-        "click",
-        function (evento) {
-            evento.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
-    );
-
-    actualizarBotonVolverArriba();
-}
+});

@@ -10,10 +10,6 @@ const USUARIO_ADMINISTRADOR_INICIAL = {
 let usuarios = [];
 
 
-/* ========================================
-ELEMENTOS DEL HTML
-======================================== */
-
 const listaUsuarios =
     document.getElementById("lista-usuarios");
 
@@ -45,32 +41,20 @@ const botonNuevoUsuario =
     document.getElementById("boton-nuevo-usuario");
 
 const contenedorFormulario =
-    document.getElementById(
-        "contenedor-formulario-usuario"
-    );
+    document.getElementById("contenedor-formulario-usuario");
 
 const formularioUsuario =
     document.getElementById("form-usuario");
 
 const tituloFormulario =
-    document.getElementById(
-        "titulo-formulario-usuario"
-    );
+    document.getElementById("titulo-formulario-usuario");
 
 const cerrarFormulario =
-    document.getElementById(
-        "cerrar-formulario-usuario"
-    );
+    document.getElementById("cerrar-formulario-usuario");
 
 const cancelarFormulario =
-    document.getElementById(
-        "cancelar-formulario-usuario"
-    );
+    document.getElementById("cancelar-formulario-usuario");
 
-
-/* ========================================
-FUNCIONES GENERALES
-======================================== */
 
 function escaparHTML(texto) {
     const elemento =
@@ -90,9 +74,7 @@ function cargarUsuarios() {
 
     const usuariosRegistrados =
         JSON.parse(
-            localStorage.getItem(
-                "usuariosRegistrados"
-            )
+            localStorage.getItem("usuariosRegistrados")
         ) || [];
 
     if (usuariosGuardados.length === 0) {
@@ -120,8 +102,7 @@ function cargarUsuarios() {
                 usuarios.push({
                     id: usuarioRegistrado.id,
                     nombre: usuarioRegistrado.nombre,
-                    nickname:
-                        usuarioRegistrado.nickname,
+                    nickname: usuarioRegistrado.nickname,
                     correo: usuarioRegistrado.correo,
                     rol:
                         usuarioRegistrado.rol ||
@@ -144,9 +125,6 @@ function guardarUsuarios() {
 }
 
 
-/* ========================================
-INDICADORES
-======================================== */
 
 function actualizarIndicadores() {
     const activos = usuarios.filter(
@@ -170,23 +148,14 @@ function actualizarIndicadores() {
         }
     );
 
-    totalUsuarios.textContent =
-        usuarios.length;
-
-    usuariosActivos.textContent =
-        activos.length;
-
-    usuariosInactivos.textContent =
-        inactivos.length;
-
+    totalUsuarios.textContent = usuarios.length;
+    usuariosActivos.textContent = activos.length;
+    usuariosInactivos.textContent = inactivos.length;
     totalAdministradores.textContent =
         administradores.length;
 }
 
 
-/* ========================================
-FILTROS
-======================================== */
 
 function obtenerUsuariosFiltrados() {
     const textoBusqueda =
@@ -219,8 +188,7 @@ function obtenerUsuariosFiltrados() {
 
             const coincideEstado =
                 estadoSeleccionado === "TODOS" ||
-                usuario.estado ===
-                    estadoSeleccionado;
+                usuario.estado === estadoSeleccionado;
 
             return (
                 coincideTexto &&
@@ -232,9 +200,6 @@ function obtenerUsuariosFiltrados() {
 }
 
 
-/* ========================================
-MOSTRAR USUARIOS
-======================================== */
 
 function mostrarUsuarios() {
     const usuariosFiltrados =
@@ -275,12 +240,9 @@ function mostrarUsuarios() {
 
                 <td>
                     <span class="rol-usuario-admin">
-                        ${
-                            usuario.rol ===
-                            "administrador"
-                                ? "Administrador"
-                                : "Usuario"
-                        }
+                        ${usuario.rol === "administrador"
+                            ? "Administrador"
+                            : "Usuario"}
                     </span>
                 </td>
 
@@ -289,11 +251,9 @@ function mostrarUsuarios() {
                         class="estado-usuario-admin
                         ${claseEstado}"
                     >
-                        ${
-                            usuario.estado === "activo"
-                                ? "Activo"
-                                : "Inactivo"
-                        }
+                        ${usuario.estado === "activo"
+                            ? "Activo"
+                            : "Inactivo"}
                     </span>
                 </td>
 
@@ -306,14 +266,6 @@ function mostrarUsuarios() {
                             data-id="${usuario.id}"
                         >
                             Editar
-                        </button>
-
-                        <button
-                            type="button"
-                            class="boton-clave-admin"
-                            data-id="${usuario.id}"
-                        >
-                            Restablecer clave
                         </button>
 
                         <button
@@ -337,19 +289,11 @@ function mostrarUsuarios() {
 }
 
 
-/* ========================================
-BOTONES DE LA TABLA
-======================================== */
 
 function activarBotonesTabla() {
     const botonesEditar =
         document.querySelectorAll(
             ".boton-editar-admin"
-        );
-
-    const botonesClave =
-        document.querySelectorAll(
-            ".boton-clave-admin"
         );
 
     const botonesEstado =
@@ -362,17 +306,6 @@ function activarBotonesTabla() {
             "click",
             function () {
                 abrirEdicionUsuario(
-                    Number(boton.dataset.id)
-                );
-            }
-        );
-    });
-
-    botonesClave.forEach(function (boton) {
-        boton.addEventListener(
-            "click",
-            function () {
-                solicitarRestablecimientoClave(
                     Number(boton.dataset.id)
                 );
             }
@@ -392,9 +325,6 @@ function activarBotonesTabla() {
 }
 
 
-/* ========================================
-FORMULARIO
-======================================== */
 
 function abrirFormularioNuevo() {
     formularioUsuario.reset();
@@ -478,9 +408,6 @@ function cerrarFormularioUsuario() {
 }
 
 
-/* ========================================
-CAMBIAR ESTADO
-======================================== */
 
 function cambiarEstadoUsuario(idUsuario) {
     const usuario = usuarios.find(
@@ -526,9 +453,6 @@ function cambiarEstadoUsuario(idUsuario) {
 }
 
 
-/* ========================================
-RESTABLECER CONTRASEÑA
-======================================== */
 
 function solicitarRestablecimientoClave(
     idUsuario
@@ -585,7 +509,6 @@ function solicitarRestablecimientoClave(
 
 /* ========================================
 GUARDAR USUARIO
-======================================== */
 
 formularioUsuario.addEventListener(
     "submit",
@@ -685,9 +608,7 @@ formularioUsuario.addEventListener(
         if (idUsuario) {
             const usuario = usuarios.find(
                 function (elemento) {
-                    return (
-                        elemento.id === idUsuario
-                    );
+                    return elemento.id === idUsuario;
                 }
             );
 
@@ -722,9 +643,6 @@ formularioUsuario.addEventListener(
 );
 
 
-/* ========================================
-EVENTOS
-======================================== */
 
 buscadorUsuario.addEventListener(
     "input",
@@ -757,9 +675,6 @@ cancelarFormulario.addEventListener(
 );
 
 
-/* ========================================
-INICIO
-======================================== */
 
 cargarUsuarios();
 mostrarUsuarios();
