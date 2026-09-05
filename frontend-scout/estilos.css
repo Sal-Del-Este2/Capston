@@ -5740,7 +5740,7 @@ REGISTRO
 }
 
 /* ==================================================
-   FOOTER RESPONSIVO
+   FOOTER RESPONSIVO */
 
 .pagina-inicio .contenido-footer {
     grid-template-columns:
@@ -5750,7 +5750,7 @@ REGISTRO
 }
 
 /* ==================================================
-   TABLET
+   TABLET */
 
 @media (max-width: 991px) {
     .pagina-inicio .contenido-nosotros {
@@ -5784,7 +5784,7 @@ REGISTRO
 }
 
 /* ==================================================
-   TELÉFONO
+   TELÉFONO */
 
 @media (max-width: 700px) {
     .pagina-inicio .seccion-nosotros,
@@ -5839,7 +5839,7 @@ REGISTRO
 }
 
 /* ==================================================
-   TELÉFONOS PEQUEÑOS
+   TELÉFONOS PEQUEÑOS */
 
 @media (max-width: 420px) {
     .pagina-inicio .navbar-brand,
@@ -5871,7 +5871,7 @@ REGISTRO
     }
 }
 /* ==================================================
-   BOTÓN VOLVER ARRIBA
+   BOTÓN VOLVER ARRIBA */
 
 html {
     scroll-behavior: smooth;
@@ -5940,7 +5940,7 @@ html {
 }
 
 /* ==========================================
-   TABLET (768px - 1024px)
+   TABLET (768px - 1024px) */
 @media (max-width: 1024px) {
 
     /* Nosotros */
@@ -5994,7 +5994,7 @@ html {
 
 
 /* ==========================================
-   SMARTPHONE (<768px)
+   SMARTPHONE (<768px) */
 @media (max-width: 768px) {
 
     /* Espaciado general */
@@ -6099,7 +6099,8 @@ html {
 
 
 /* ==========================================
-   CELULARES PEQUEÑOS (<480px)
+   CELULARES PEQUEÑOS (<480px) */
+
 @media (max-width: 480px) {
 
     .texto-nosotros h2,
