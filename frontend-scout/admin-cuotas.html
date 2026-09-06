@@ -4,205 +4,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Cuotas y membresías | Comunidad Scout</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    >
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body class="pagina-admin">
-
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-
                 <a class="navbar-brand fw-bold" href="panel-admin.html">
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuAdministrador"
-                    aria-controls="menuAdministrador"
-                    aria-expanded="false"
-                    aria-label="Abrir menú"
-                >
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
+                            alt="flor-de-lis"></span>Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador" aria-controls="menuAdministrador" aria-expanded="false"
+                    aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div
-                    class="collapse navbar-collapse"
-                    id="menuAdministrador"
-                >
+                <div class="collapse navbar-collapse" id="menuAdministrador">
                     <div class="navbar-nav ms-auto">
-
-                        <a class="nav-link" href="panel-admin.html">
-                            Administración
-                        </a>
-
-                        <a
-                            class="nav-link active"
-                            href="admin-cuotas.html"
-                        >
-                            Cuotas
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="#"
-                            id="cerrar-sesion-admin"
-                        >
-                            Cerrar sesión
-                        </a>
-
+                        <a class="nav-link" href="panel-admin.html">Administración</a>
+                        <a class="nav-link active" href="admin-cuotas.html">Cuotas</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion-admin">Cerrar sesión</a>
                     </div>
                 </div>
-
             </div>
         </nav>
     </header>
-
     <main class="gestion-admin">
-
         <section class="encabezado-gestion-admin">
-
             <div>
                 <p class="subtitulo-admin">Administración</p>
-
                 <h1>Cuotas y membresías</h1>
-
-                <p>
-                    Gestiona las cuotas, los periodos y los estados
-                    de pago de los miembros.
-                </p>
+                <p>Gestiona las cuotas, los periodos y los estados de pago de los miembros.</p>
             </div>
-
-            <a
-                href="panel-admin.html"
-                class="boton-volver-panel"
-            >
-                ← Volver al panel
-            </a>
-
+            <a href="panel-admin.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="80px"
+                    alt="atras"> Volver al panel</a>
         </section>
-
         <section class="resumen-gestion-admin">
-
             <article class="tarjeta-indicador-admin">
                 <span>Total de cuotas</span>
                 <strong id="total-cuotas-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Cuotas pagadas</span>
                 <strong id="cuotas-pagadas-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Cuotas pendientes</span>
                 <strong id="cuotas-pendientes-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Monto pendiente</span>
                 <strong id="monto-pendiente-admin">$0</strong>
             </article>
-
         </section>
-
         <section class="contenedor-gestion-admin">
-
             <div class="encabezado-listado-admin">
-
                 <div>
-                    <p class="subtitulo-admin">
-                        Registro de membresías
-                    </p>
-
+                    <p class="subtitulo-admin">Registro de membresías</p>
                     <h2>Listado de cuotas</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="boton-nueva-cuota"
-                    class="boton-nuevo-admin"
-                >
-                    + Nueva cuota
-                </button>
-
+                <button type="button" id="boton-nueva-cuota" class="boton-nuevo-admin">+ Nueva cuota</button>
             </div>
-
             <div class="filtros-admin">
-
                 <div class="campo-filtro-admin">
-                    <label for="buscar-cuota">
-                        Buscar usuario
-                    </label>
-
-                    <input
-                        type="search"
-                        id="buscar-cuota"
-                        placeholder="Nombre o nickname"
-                    >
+                    <label for="buscar-cuota">Buscar usuario</label>
+                    <input type="search" id="buscar-cuota" placeholder="Nombre o nickname">
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-periodo-cuota">
-                        Periodo
-                    </label>
-
+                    <label for="filtro-periodo-cuota">Periodo</label>
                     <select id="filtro-periodo-cuota">
-                        <option value="TODOS">
-                            Todos
-                        </option>
-
-                        <option value="Abril 2026">
-                            Abril 2026
-                        </option>
-
-                        <option value="Mayo 2026">
-                            Mayo 2026
-                        </option>
-
-                        <option value="Junio 2026">
-                            Junio 2026
-                        </option>
+                        <option value="TODOS">Todos</option>
+                        <option value="Abril 2026">Abril 2026</option>
+                        <option value="Mayo 2026">Mayo 2026</option>
+                        <option value="Junio 2026">Junio 2026</option>
                     </select>
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-estado-cuota">
-                        Estado
-                    </label>
-
+                    <label for="filtro-estado-cuota">Estado</label>
                     <select id="filtro-estado-cuota">
-                        <option value="TODOS">
-                            Todos
-                        </option>
-
-                        <option value="Pagada">
-                            Pagada
-                        </option>
-
-                        <option value="Pendiente">
-                            Pendiente
-                        </option>
+                        <option value="TODOS">Todos</option>
+                        <option value="Pagada">Pagada</option>
+                        <option value="Pendiente">Pendiente</option>
                     </select>
                 </div>
-
             </div>
-
             <div class="tabla-responsive">
                 <table class="tabla-admin">
-
                     <thead>
                         <tr>
                             <th>Usuario</th>
@@ -214,158 +103,60 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody id="lista-cuotas-admin">
                         <!-- Se cargará desde JavaScript -->
                     </tbody>
-
                 </table>
             </div>
-
-            <p
-                id="sin-resultados-cuotas"
-                class="mensaje-sin-resultados"
-                hidden
-            >
-                No se encontraron cuotas.
-            </p>
-
+            <p id="sin-resultados-cuotas" class="mensaje-sin-resultados" hidden>No se encontraron cuotas.</p>
         </section>
-
-        <section
-            id="contenedor-formulario-cuota"
-            class="contenedor-formulario-admin"
-            hidden
-        >
-
+        <section id="contenedor-formulario-cuota" class="contenedor-formulario-admin" hidden>
             <div class="encabezado-formulario-admin">
-
                 <div>
-                    <p class="subtitulo-admin">
-                        Registro de cuota
-                    </p>
-
-                    <h2 id="titulo-formulario-cuota">
-                        Nueva cuota
-                    </h2>
+                    <p class="subtitulo-admin">Registro de cuota</p>
+                    <h2 id="titulo-formulario-cuota">Nueva cuota</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="cerrar-formulario-cuota"
-                    class="boton-cerrar-formulario"
-                    aria-label="Cerrar formulario"
-                >
-                    ×
-                </button>
-
+                <button type="button" id="cerrar-formulario-cuota" class="boton-cerrar-formulario"
+                    aria-label="Cerrar formulario"><img src="img/iconos/cerrar.png" width="80px" alt="cerrar"></button>
             </div>
-
             <form id="form-cuota">
-
                 <input type="hidden" id="cuota-id">
-
                 <div class="cuadricula-formulario-admin">
-
                     <div class="campo-admin">
-                        <label for="usuario-cuota">
-                            Usuario
-                        </label>
-
+                        <label for="usuario-cuota">Usuario</label>
                         <select id="usuario-cuota" required>
-                            <option value="">
-                                Selecciona un usuario
-                            </option>
+                            <option value="">Selecciona un usuario</option>
                         </select>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="periodo-cuota">
-                            Periodo
-                        </label>
-
-                        <input
-                            type="month"
-                            id="periodo-cuota"
-                            required
-                        >
+                        <label for="periodo-cuota">Periodo</label>
+                        <input type="month" id="periodo-cuota" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="vencimiento-cuota">
-                            Fecha de vencimiento
-                        </label>
-
-                        <input
-                            type="date"
-                            id="vencimiento-cuota"
-                            required
-                        >
+                        <label for="vencimiento-cuota">Fecha de vencimiento</label>
+                        <input type="date" id="vencimiento-cuota" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="monto-cuota-admin">
-                            Monto
-                        </label>
-
-                        <input
-                            type="number"
-                            id="monto-cuota-admin"
-                            min="1"
-                            step="1"
-                            required
-                        >
+                        <label for="monto-cuota-admin">Monto</label>
+                        <input type="number" id="monto-cuota-admin" min="1" step="1" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="estado-cuota-admin">
-                            Estado
-                        </label>
-
+                        <label for="estado-cuota-admin">Estado</label>
                         <select id="estado-cuota-admin" required>
-                            <option value="Pendiente">
-                                Pendiente
-                            </option>
-
-                            <option value="Pagada">
-                                Pagada
-                            </option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Pagada">Pagada</option>
                         </select>
                     </div>
-
                 </div>
-
                 <div class="acciones-formulario-admin">
-
-                    <button
-                        type="button"
-                        id="cancelar-formulario-cuota"
-                        class="boton-cancelar-admin"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="boton-guardar-admin"
-                    >
-                        Guardar cuota
-                    </button>
-
+                    <button type="button" id="cancelar-formulario-cuota" class="boton-cancelar-admin">Cancelar</button>
+                    <button type="submit" class="boton-guardar-admin">Guardar cuota</button>
                 </div>
-
             </form>
-
         </section>
-
     </main>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin-cuotas.js"></script>
-
 </body>
 
 </html>

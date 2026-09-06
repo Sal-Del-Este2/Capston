@@ -4,213 +4,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Gestión de usuarios | Comunidad Scout</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    >
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body class="pagina-admin">
-
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-
                 <a class="navbar-brand fw-bold" href="panel-admin.html">
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuAdministrador"
-                    aria-controls="menuAdministrador"
-                    aria-expanded="false"
-                    aria-label="Abrir menú"
-                >
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
+                            alt="flor-de-lis"></span> Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador" aria-controls="menuAdministrador" aria-expanded="false"
+                    aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div
-                    class="collapse navbar-collapse"
-                    id="menuAdministrador"
-                >
+                <div class="collapse navbar-collapse" id="menuAdministrador">
                     <div class="navbar-nav ms-auto">
-
-                        <a
-                            class="nav-link"
-                            href="panel-admin.html"
-                        >
-                            Administración
-                        </a>
-
-                        <a
-                            class="nav-link active"
-                            href="admin-usuarios.html"
-                        >
-                            Usuarios
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="#"
-                            id="cerrar-sesion-admin"
-                        >
-                            Cerrar sesión
-                        </a>
-
+                        <a class="nav-link" href="panel-admin.html">Administración</a>
+                        <a class="nav-link active" href="admin-usuarios.html">Usuarios</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion-admin">Cerrar sesión</a>
                     </div>
                 </div>
-
             </div>
         </nav>
     </header>
-
     <main class="gestion-admin">
-
         <section class="encabezado-gestion-admin">
-
             <div>
-                <p class="subtitulo-admin">
-                    Administración
-                </p>
-
+                <p class="subtitulo-admin">Administración</p>
                 <h1>Gestión de usuarios</h1>
-
-                <p>
-                    Consulta, registra, modifica y administra
-                    las cuentas de la comunidad.
-                </p>
+                <p>Consulta, registra, modifica y administra las cuentas de la comunidad.</p>
             </div>
-
-            <a
-                href="panel-admin.html"
-                class="boton-volver-panel"
-            >
-                ← Volver al panel
-            </a>
-
+            <a href="panel-admin.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="80px"
+                    alt="atras"> Volver al panel</a>
         </section>
-
         <!-- Resumen -->
-
-        <section
-            class="resumen-gestion-admin"
-            aria-label="Resumen de usuarios"
-        >
-
+        <section class="resumen-gestion-admin" aria-label="Resumen de usuarios">
             <article class="tarjeta-indicador-admin">
                 <span>Total de usuarios</span>
                 <strong id="total-usuarios">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Usuarios activos</span>
                 <strong id="usuarios-activos">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Usuarios inactivos</span>
                 <strong id="usuarios-inactivos">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Administradores</span>
                 <strong id="total-administradores">0</strong>
             </article>
-
         </section>
-
         <!-- Listado -->
-
         <section class="contenedor-gestion-admin">
-
             <div class="encabezado-listado-admin">
-
                 <div>
-                    <p class="subtitulo-admin">
-                        Cuentas registradas
-                    </p>
-
+                    <p class="subtitulo-admin">Cuentas registradas</p>
                     <h2>Listado de usuarios</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="boton-nuevo-usuario"
-                    class="boton-nuevo-admin"
-                >
-                    + Nuevo usuario
-                </button>
-
+                <button type="button" id="boton-nuevo-usuario" class="boton-nuevo-admin">+ Nuevo usuario</button>
             </div>
-
             <div class="filtros-admin">
-
                 <div class="campo-filtro-admin">
-                    <label for="buscar-usuario">
-                        Buscar
-                    </label>
-
-                    <input
-                        type="search"
-                        id="buscar-usuario"
-                        placeholder="Nombre, nickname o correo"
-                    >
+                    <label for="buscar-usuario">Buscar</label>
+                    <input type="search" id="buscar-usuario" placeholder="Nombre, nickname o correo">
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-rol">
-                        Rol
-                    </label>
-
+                    <label for="filtro-rol">Rol</label>
                     <select id="filtro-rol">
-                        <option value="TODOS">
-                            Todos
-                        </option>
-
-                        <option value="usuario">
-                            Usuario
-                        </option>
-
-                        <option value="administrador">
-                            Administrador
-                        </option>
+                        <option value="TODOS">Todos</option>
+                        <option value="usuario">Usuario</option>
+                        <option value="administrador">Administrador</option>
                     </select>
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-estado">
-                        Estado
-                    </label>
-
+                    <label for="filtro-estado">Estado</label>
                     <select id="filtro-estado">
-                        <option value="TODOS">
-                            Todos
-                        </option>
-
-                        <option value="activo">
-                            Activo
-                        </option>
-
-                        <option value="inactivo">
-                            Inactivo
-                        </option>
+                        <option value="TODOS">Todos</option>
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
                     </select>
                 </div>
-
             </div>
-
             <div class="tabla-responsive">
                 <table class="tabla-admin">
-
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -221,167 +103,63 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody id="lista-usuarios">
                         <!-- Se cargará desde JavaScript -->
                     </tbody>
-
                 </table>
             </div>
-
-            <p
-                id="sin-resultados-usuarios"
-                class="mensaje-sin-resultados"
-                hidden
-            >
-                No se encontraron usuarios.
-            </p>
-
+            <p id="sin-resultados-usuarios" class="mensaje-sin-resultados" hidden>No se encontraron usuarios.</p>
         </section>
-
         <!-- Formulario -->
-
-        <section
-            id="contenedor-formulario-usuario"
-            class="contenedor-formulario-admin"
-            hidden
-        >
-
+        <section id="contenedor-formulario-usuario" class="contenedor-formulario-admin" hidden>
             <div class="encabezado-formulario-admin">
-
                 <div>
-                    <p class="subtitulo-admin">
-                        Cuenta de usuario
-                    </p>
-
-                    <h2 id="titulo-formulario-usuario">
-                        Registrar usuario
-                    </h2>
+                    <p class="subtitulo-admin">Cuenta de usuario</p>
+                    <h2 id="titulo-formulario-usuario">Registrar usuario</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="cerrar-formulario-usuario"
-                    class="boton-cerrar-formulario"
-                    aria-label="Cerrar formulario"
-                >
-                    ×
-                </button>
-
+                <button type="button" id="cerrar-formulario-usuario" class="boton-cerrar-formulario"
+                    aria-label="Cerrar formulario"><img src="img/iconos/cerrar.png" width="80px" alt="cerrar"></button>
             </div>
-
             <form id="form-usuario">
-
-                <input
-                    type="hidden"
-                    id="usuario-id"
-                >
-
+                <input type="hidden" id="usuario-id">
                 <div class="cuadricula-formulario-admin">
-
                     <div class="campo-admin">
-                        <label for="nombre-usuario">
-                            Nombre completo
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nombre-usuario"
-                            required
-                        >
+                        <label for="nombre-usuario">Nombre completo</label>
+                        <input type="text" id="nombre-usuario" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="nickname-usuario">
-                            Nickname
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nickname-usuario"
-                            minlength="3"
-                            maxlength="20"
-                            required
-                        >
+                        <label for="nickname-usuario">Nickname</label>
+                        <input type="text" id="nickname-usuario" minlength="3" maxlength="20" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="correo-usuario">
-                            Correo electrónico
-                        </label>
-
-                        <input
-                            type="email"
-                            id="correo-usuario"
-                            required
-                        >
+                        <label for="correo-usuario">Correo electrónico</label>
+                        <input type="email" id="correo-usuario" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="rol-usuario">
-                            Rol
-                        </label>
-
+                        <label for="rol-usuario">Rol</label>
                         <select id="rol-usuario" required>
-                            <option value="usuario">
-                                Usuario
-                            </option>
-
-                            <option value="administrador">
-                                Administrador
-                            </option>
+                            <option value="usuario">Usuario</option>
+                            <option value="administrador">Administrador</option>
                         </select>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="estado-usuario">
-                            Estado
-                        </label>
-
+                        <label for="estado-usuario">Estado</label>
                         <select id="estado-usuario" required>
-                            <option value="activo">
-                                Activo
-                            </option>
-
-                            <option value="inactivo">
-                                Inactivo
-                            </option>
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
                         </select>
                     </div>
-
                 </div>
-
                 <div class="acciones-formulario-admin">
-
-                    <button
-                        type="button"
-                        id="cancelar-formulario-usuario"
-                        class="boton-cancelar-admin"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="boton-guardar-admin"
-                    >
-                        Guardar usuario
-                    </button>
-
+                    <button type="button" id="cancelar-formulario-usuario"
+                        class="boton-cancelar-admin">Cancelar</button>
+                    <button type="submit" class="boton-guardar-admin">Guardar usuario</button>
                 </div>
-
             </form>
-
         </section>
-
     </main>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin-usuarios.js"></script>
-
 </body>
 
 </html>

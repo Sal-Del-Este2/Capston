@@ -1,109 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estado de cuotas | Comunidad Scout</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body class="pagina-panel">
     <header>
         <nav class="navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="panel-usuario.html">
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button 
-                class="navbar-toggeler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#menuUsuario"
-                aria-controls="menuUsuario"
-                aria-expanded="false"
-                aria-label="Abrir menú"
-                >
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
+                            alt="flor-de-lis"></span> Comunidad Scout</a>
+                <button class="navbar-toggeler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUsuario"
+                    aria-controls="menuUsuario" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
-                    
                 </button>
                 <div class="collapse navbar-collapse" id="menuUsuario">
-                <div class="navbar-nav ms auto">
-                    <a class="nav-link" href="panel-usuario.html"> Mi perfil</a>
-                    <a class="nav-link active" href="estado-cuotas.html">Cuotas</a>
-                    <a class="nav-link" href="#" id="cerrar-sesion">Cerrar sesión</a>
+                    <div class="navbar-nav ms auto">
+                        <a class="nav-link" href="panel-usuario.html"> Mi perfil</a>
+                        <a class="nav-link active" href="estado-cuotas.html">Cuotas</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion">Cerrar sesión</a>
+                    </div>
                 </div>
-
             </div>
-        </div>
         </nav>
     </header>
     <main class="contenedor-cuotas">
-         <section class="encabezado-cuotas">
+        <section class="encabezado-cuotas">
             <div>
                 <p class="subtitulo-panel">Mi cuenta</p>
                 <h1>Estado de cuotas</h1>
-
-                <p>
-                    Consulta el detalle de tus pagos y las cuotas
-                    pendientes del año.
-                </p>
+                <p>Consulta el detalle de tus pagos y las cuotas pendientes del año.</p>
             </div>
-
-            <a href="panel-usuario.html" class="boton-volver-panel">
-                ← Volver al panel
-            </a>
+            <a href="panel-usuario.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="80px"
+                    alt="atras"> Volver al panel</a>
         </section>
-
         <section class="resumen-cuotas">
-
             <article class="tarjeta-resumen-cuota">
-                <span class="icono-resumen-cuota">✅</span>
-
+                <span class="icono-resumen-cuota"><img src="img/iconos/OK.png" width="80px" alt="Ok"></span>
                 <div>
                     <p>Cuotas pagadas</p>
                     <strong id="cantidad-pagadas">0</strong>
                 </div>
             </article>
-
             <article class="tarjeta-resumen-cuota">
-                <span class="icono-resumen-cuota">⏳</span>
-
+                <span class="icono-resumen-cuota"><img src="img/iconos/relojArena.png" width="80px"
+                        alt="relojArena"></span>
                 <div>
                     <p>Cuotas pendientes</p>
                     <strong id="cantidad-pendientes">0</strong>
                 </div>
             </article>
-
             <article class="tarjeta-resumen-cuota">
-                <span class="icono-resumen-cuota">💰</span>
-
+                <span class="icono-resumen-cuota"><img src="img/iconos/bolsaDinero.png" width="80px"
+                        alt="bolsaDinero"></span>
                 <div>
                     <p>Total pendiente</p>
-                    <strong id="total-pendiente">$0</strong>
+                    <strong id="total-pendiente">$ 0</strong>
                 </div>
             </article>
-
         </section>
-
         <section class="seccion-detalle-cuotas">
-
             <div class="titulo-detalle-cuotas">
                 <div>
                     <h2>Detalle anual</h2>
                     <p>Periodo 2026</p>
                 </div>
-
-                <span class="estado-general-cuotas">
-                    Información de prueba
-                </span>
+                <span class="estado-general-cuotas">Información de prueba</span>
             </div>
-
             <div class="contenedor-tabla-cuotas">
                 <table class="tabla-cuotas">
                     <thead>
@@ -115,32 +84,19 @@
                             <th>Acción</th>
                         </tr>
                     </thead>
-
                     <tbody id="lista-cuotas">
                         <!-- JavaScript incorporará las cuotas -->
                     </tbody>
                 </table>
             </div>
-
         </section>
-
-        <p class="nota-cuotas">
-            Los valores mostrados corresponden a información de prueba.
-            Posteriormente serán obtenidos desde el microservicio de cuotas.
-        </p>
-
+        <p class="nota-cuotas">Los valores mostrados corresponden a información de prueba. Posteriormente serán
+            obtenidos desde el microservicio de cuotas.</p>
     </main>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="panel-usuario.js"></script>
     <script src="estado-cuotas.js"></script>
-
-
-
     </main>
-    
 </body>
+
 </html>

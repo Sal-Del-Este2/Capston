@@ -4,185 +4,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Productos y compras | Comunidad Scout</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    >
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body class="pagina-admin">
-
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-
                 <a class="navbar-brand fw-bold" href="panel-admin.html">
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuAdministrador"
-                    aria-controls="menuAdministrador"
-                    aria-expanded="false"
-                    aria-label="Abrir menú"
-                >
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
+                            alt="flor-de-lis"></span>Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador" aria-controls="menuAdministrador" aria-expanded="false"
+                    aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div
-                    class="collapse navbar-collapse"
-                    id="menuAdministrador"
-                >
+                <div class="collapse navbar-collapse" id="menuAdministrador">
                     <div class="navbar-nav ms-auto">
-
-                        <a class="nav-link" href="panel-admin.html">
-                            Administración
-                        </a>
-
-                        <a
-                            class="nav-link active"
-                            href="admin-tienda.html"
-                        >
-                            Tienda
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="#"
-                            id="cerrar-sesion-admin"
-                        >
-                            Cerrar sesión
-                        </a>
-
+                        <a class="nav-link" href="panel-admin.html">Administración</a>
+                        <a class="nav-link active" href="admin-tienda.html">Tienda</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion-admin">Cerrar sesión</a>
                     </div>
                 </div>
-
             </div>
         </nav>
     </header>
-
     <main class="gestion-admin">
-
         <section class="encabezado-gestion-admin">
-
             <div>
                 <p class="subtitulo-admin">Administración</p>
-
                 <h1>Productos y compras</h1>
-
-                <p>
-                    Administra el catálogo, el inventario
-                    y los pedidos realizados por los usuarios.
-                </p>
+                <p>Administra el catálogo, el inventario y los pedidos realizados por los usuarios.</p>
             </div>
-
-            <a
-                href="panel-admin.html"
-                class="boton-volver-panel"
-            >
-                ← Volver al panel
-            </a>
-
+            <a href="panel-admin.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="80px"
+                    alt="atras"> Volver al panel</a>
         </section>
-
         <section class="resumen-gestion-admin">
-
             <article class="tarjeta-indicador-admin">
                 <span>Productos activos</span>
                 <strong id="productos-activos-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Productos con stock bajo</span>
                 <strong id="stock-bajo-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Pedidos pendientes</span>
                 <strong id="pedidos-pendientes-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Total vendido</span>
                 <strong id="total-vendido-admin">$0</strong>
             </article>
-
         </section>
-
         <!-- Navegación interna -->
-
         <div class="pestanas-admin">
-
-            <button
-                type="button"
-                id="pestana-productos"
-                class="pestana-admin activa"
-            >
-                Productos
-            </button>
-
-            <button
-                type="button"
-                id="pestana-pedidos"
-                class="pestana-admin"
-            >
-                Pedidos
-            </button>
-
+            <button type="button" id="pestana-productos" class="pestana-admin activa">Productos</button>
+            <button type="button" id="pestana-pedidos" class="pestana-admin">Pedidos</button>
         </div>
-
         <!-- Productos -->
-
-        <section
-            id="seccion-productos-admin"
-            class="contenedor-gestion-admin"
-        >
-
+        <section id="seccion-productos-admin" class="contenedor-gestion-admin">
             <div class="encabezado-listado-admin">
-
                 <div>
                     <p class="subtitulo-admin">Catálogo</p>
                     <h2>Listado de productos</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="boton-nuevo-producto"
-                    class="boton-nuevo-admin"
-                >
-                    + Nuevo producto
-                </button>
-
+                <button type="button" id="boton-nuevo-producto" class="boton-nuevo-admin"> Nuevo producto</button>
             </div>
-
             <div class="filtros-admin">
-
                 <div class="campo-filtro-admin">
-                    <label for="buscar-producto">
-                        Buscar
-                    </label>
-
-                    <input
-                        type="search"
-                        id="buscar-producto"
-                        placeholder="Nombre o categoría"
-                    >
+                    <label for="buscar-producto">Buscar</label>
+                    <input type="search" id="buscar-producto" placeholder="Nombre o categoría">
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-categoria-producto">
-                        Categoría
-                    </label>
-
+                    <label for="filtro-categoria-producto">Categoría</label>
                     <select id="filtro-categoria-producto">
                         <option value="TODAS">Todas</option>
                         <option value="Vestuario">Vestuario</option>
@@ -192,24 +89,17 @@
                         <option value="Otro">Otro</option>
                     </select>
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-estado-producto">
-                        Estado
-                    </label>
-
+                    <label for="filtro-estado-producto">Estado</label>
                     <select id="filtro-estado-producto">
                         <option value="TODOS">Todos</option>
                         <option value="activo">Activo</option>
                         <option value="inactivo">Inactivo</option>
                     </select>
                 </div>
-
             </div>
-
             <div class="tabla-responsive">
                 <table class="tabla-admin">
-
                     <thead>
                         <tr>
                             <th>Imagen</th>
@@ -221,60 +111,28 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody id="lista-productos-admin">
                         <!-- Se cargará desde JavaScript -->
                     </tbody>
-
                 </table>
             </div>
-
-            <p
-                id="sin-resultados-productos"
-                class="mensaje-sin-resultados"
-                hidden
-            >
-                No se encontraron productos.
-            </p>
-
+            <p id="sin-resultados-productos" class="mensaje-sin-resultados" hidden>No se encontraron productos.</p>
         </section>
-
         <!-- Pedidos -->
-
-        <section
-            id="seccion-pedidos-admin"
-            class="contenedor-gestion-admin"
-            hidden
-        >
-
+        <section id="seccion-pedidos-admin" class="contenedor-gestion-admin" hidden>
             <div class="encabezado-listado-admin">
-
                 <div>
                     <p class="subtitulo-admin">Ventas</p>
                     <h2>Listado de pedidos</h2>
                 </div>
-
             </div>
-
             <div class="filtros-admin">
-
                 <div class="campo-filtro-admin">
-                    <label for="buscar-pedido">
-                        Buscar pedido
-                    </label>
-
-                    <input
-                        type="search"
-                        id="buscar-pedido"
-                        placeholder="Número, nombre o nickname"
-                    >
+                    <label for="buscar-pedido">Buscar pedido</label>
+                    <input type="search" id="buscar-pedido" placeholder="Número, nombre o nickname">
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-estado-pedido">
-                        Estado
-                    </label>
-
+                    <label for="filtro-estado-pedido">Estado</label>
                     <select id="filtro-estado-pedido">
                         <option value="TODOS">Todos</option>
                         <option value="Pagado">Pagado</option>
@@ -283,12 +141,9 @@
                         <option value="Cancelado">Cancelado</option>
                     </select>
                 </div>
-
             </div>
-
             <div class="tabla-responsive">
                 <table class="tabla-admin">
-
                     <thead>
                         <tr>
                             <th>Pedido</th>
@@ -300,79 +155,32 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody id="lista-pedidos-admin">
                         <!-- Se cargará desde JavaScript -->
                     </tbody>
-
                 </table>
             </div>
-
-            <p
-                id="sin-resultados-pedidos"
-                class="mensaje-sin-resultados"
-                hidden
-            >
-                No se encontraron pedidos.
-            </p>
-
+            <p id="sin-resultados-pedidos" class="mensaje-sin-resultados" hidden>No se encontraron pedidos.</p>
         </section>
-
         <!-- Formulario de producto -->
-
-        <section
-            id="contenedor-formulario-producto"
-            class="contenedor-formulario-admin"
-            hidden
-        >
-
+        <section id="contenedor-formulario-producto" class="contenedor-formulario-admin" hidden>
             <div class="encabezado-formulario-admin">
-
                 <div>
-                    <p class="subtitulo-admin">
-                        Datos del producto
-                    </p>
-
-                    <h2 id="titulo-formulario-producto">
-                        Nuevo producto
-                    </h2>
+                    <p class="subtitulo-admin">Datos del producto</p>
+                    <h2 id="titulo-formulario-producto">Nuevo producto</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="cerrar-formulario-producto"
-                    class="boton-cerrar-formulario"
-                    aria-label="Cerrar formulario"
-                >
-                    ×
-                </button>
-
+                <button type="button" id="cerrar-formulario-producto" class="boton-cerrar-formulario"
+                    aria-label="Cerrar formulario"><img src="img/iconos/cerrar.png" width="80px" alt="cerrar"></button>
             </div>
-
             <form id="form-producto">
-
                 <input type="hidden" id="producto-id">
-
                 <div class="cuadricula-formulario-admin">
-
                     <div class="campo-admin">
-                        <label for="nombre-producto-admin">
-                            Nombre
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nombre-producto-admin"
-                            maxlength="100"
-                            required
-                        >
+                        <label for="nombre-producto-admin">Nombre</label>
+                        <input type="text" id="nombre-producto-admin" maxlength="100" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="categoria-producto-admin">
-                            Categoría
-                        </label>
-
+                        <label for="categoria-producto-admin">Categoría</label>
                         <select id="categoria-producto-admin" required>
                             <option value="">Selecciona una categoría</option>
                             <option value="Vestuario">Vestuario</option>
@@ -382,107 +190,47 @@
                             <option value="Otro">Otro</option>
                         </select>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="precio-producto-admin">
-                            Precio
-                        </label>
-
-                        <input
-                            type="number"
-                            id="precio-producto-admin"
-                            min="1"
-                            step="1"
-                            required
-                        >
+                        <label for="precio-producto-admin">Precio</label>
+                        <input type="number" id="precio-producto-admin" min="1" step="1" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="stock-producto-admin">
-                            Stock
-                        </label>
-
-                        <input
-                            type="number"
-                            id="stock-producto-admin"
-                            min="0"
-                            step="1"
-                            required
-                        >
+                        <label for="stock-producto-admin">Stock</label>
+                        <input type="number" id="stock-producto-admin" min="0" step="1" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="estado-producto-admin">
-                            Estado
-                        </label>
-
+                        <label for="estado-producto-admin">Estado</label>
                         <select id="estado-producto-admin" required>
                             <option value="activo">Activo</option>
                             <option value="inactivo">Inactivo</option>
                         </select>
                     </div>
-
                 </div>
-
                 <div class="campo-admin campo-imagen-producto">
                     <label for="imagen-producto-admin">Imagen del producto</label>
                     <input type="file" id="imagen-producto-admin" accept="image/jpeg,image/png,image/webp">
-                    <small>
-                        Formatos permitidos: JPG,PNG o WEBP.
-                        Tamaño maximo: 2MB
-                    </small>
+                    <small>Formatos permitidos: JPG,PNG o WEBP. Tamaño maximo: 2MB</small>
                     <input type="hidden" id="imagen-producto-actual">
                     <div id="contenedor-vista-previa" class="contenedor-vista-previa" hidden>
                         <img src="img/tienda/" alt="Vista previa del producto" id="vista-previa-producto">
-                        <button type="button" id="eliminar-imagen-producto" class="boton-eliminar-imagen">Quitar imagen</button>
+                        <button type="button" id="eliminar-imagen-producto" class="boton-eliminar-imagen">Quitar
+                            imagen</button>
                     </div>
-
                 </div>
-
                 <div class="campo-admin campo-descripcion-admin">
-                    <label for="descripcion-producto-admin">
-                        Descripción
-                    </label>
-
-                    <textarea
-                        id="descripcion-producto-admin"
-                        rows="4"
-                        maxlength="500"
-                        required
-                    ></textarea>
+                    <label for="descripcion-producto-admin">Descripción</label>
+                    <textarea id="descripcion-producto-admin" rows="4" maxlength="500" required></textarea>
                 </div>
-
                 <div class="acciones-formulario-admin">
-
-                    <button
-                        type="button"
-                        id="cancelar-formulario-producto"
-                        class="boton-cancelar-admin"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="boton-guardar-admin"
-                    >
-                        Guardar producto
-                    </button>
-
+                    <button type="button" id="cancelar-formulario-producto"
+                        class="boton-cancelar-admin">Cancelar</button>
+                    <button type="submit" class="boton-guardar-admin">Guardar producto</button>
                 </div>
-
             </form>
-
         </section>
-
     </main>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin-tienda.js"></script>
-
 </body>
 
 </html>

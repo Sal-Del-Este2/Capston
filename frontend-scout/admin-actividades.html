@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,147 +8,72 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body class="pagina-admin">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-
                 <a class="navbar-brand fw-bold" href="panel-admin.html">
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuAdministrador"
-                    aria-controls="menuAdministrador"
-                    aria-expanded="false"
-                    aria-label="Abrir menú"
-                >
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
+                            alt="flor-de-lis"></span> Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador" aria-controls="menuAdministrador" aria-expanded="false"
+                    aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div
-                    class="collapse navbar-collapse"
-                    id="menuAdministrador"
-                >
+                <div class="collapse navbar-collapse" id="menuAdministrador">
                     <div class="navbar-nav ms-auto">
-
-                        <a class="nav-link" href="panel-admin.html">
-                            Administración
-                        </a>
-
-                        <a
-                            class="nav-link active"
-                            href="admin-actividades.html"
-                        >
-                            Actividades
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="#"
-                            id="cerrar-sesion-admin"
-                        >
-                            Cerrar sesión
-                        </a>
-
+                        <a class="nav-link" href="panel-admin.html">Administración</a>
+                        <a class="nav-link active" href="admin-actividades.html">Actividades</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion-admin">Cerrar sesión</a>
                     </div>
                 </div>
-
             </div>
         </nav>
     </header>
     <main class="gestion-admin">
         <section class="encabezado-gestion-admin">
-
             <div>
                 <p class="subtitulo-admin">Administración</p>
-
                 <h1>Gestión de actividades</h1>
-
-                <p>
-                    Crea actividades, administra sus cupos
-                    y controla el estado de las inscripciones.
-                </p>
+                <p>Crea actividades, administra sus cupos y controla el estado de las inscripciones.</p>
             </div>
-
-            <a
-                href="panel-admin.html"
-                class="boton-volver-panel"
-            >
-                ← Volver al panel
-            </a>
-
+            <a href="panel-admin.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="80px"
+                    alt="atras"> Volver al panel</a>
         </section>
-
         <section class="resumen-gestion-admin">
-
             <article class="tarjeta-indicador-admin">
                 <span>Total de actividades</span>
                 <strong id="total-actividades-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Actividades programadas</span>
                 <strong id="actividades-programadas-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Actividades finalizadas</span>
                 <strong id="actividades-finalizadas-admin">0</strong>
             </article>
-
             <article class="tarjeta-indicador-admin">
                 <span>Total de inscritos</span>
                 <strong id="total-inscritos-admin">0</strong>
             </article>
-
         </section>
-
         <section class="contenedor-gestion-admin">
-
             <div class="encabezado-listado-admin">
-
                 <div>
-                    <p class="subtitulo-admin">
-                        Calendario de la comunidad
-                    </p>
-
+                    <p class="subtitulo-admin">Calendario de la comunidad</p>
                     <h2>Listado de actividades</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="boton-nueva-actividad"
-                    class="boton-nuevo-admin"
-                >
-                    + Nueva actividad
-                </button>
-
+                <button type="button" id="boton-nueva-actividad" class="boton-nuevo-admin"> Nueva actividad</button>
             </div>
-
             <div class="filtros-admin">
-
                 <div class="campo-filtro-admin">
-                    <label for="buscar-actividad">
-                        Buscar
-                    </label>
-
-                    <input
-                        type="search"
-                        id="buscar-actividad"
-                        placeholder="Nombre o lugar"
-                    >
+                    <label for="buscar-actividad">Buscar</label>
+                    <input type="search" id="buscar-actividad" placeholder="Nombre o lugar">
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-tipo-actividad">
-                        Tipo
-                    </label>
-
+                    <label for="filtro-tipo-actividad">Tipo</label>
                     <select id="filtro-tipo-actividad">
                         <option value="TODOS">Todos</option>
                         <option value="Campamento">Campamento</option>
@@ -158,12 +84,8 @@
                         <option value="Otro">Otro</option>
                     </select>
                 </div>
-
                 <div class="campo-filtro-admin">
-                    <label for="filtro-estado-actividad">
-                        Estado
-                    </label>
-
+                    <label for="filtro-estado-actividad">Estado</label>
                     <select id="filtro-estado-actividad">
                         <option value="TODOS">Todos</option>
                         <option value="Programada">Programada</option>
@@ -171,12 +93,9 @@
                         <option value="Cancelada">Cancelada</option>
                     </select>
                 </div>
-
             </div>
-
             <div class="tabla-responsive">
                 <table class="tabla-admin">
-
                     <thead>
                         <tr>
                             <th>Actividad</th>
@@ -188,81 +107,33 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody id="lista-actividades-admin">
                         <!-- Se cargará desde JavaScript -->
                     </tbody>
-
                 </table>
             </div>
-
-            <p
-                id="sin-resultados-actividades"
-                class="mensaje-sin-resultados"
-                hidden
-            >
-                No se encontraron actividades.
-            </p>
-
+            <p id="sin-resultados-actividades" class="mensaje-sin-resultados" hidden>No se encontraron actividades.</p>
         </section>
-
-        <section
-            id="contenedor-formulario-actividad"
-            class="contenedor-formulario-admin"
-            hidden
-        >
-
+        <section id="contenedor-formulario-actividad" class="contenedor-formulario-admin" hidden>
             <div class="encabezado-formulario-admin">
-
                 <div>
-                    <p class="subtitulo-admin">
-                        Datos de la actividad
-                    </p>
-
-                    <h2 id="titulo-formulario-actividad">
-                        Nueva actividad
-                    </h2>
+                    <p class="subtitulo-admin">Datos de la actividad</p>
+                    <h2 id="titulo-formulario-actividad">Nueva actividad</h2>
                 </div>
-
-                <button
-                    type="button"
-                    id="cerrar-formulario-actividad"
-                    class="boton-cerrar-formulario"
-                    aria-label="Cerrar formulario"
-                >
-                    ×
-                </button>
-
+                <button type="button" id="cerrar-formulario-actividad" class="boton-cerrar-formulario"
+                    aria-label="Cerrar formulario"><img src="img/iconos/cerrar.png" width="80px" alt="cerrar"></button>
             </div>
-
             <form id="form-actividad">
-
                 <input type="hidden" id="actividad-id">
-
                 <div class="cuadricula-formulario-admin">
-
                     <div class="campo-admin">
-                        <label for="nombre-actividad">
-                            Nombre de la actividad
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nombre-actividad"
-                            maxlength="100"
-                            required
-                        >
+                        <label for="nombre-actividad">Nombre de la actividad</label>
+                        <input type="text" id="nombre-actividad" maxlength="100" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="tipo-actividad">
-                            Tipo
-                        </label>
-
+                        <label for="tipo-actividad">Tipo</label>
                         <select id="tipo-actividad" required>
-                            <option value="">
-                                Selecciona un tipo
-                            </option>
+                            <option value="">Selecciona un tipo</option>
                             <option value="Campamento">Campamento</option>
                             <option value="Servicio">Servicio comunitario</option>
                             <option value="Taller">Taller</option>
@@ -271,115 +142,46 @@
                             <option value="Otro">Otro</option>
                         </select>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="fecha-actividad">
-                            Fecha
-                        </label>
-
-                        <input
-                            type="date"
-                            id="fecha-actividad"
-                            required
-                        >
+                        <label for="fecha-actividad">Fecha</label>
+                        <input type="date" id="fecha-actividad" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="hora-actividad">
-                            Hora
-                        </label>
-
-                        <input
-                            type="time"
-                            id="hora-actividad"
-                            required
-                        >
+                        <label for="hora-actividad">Hora</label>
+                        <input type="time" id="hora-actividad" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="lugar-actividad">
-                            Lugar
-                        </label>
-
-                        <input
-                            type="text"
-                            id="lugar-actividad"
-                            maxlength="120"
-                            required
-                        >
+                        <label for="lugar-actividad">Lugar</label>
+                        <input type="text" id="lugar-actividad" maxlength="120" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="cupos-actividad">
-                            Cupos disponibles
-                        </label>
-
-                        <input
-                            type="number"
-                            id="cupos-actividad"
-                            min="1"
-                            step="1"
-                            required
-                        >
+                        <label for="cupos-actividad">Cupos disponibles</label>
+                        <input type="number" id="cupos-actividad" min="1" step="1" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="estado-actividad-admin">
-                            Estado
-                        </label>
-
+                        <label for="estado-actividad-admin">Estado</label>
                         <select id="estado-actividad-admin" required>
                             <option value="Programada">Programada</option>
                             <option value="Finalizada">Finalizada</option>
                             <option value="Cancelada">Cancelada</option>
                         </select>
                     </div>
-
                 </div>
-
                 <div class="campo-admin campo-descripcion-admin">
-                    <label for="descripcion-actividad">
-                        Descripción
-                    </label>
-
-                    <textarea
-                        id="descripcion-actividad"
-                        rows="5"
-                        maxlength="500"
-                        placeholder="Describe la actividad..."
-                        required
-                    ></textarea>
+                    <label for="descripcion-actividad">Descripción</label>
+                    <textarea id="descripcion-actividad" rows="5" maxlength="500" placeholder="Describe la actividad..."
+                        required></textarea>
                 </div>
-
                 <div class="acciones-formulario-admin">
-
-                    <button
-                        type="button"
-                        id="cancelar-formulario-actividad"
-                        class="boton-cancelar-admin"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="boton-guardar-admin"
-                    >
-                        Guardar actividad
-                    </button>
-
+                    <button type="button" id="cancelar-formulario-actividad"
+                        class="boton-cancelar-admin">Cancelar</button>
+                    <button type="submit" class="boton-guardar-admin">Guardar actividad</button>
                 </div>
-
             </form>
-
         </section>
-
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin-actividades.js"></script>
-
-
 </body>
+
 </html>
