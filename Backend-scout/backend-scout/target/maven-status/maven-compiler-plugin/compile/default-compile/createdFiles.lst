@@ -1,1 +1,4 @@
+com\scout\backend_scout\controller\UsuarioController.class
+com\scout\backend_scout\model\Usuario.class
+com\scout\backend_scout\repository\UsuarioRepository.class
 com\scout\backend_scout\BackendScoutApplication.class
