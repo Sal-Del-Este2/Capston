@@ -1,0 +1,313 @@
+/* Dashboard y principal */
+body {
+    margin: 0;
+    background: #f5f3ed;
+    font-family: Arial, sans-serif;
+}
+
+.admin-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-header {
+    background: #9DA98A;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-logo img {
+    width: 45px;
+}
+
+.admin-logo h2 {
+    color: #2f5d1f;
+    margin: 0;
+    font-weight: 700;
+}
+
+.dashboard-badge {
+    background: #4d7c2f;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-header-actions i {
+    font-size: 1.5rem;
+    color: #2f5d1f;
+}
+
+.btn-admin {
+    background: #A8B49A;
+    color: white;
+    border: none;
+}
+
+.btn-admin:hover {
+    background: #486B34;
+    color: white;
+}
+
+.btn-admin-logout {
+    background: #4d7c2f;
+    color: white;
+}
+
+.admin-body {
+    flex: 1;
+    display: flex;
+}
+
+.admin-sidebar {
+    width: 260px;
+    background: #A8B49A;
+    padding: 25px;
+}
+
+.admin-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-sidebar li {
+    margin-bottom: 18px;
+
+}
+
+.admin-sidebar a {
+    text-decoration: none;
+    color: #1f1f1f;
+    font-size: 1.1rem;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 40px;
+}
+
+.admin-welcome {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+}
+
+.admin-footer {
+    background: #2F5B45;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-footer img {
+    width: 40px;
+}
+
+.admin-footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.admin-footer i {
+    font-size: 1.5rem;
+    margin-left: 15px;
+    text-align: center;
+}
+
+@media(max-width:992px) {
+
+    .admin-body {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* .admin-footer {
+        /* flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    } */
+
+}
+
+/* noticias */
+.admin-module {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+}
+
+.admin-module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.admin-module-header h2 {
+    color: #2f5d1f;
+    margin: 0;
+    font-weight: 700;
+}
+
+.admin-table {
+    vertical-align: middle;
+}
+
+.admin-table thead {
+    background: #e8ece3;
+}
+
+.admin-table th {
+    color: #2f5d1f;
+}
+
+.admin-table td {
+    padding: 15px;
+}
+
+/* Ubicacion mapa */
+.mapa-admin{
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #ddd;
+}
+
+.mapa-admin iframe{
+    width:100%;
+    height:350px;
+}
+
+/* imagen en eventos */
+.img-fluid{
+    width: 100px;
+}
+
+/* recuadro mensaje */
+.recuadro{
+    background: rgb(233, 232, 232);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+}
+
+.message-history{
+    background:#f8f9fa;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:15px;
+    min-height:180px;
+}
+
+.message-history p{
+    margin-bottom:10px;
+}
+
+.borde-recuadro{
+    padding: 35px;
+    margin: 0px;
+}
+
+.borde-grafico{
+    border: 2px;
+    padding: 15px;
+    margin-right: 20px;
+}
+
+/* politicas */
+.admin-module-politicas{
+    background:#f5f3ed;
+    padding:20px;
+    text-align:center;
+}
+
+.titulo-politicas{
+    color:#2f5d1f;
+    font-weight:700;
+    margin-bottom:40px;
+}
+
+.politicas-container{
+    max-width:700px;
+    margin:0 auto;
+}
+
+.politicas-textarea{
+    min-height:300px;
+    resize:vertical;
+    border:1px solid #cfcfcf;
+    border-radius:4px;
+    padding:20px;
+}
+
+.politicas-textarea:focus{
+    box-shadow:none;
+    border-color:#4d7c2f;
+}
+/* finanzas */
+
+.finance-card{
+    background:#ffffff;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.finance-card h5{
+    color:#2f5d1f;
+    margin-bottom:10px;
+}
+
+.finance-card h3{
+    font-weight:700;
+    color:#1f1f1f;
+}
+
+/* finanzas-productos */
+.admin-modal-card{
+    background:#ffffff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.admin-form-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.admin-form-header h2{
+    color:#2f5d1f;
+    font-weight:700;
+}
