@@ -64,56 +64,21 @@ function escaparHTML(texto) {
     return elemento.innerHTML;
 }
 
+// Función para cargar usuarios desde el backend
 
-function cargarUsuarios() {
-    const usuariosGuardados =
-        JSON.parse(
-            localStorage.getItem("usuariosAdmin")
-        ) || [];
+async function cargarUsuarios() {
+    try {
+        const respuesta = await fetch("http://localhost:8080/usuarios/listar");
+        const data = await respuesta.json();
 
-    const usuariosRegistrados =
-        JSON.parse(
-            localStorage.getItem("usuariosRegistrados")
-        ) || [];
-
-    if (usuariosGuardados.length === 0) {
-        usuarios = [
-            USUARIO_ADMINISTRADOR_INICIAL
-        ];
-    } else {
-        usuarios = usuariosGuardados;
+        usuarios = data; // ahora la lista viene desde PostgreSQL
+        mostrarUsuarios();
+    } catch (error) {
+        console.error("Error al cargar usuarios:", error);
+        alert("No se pudo cargar la lista de usuarios desde el servidor.");
     }
-
-    usuariosRegistrados.forEach(
-        function (usuarioRegistrado) {
-            const yaExiste = usuarios.some(
-                function (usuario) {
-                    return (
-                        usuario.correo ===
-                            usuarioRegistrado.correo ||
-                        usuario.nickname ===
-                            usuarioRegistrado.nickname
-                    );
-                }
-            );
-
-            if (!yaExiste) {
-                usuarios.push({
-                    id: usuarioRegistrado.id,
-                    nombre: usuarioRegistrado.nombre,
-                    nickname: usuarioRegistrado.nickname,
-                    correo: usuarioRegistrado.correo,
-                    rol:
-                        usuarioRegistrado.rol ||
-                        "usuario",
-                    estado: "activo"
-                });
-            }
-        }
-    );
-
-    guardarUsuarios();
 }
+
 
 
 function guardarUsuarios() {
@@ -402,7 +367,7 @@ function cerrarFormularioUsuario() {
 }
 
 
-function cambiarEstadoUsuario(idUsuario) {
+async function cambiarEstadoUsuario(idUsuario) {
     const usuario = usuarios.find(
         function (elemento) {
             return elemento.id === idUsuario;
@@ -413,170 +378,127 @@ function cambiarEstadoUsuario(idUsuario) {
         return;
     }
 
-    if (
-        usuario.id ===
-        USUARIO_ADMINISTRADOR_INICIAL.id
-    ) {
-        alert(
-            "La cuenta administrativa principal " +
-            "no puede ser desactivada."
-        );
-
+    if (usuario.id === USUARIO_ADMINISTRADOR_INICIAL.id) {
+        alert("La cuenta administrativa principal no puede ser desactivada.");
         return;
     }
 
-    const nuevoEstado =
-        usuario.estado === "activo"
-            ? "inactivo"
-            : "activo";
+    const nuevoEstado = usuario.estado === "activo" ? "inactivo" : "activo";
 
     const confirmarCambio = confirm(
-        `¿Deseas cambiar el estado de ` +
-        `@${usuario.nickname} a ${nuevoEstado}?`
+        `¿Deseas cambiar el estado de @${usuario.nickname} a ${nuevoEstado}?`
     );
 
     if (!confirmarCambio) {
         return;
     }
 
-    usuario.estado = nuevoEstado;
+    try {
+        const respuesta = await fetch(`http://localhost:8080/usuarios/estado/${idUsuario}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ estado: nuevoEstado })
+        });
 
-    guardarUsuarios();
-    mostrarUsuarios();
+        const data = await respuesta.json();
+
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert(data.mensaje);
+            await cargarUsuarios(); // refresca la lista desde el backend
+        }
+    } catch (error) {
+        console.error("Error al cambiar estado:", error);
+        alert("No se pudo conectar con el servidor.");
+    }
 }
 
 
-formularioUsuario.addEventListener(
-    "submit",
-    function (evento) {
-        evento.preventDefault();
+// Formulario de registro y edición de usuarios desde el frontend al backend
+formularioUsuario.addEventListener("submit", async function (evento) {
+    evento.preventDefault();
 
-        const idUsuario = Number(
-            document.getElementById(
-                "usuario-id"
-            ).value
-        );
+    const idUsuario = Number(document.getElementById("usuario-id").value);
+    const nombre = document.getElementById("nombre-usuario").value.trim();
+    const nickname = document.getElementById("nickname-usuario").value.trim().toLowerCase();
+    const correo = document.getElementById("correo-usuario").value.trim().toLowerCase();
+    const rol = document.getElementById("rol-usuario").value;
+    let estado = document.getElementById("estado-usuario").value;
 
-        const nombre = document
-            .getElementById("nombre-usuario")
-            .value
-            .trim();
+    // ⚠️ Si no se selecciona estado, lo dejamos en "activo"
+    if (!estado || estado.trim() === "") {
+        estado = "activo";
+    }
 
-        const nickname = document
-            .getElementById("nickname-usuario")
-            .value
-            .trim()
-            .toLowerCase();
+    const validarNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+$/;
+    const validarNickname = /^[a-z0-9_]{3,20}$/;
 
-        const correo = document
-            .getElementById("correo-usuario")
-            .value
-            .trim()
-            .toLowerCase();
+    if (!validarNombre.test(nombre)) {
+        alert("El nombre solo puede contener letras y espacios.");
+        return;
+    }
 
-        const rol = document
-            .getElementById("rol-usuario")
-            .value;
+    if (!validarNickname.test(nickname)) {
+        alert("El nickname debe tener entre 3 y 20 caracteres y solo puede contener letras, números y guion bajo.");
+        return;
+    }
 
-        const estado = document
-            .getElementById("estado-usuario")
-            .value;
+    try {
+        if (!idUsuario) {
+            // --- CREACIÓN ---
+            const respuesta = await fetch("http://localhost:8080/usuarios/registro?rolSolicitante=administrador", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    nickname: nickname,
+                    correo: correo,
+                    password: "ClaveTemporal123", // idealmente usar un input real
+                    rol: rol,
+                    estado: estado
+                })
+            });
 
-        const validarNombre =
-            /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+$/;
+            const data = await respuesta.json();
 
-        const validarNickname =
-            /^[a-z0-9_]{3,20}$/;
-
-        if (!validarNombre.test(nombre)) {
-            alert(
-                "El nombre solo puede contener " +
-                "letras y espacios."
-            );
-
-            return;
-        }
-
-        if (!validarNickname.test(nickname)) {
-            alert(
-                "El nickname debe tener entre 3 y 20 " +
-                "caracteres y solo puede contener letras, " +
-                "números y guion bajo."
-            );
-
-            return;
-        }
-
-        const nicknameRepetido = usuarios.some(
-            function (usuario) {
-                return (
-                    usuario.nickname === nickname &&
-                    usuario.id !== idUsuario
-                );
-            }
-        );
-
-        if (nicknameRepetido) {
-            alert(
-                "El nickname ya está registrado."
-            );
-
-            return;
-        }
-
-        const correoRepetido = usuarios.some(
-            function (usuario) {
-                return (
-                    usuario.correo === correo &&
-                    usuario.id !== idUsuario
-                );
-            }
-        );
-
-        if (correoRepetido) {
-            alert(
-                "El correo ya está registrado."
-            );
-
-            return;
-        }
-
-        if (idUsuario) {
-            const usuario = usuarios.find(
-                function (elemento) {
-                    return elemento.id === idUsuario;
-                }
-            );
-
-            if (usuario) {
-                usuario.nombre = nombre;
-                usuario.nickname = nickname;
-                usuario.correo = correo;
-                usuario.rol = rol;
-                usuario.estado = estado;
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert(data.mensaje);
+                cerrarFormularioUsuario();
+                await cargarUsuarios(); // refresca la lista desde el backend
             }
         } else {
-            usuarios.push({
-                id: Date.now(),
-                nombre: nombre,
-                nickname: nickname,
-                correo: correo,
-                rol: rol,
-                estado: estado
+            // --- EDICIÓN ---
+            const respuesta = await fetch(`http://localhost:8080/usuarios/editar/${idUsuario}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    nickname: nickname,
+                    correo: correo,
+                    rol: rol,
+                    estado: estado
+                })
             });
+
+            const data = await respuesta.json();
+
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert(data.mensaje);
+                cerrarFormularioUsuario();
+                await cargarUsuarios(); // refresca la lista desde el backend
+            }
         }
-
-        guardarUsuarios();
-        cerrarFormularioUsuario();
-        mostrarUsuarios();
-
-        alert(
-            idUsuario
-                ? "Usuario actualizado correctamente."
-                : "Usuario registrado correctamente."
-        );
+    } catch (error) {
+        console.error("Error al registrar/editar usuario:", error);
+        alert("No se pudo conectar con el servidor.");
     }
-);
+});
+
 
 
 buscadorUsuario.addEventListener(
