@@ -4,16 +4,20 @@ import com.scout.backend_scout.model.Usuario;
 import com.scout.backend_scout.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
-@CrossOrigin(origins = "http://127.0.0.1:5501") // habilita conexión desde tu frontend
+@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500"})
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    // Instancia de BCrypt para encriptar y validar contraseñas
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // --- Registro de usuarios (solo administrador) ---
     @PostMapping("/registro")
@@ -40,6 +44,9 @@ public class UsuarioController {
             usuario.setEstado("activo");
         }
 
+        // Encriptar contraseña antes de guardar
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
         usuarioRepository.save(usuario);
         respuesta.put("mensaje", "Usuario @" + usuario.getNickname() + " creado correctamente.");
         return respuesta;
@@ -59,7 +66,8 @@ public class UsuarioController {
 
         Usuario u = usuarioEncontrado.get();
 
-        if (!u.getPassword().equals(usuario.getPassword())) {
+        // Validar contraseña con BCrypt
+        if (!passwordEncoder.matches(usuario.getPassword(), u.getPassword())) {
             respuesta.put("error", "Contraseña incorrecta.");
             return respuesta;
         }
@@ -135,4 +143,13 @@ public class UsuarioController {
         respuesta.put("mensaje", "Usuario @" + u.getNickname() + " actualizado a estado " + nuevoEstado + ".");
         return respuesta;
     }
+
+    
+
+@GetMapping("/test-bcrypt")
+public String generarHash() {
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    return encoder.encode("ClaveAdmin#2026");
+}
+
 }

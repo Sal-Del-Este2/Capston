@@ -41,7 +41,7 @@ if (formularioRegistro) {
 
         try {
             // --- Enviar al backend ---
-            const respuesta = await fetch("http://localhost:8080/usuarios/registro?rolSolicitante=administrador", {
+            const respuesta = await fetch("http://127.0.0.1:8080/usuarios/registro?rolSolicitante=administrador", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
