@@ -1,4 +1,8 @@
 C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\BackendScoutApplication.java
+C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\config\SecurityConfig.java
+C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\controller\EventoController.java
 C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\controller\UsuarioController.java
+C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\model\Evento.java
 C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\model\Usuario.java
+C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\repository\EventoRepository.java
 C:\Users\jason\Desktop\Capston-main\Capston\Backend-scout\backend-scout\src\main\java\com\scout\backend_scout\repository\UsuarioRepository.java
