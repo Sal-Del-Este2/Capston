@@ -53,7 +53,6 @@ window.addEventListener("scroll", () => {
     } else {
         btnSubir.style.display = "none";
     }
-
 });
 
 btnSubir.addEventListener("click", () => {

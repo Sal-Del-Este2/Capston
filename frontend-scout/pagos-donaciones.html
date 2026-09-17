@@ -4,285 +4,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Pagos y donaciones | Comunidad Scout</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    >
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body class="pagina-pagos">
-
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-
                 <a class="navbar-brand fw-bold" href="panel-usuario.html">
-                    <span class="simbolo-logo">⚜</span>
-                    Comunidad Scout
-                </a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuUsuario"
-                    aria-controls="menuUsuario"
-                    aria-expanded="false"
-                    aria-label="Abrir menú"
-                >
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
+                            alt="flor-de-lis"></span> Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUsuario"
+                    aria-controls="menuUsuario" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div
-                    class="collapse navbar-collapse"
-                    id="menuUsuario"
-                >
+                <div class="collapse navbar-collapse" id="menuUsuario">
                     <div class="navbar-nav ms-auto">
-
-                        <a class="nav-link" href="panel-usuario.html">
-                            Mi cuenta
-                        </a>
-
-                        <a
-                            class="nav-link active"
-                            href="pagos-donaciones.html"
-                        >
-                            Pagos y donaciones
-                        </a>
-
-                        <a
-                            class="nav-link"
-                            href="#"
-                            id="cerrar-sesion"
-                        >
-                            Cerrar sesión
-                        </a>
-
+                        <a class="nav-link" href="panel-usuario.html">Mi cuenta</a>
+                        <a class="nav-link active" href="pagos-donaciones.html">Pagos y donaciones</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion">Cerrar sesión</a>
                     </div>
                 </div>
-
             </div>
         </nav>
     </header>
-
     <main class="pagos-donaciones">
-
         <section class="encabezado-pagos">
-
             <div>
                 <p class="subtitulo-panel">Área privada</p>
-
                 <h1>Pagos y donaciones</h1>
-
-                <p>
-                    Paga tus cuotas de membresía o realiza
-                    una donación voluntaria a la comunidad.
-                </p>
+                <p>Paga tus cuotas de membresía o realiza una donación voluntaria a la comunidad.</p>
             </div>
-
-            <a
-                href="panel-usuario.html"
-                class="boton-volver-panel"
-            >
-                ← Volver a mi cuenta
-            </a>
-
+            <a href="panel-usuario.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="30px"
+                    alt="atras"> Volver a mi cuenta</a>
         </section>
-
         <section class="contenedor-operacion">
-
             <div class="encabezado-operacion">
                 <p class="subtitulo-panel">Nueva operación</p>
                 <h2>¿Qué deseas realizar?</h2>
             </div>
-
             <form id="form-pago-donacion">
-
                 <div class="campo-operacion">
-                    <label for="tipo-operacion">
-                        Tipo de operación
-                    </label>
-
+                    <label for="tipo-operacion">Tipo de operación</label>
                     <select id="tipo-operacion" required>
-                        <option value="">
-                            Selecciona una opción
-                        </option>
-
-                        <option value="MEMBRESIA">
-                            Pagar membresía
-                        </option>
-
-                        <option value="DONACION">
-                            Realizar una donación
-                        </option>
+                        <option value="">Selecciona una opción</option>
+                        <option value="MEMBRESIA">Pagar membresía</option>
+                        <option value="DONACION">Realizar una donación</option>
                     </select>
                 </div>
-
                 <!-- Campos para pago de membresía -->
-
-                <div
-                    id="campos-membresia"
-                    class="campos-operacion"
-                    hidden
-                >
+                <div id="campos-membresia" class="campos-operacion" hidden>
                     <div class="campo-operacion">
-                        <label for="cuota-membresia">
-                            Cuota pendiente
-                        </label>
-
+                        <label for="cuota-membresia">Cuota pendiente</label>
                         <select id="cuota-membresia">
-                            <option value="">
-                                Selecciona una cuota
-                            </option>
+                            <option value="">Selecciona una cuota</option>
                         </select>
                     </div>
-
                     <div class="informacion-monto">
                         <span>Monto de la cuota</span>
                         <strong id="monto-cuota">$0</strong>
                     </div>
                 </div>
-
                 <!-- Campos para donación -->
-
-                <div
-                    id="campos-donacion"
-                    class="campos-operacion"
-                    hidden
-                >
+                <div id="campos-donacion" class="campos-operacion" hidden>
                     <div class="campo-operacion">
-                        <label for="monto-donacion">
-                            Monto de la donación
-                        </label>
-
-                        <input
-                            type="number"
-                            id="monto-donacion"
-                            min="1"
-                            step="1"
-                            placeholder="Ingresa el monto"
-                        >
+                        <label for="monto-donacion">Monto de la donación</label>
+                        <input type="number" id="monto-donacion" min="1" step="1" placeholder="Ingresa el monto">
                     </div>
-
                     <div class="campo-operacion">
-                        <label for="tipo-donacion">
-                            Tipo de donación
-                        </label>
-
+                        <label for="tipo-donacion">Tipo de donación</label>
                         <select id="tipo-donacion">
-                            <option value="">
-                                Selecciona una opción
-                            </option>
-
-                            <option value="IDENTIFICADA">
-                                Donación identificada
-                            </option>
-
-                            <option value="ANONIMA">
-                                Donación anónima
-                            </option>
+                            <option value="">Selecciona una opción</option>
+                            <option value="IDENTIFICADA">Donación identificada</option>
+                            <option value="ANONIMA">Donación anónima</option>
                         </select>
                     </div>
-
-                    <div
-                        id="datos-donante"
-                        class="datos-donante"
-                        hidden
-                    >
+                    <div id="datos-donante" class="datos-donante" hidden>
                         <div class="campo-operacion">
-                            <label for="nombre-donante">
-                                Nombre
-                            </label>
-
-                            <input
-                                type="text"
-                                id="nombre-donante"
-                                placeholder="Nombre del donante"
-                            >
+                            <label for="nombre-donante">Nombre</label>
+                            <input type="text" id="nombre-donante" placeholder="Nombre del donante">
                         </div>
-
                         <div class="campo-operacion">
-                            <label for="correo-donante">
-                                Correo electrónico
-                            </label>
-
-                            <input
-                                type="email"
-                                id="correo-donante"
-                                placeholder="correo@ejemplo.cl"
-                            >
+                            <label for="correo-donante">Correo electrónico</label>
+                            <input type="email" id="correo-donante" placeholder="correo@ejemplo.cl">
                         </div>
                     </div>
                 </div>
-
-                <button
-                    type="submit"
-                    id="boton-revisar-operacion"
-                    class="boton-revisar-operacion"
-                    hidden
-                >
-                    Revisar operación
-                </button>
-
+                <button type="submit" id="boton-revisar-operacion" class="boton-revisar-operacion" hidden> Revisar
+                    operación</button>
             </form>
-
         </section>
-
         <!-- Resumen previo al pago -->
 
-        <section
-            id="resumen-operacion"
-            class="resumen-operacion"
-            hidden
-        >
+        <section id="resumen-operacion" class="resumen-operacion" hidden>
             <div>
                 <p class="subtitulo-panel">Confirmación</p>
                 <h2>Resumen de la operación</h2>
             </div>
-
-            <div
-                id="detalle-resumen-operacion"
-                class="detalle-resumen-operacion"
-            ></div>
-
+            <div id="detalle-resumen-operacion" class="detalle-resumen-operacion"></div>
             <div class="acciones-resumen-operacion">
-
-                <button
-                    type="button"
-                    id="editar-operacion"
-                    class="boton-editar-operacion"
-                >
-                    Volver y editar
-                </button>
-
-                <button
-                    type="button"
-                    id="continuar-pago"
-                    class="boton-continuar-pago"
-                >
-                    Continuar al pago
-                </button>
-
+                <button type="button" id="editar-operacion" class="boton-editar-operacion">Volver y editar</button>
+                <button type="button" id="continuar-pago" class="boton-continuar-pago">Continuar al pago</button>
             </div>
         </section>
-
         <!-- Historial -->
-
         <section class="contenedor-historial-pagos">
-
             <div>
                 <p class="subtitulo-panel">Tus movimientos</p>
                 <h2>Historial de pagos y donaciones</h2>
             </div>
-
             <div class="tabla-responsive">
                 <table class="tabla-pagos">
-
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -292,25 +126,16 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-
                     <tbody id="lista-operaciones">
                         <!-- Se cargará desde JavaScript -->
                     </tbody>
-
                 </table>
             </div>
-
         </section>
-
     </main>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="panel-usuario.js"></script>
     <script src="pagos-donaciones.js"></script>
-
 </body>
 
 </html>

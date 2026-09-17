@@ -4,145 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Registro | Comunidad Scout</title>
-
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
-
-    <a href="index.html" class="boton-volver">
-        ← Volver al inicio
-    </a>
-
+    <a href="index.html" class="boton-volver"><img src="img/iconos/atras.svg" width="30px" alt="atras"> Volver al
+        inicio</a>
     <section id="registro" class="seccion-registro">
-
         <div class="contenedor-registro">
-
             <div class="registro-info">
                 <span class="simbolo-registro">⚜</span>
-
                 <h2>Únete a la Comunidad Scout</h2>
-
-                <p>
-                    Crea tu cuenta para participar en actividades,
-                    conocer grupos y acceder a contenidos de la comunidad.
+                <p>Crea tu cuenta para participar en actividades, conocer grupos y acceder a contenidos de la comunidad.
                 </p>
             </div>
-
             <div class="registro-formulario">
-
                 <h3>Crear cuenta</h3>
-
                 <form id="form-registro">
-
                     <div class="campo-registro">
-                        <label for="nombre-registro">
-                            Nombre completo
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nombre-registro"
-                            placeholder="Ingresa tu nombre"
-                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+"
-                            title="El nombre solo puede contener letras y espacios"
-                            autocomplete="name"
-                            required
-                        >
+                        <label for="nombre-registro">Nombre completo</label>
+                        <input type="text" id="nombre-registro" placeholder="Ingresa tu nombre"
+                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+" title="El nombre solo puede contener letras y espacios"
+                            autocomplete="name" required>
                     </div>
-
                     <div class="campo-registro">
-                        <label for="nickname-registro">
-                            Nickname
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nickname-registro"
-                            placeholder="Ejemplo: felipe_scout"
-                            minlength="3"
-                            maxlength="20"
-                            autocomplete="username"
-                            required
-                        >
-
-                        <small>
-                            Entre 3 y 20 caracteres, sin espacios.
-                            Puedes usar letras, números y guion bajo.
-                        </small>
+                        <label for="nickname-registro">Nickname</label>
+                        <input type="text" id="nickname-registro" placeholder="Ejemplo: felipe_scout" minlength="3"
+                            maxlength="20" autocomplete="username" required>
+                        <small>Entre 3 y 20 caracteres, sin espacios. Puedes usar letras, números y guion bajo.</small>
                     </div>
-
                     <div class="campo-registro">
-                        <label for="correo-registro">
-                            Correo electrónico
-                        </label>
-
-                        <input
-                            type="email"
-                            id="correo-registro"
-                            placeholder="correo@ejemplo.cl"
-                            autocomplete="email"
-                            required
-                        >
+                        <label for="correo-registro">Correo electrónico</label>
+                        <input type="email" id="correo-registro" placeholder="correo@ejemplo.cl" autocomplete="email"
+                            required>
                     </div>
-
                     <div class="campo-registro">
-                        <label for="password-registro">
-                            Contraseña
-                        </label>
-
-                        <input
-                            type="password"
-                            id="password-registro"
-                            placeholder="Crea una contraseña segura"
-                            minlength="12"
-                            maxlength="64"
-                            autocomplete="new-password"
-                            required
-                        >
-
-                        <small>
-                            Debe contener entre 12 y 64 caracteres,
-                            una mayúscula, una minúscula, un número
-                            y un carácter especial.
-                        </small>
+                        <label for="password-registro">Contraseña</label>
+                        <input type="password" id="password-registro" placeholder="Crea una contraseña segura"
+                            minlength="12" maxlength="64" autocomplete="new-password" required>
+                        <small> Debe contener entre 12 y 64 caracteres, una mayúscula, una minúscula, un número y un
+                            carácter especial.</small>
                     </div>
-
                     <div class="campo-registro">
-                        <label for="confirmar-password">
-                            Confirmar contraseña
-                        </label>
-
-                        <input
-                            type="password"
-                            id="confirmar-password"
-                            placeholder="Repite tu contraseña"
-                            minlength="12"
-                            maxlength="64"
-                            autocomplete="new-password"
-                            required
-                        >
+                        <label for="confirmar-password">Confirmar contraseña</label>
+                        <input type="password" id="confirmar-password" placeholder="Repite tu contraseña" minlength="12"
+                            maxlength="64" autocomplete="new-password" required>
                     </div>
-
-                    <button
-                        type="submit"
-                        class="boton-registro"
-                    >
-                        Registrarme
-                    </button>
-
+                    <button type="submit" class="boton-registro">Registrarme</button>
                 </form>
-
             </div>
-
         </div>
-
     </section>
-
     <script src="registro.js"></script>
-
 </body>
 
 </html>

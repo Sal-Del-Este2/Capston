@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <div class="admin-wrapper">
+        <!-- HEADER -->
+        <header class="admin-header">
+            <div class="admin-logo">
+                <img src="img/logo.png" alt="Logo">
+                <h2>Panel administrativo</h2>
+            </div>
+            <div class="admin-header-center">
+                <a class="btn btn-admin-logout" href="admin-dashboard.html">Dashboard</a>
+            </div>
+            <div class="admin-header-actions">
+                <a href="#"><i class="fa-regular fa-user"></i></a>
+                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                <a href="login.html" class="btn btn-admin-logout">Salir</a>
+            </div>
+        </header>
+        <!-- CONTENIDO -->
+        <div class="admin-body">
+            <!-- SIDEBAR -->
+            <aside class="admin-sidebar">
+                <nav>
+                    <ul>
+                        <li><a class="btn btn-admin" href="admin-informacion.html">Información</a></li>
+                        <li><a class="btn btn-admin" href="admin-personal-adulto.html">Personal Adulto</a></li>
+                        <li><a class="btn btn-admin" href="admin-personal-scout.html">Personal Scout</a></li>
+                        <li><a class="btn btn-admin" href="admin-ubicaciones.html">Ubicaciones</a></li>
+                        <li><a class="btn btn-admin" href="admin-noticias.html">Noticias</a></li>
+                        <li><a class="btn btn-admin" href="admin-eventos.html">Eventos</a></li>
+                        <li><a class="btn btn-admin" href="admin-finanzas.html">Finanzas</a></li>
+                        <li><a class="btn btn-admin" href="admin-mensajes.html">Mensajes</a></li>
+                        <li><a class="btn btn-admin" href="admin-contacto.html">Contacto</a></li>
+                        <li><a class="btn btn-admin" href="admin-politicas.html">Política de Privacidad</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <!-- MAIN -->
+            <main class="admin-content">
+                <div class="admin-welcome">
+                    <div class="admin-modal-card">
+                        <div class="admin-form-header">
+                            <h2>Crear Ubicación</h2>
+                        </div>
+                        <form>
+                            <div class="mb-4">
+                                <label class="form-label">Nombre del grupo</label>
+                                <input type="text" class="form-control" placeholder="Reino Likankura">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Dirección</label>
+                                <input type="text" class="form-control" placeholder="Palena 1741, Peñalolén">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Mapa</label>
+                                <div class="ratio ratio-16x9">
+                                    <iframe
+                                        src="https://maps.google.com/maps?q=Palena%201741%20Pe%C3%B1alol%C3%A9n&t=&z=15&ie=UTF8&iwloc=&output=embed" style="border:0;" allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-admin">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <!-- FOOTER -->
+        <footer class="admin-footer">
+            <img src="img/logo.png" alt="Logo">
+            <a href="#">Soporte</a>
+            <a href="#">&copy; Copyrigh</a>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

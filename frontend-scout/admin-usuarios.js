@@ -9,6 +9,7 @@ const USUARIO_ADMINISTRADOR_INICIAL = {
 
 let usuarios = [];
 
+
 const listaUsuarios =
     document.getElementById("lista-usuarios");
 
@@ -89,6 +90,7 @@ function guardarUsuarios() {
 }
 
 
+
 function actualizarIndicadores() {
     const activos = usuarios.filter(
         function (usuario) {
@@ -117,6 +119,7 @@ function actualizarIndicadores() {
     totalAdministradores.textContent =
         administradores.length;
 }
+
 
 
 function obtenerUsuariosFiltrados() {
@@ -160,6 +163,7 @@ function obtenerUsuariosFiltrados() {
         }
     );
 }
+
 
 
 function mostrarUsuarios() {
@@ -250,6 +254,7 @@ function mostrarUsuarios() {
 }
 
 
+
 function activarBotonesTabla() {
     const botonesEditar =
         document.querySelectorAll(
@@ -283,6 +288,7 @@ function activarBotonesTabla() {
         );
     });
 }
+
 
 
 function abrirFormularioNuevo() {
@@ -501,6 +507,7 @@ formularioUsuario.addEventListener("submit", async function (evento) {
 
 
 
+
 buscadorUsuario.addEventListener(
     "input",
     mostrarUsuarios
@@ -530,6 +537,7 @@ cancelarFormulario.addEventListener(
     "click",
     cerrarFormularioUsuario
 );
+
 
 
 cargarUsuarios();

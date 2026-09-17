@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <div class="admin-wrapper">
+        <!-- HEADER -->
+        <header class="admin-header">
+            <div class="admin-logo">
+                <img src="img/logo.png" alt="Logo">
+                <h2>Panel administrativo</h2>
+            </div>
+            <div class="admin-header-center">
+                <a class="btn btn-admin-logout" href="admin-dashboard.html">Dashboard</a>
+            </div>
+            <div class="admin-header-actions">
+                <a href="#"><i class="fa-regular fa-user"></i></a>
+                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                <a href="login.html" class="btn btn-admin-logout">Salir</a>
+            </div>
+        </header>
+        <!-- CONTENIDO -->
+        <div class="admin-body">
+            <!-- SIDEBAR -->
+            <aside class="admin-sidebar">
+                <nav>
+                    <ul>
+                        <li><a class="btn btn-admin" href="admin-informacion.html">Información</a></li>
+                        <li><a class="btn btn-admin" href="admin-personal-adulto.html">Personal Adulto</a></li>
+                        <li><a class="btn btn-admin" href="admin-personal-scout.html">Personal Scout</a></li>
+                        <li><a class="btn btn-admin" href="admin-ubicaciones.html">Ubicaciones</a></li>
+                        <li><a class="btn btn-admin" href="admin-noticias.html">Noticias</a></li>
+                        <li><a class="btn btn-admin" href="admin-eventos.html">Eventos</a></li>
+                        <li><a class="btn btn-admin" href="admin-finanzas.html">Finanzas</a></li>
+                        <li><a class="btn btn-admin" href="admin-mensajes.html">Mensajes</a></li>
+                        <li><a class="btn btn-admin" href="admin-contacto.html">Contacto</a></li>
+                        <li><a class="btn btn-admin" href="admin-politicas.html">Política de Privacidad</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <!-- MAIN -->
+            <main class="admin-content">
+                <div class="admin-welcome">
+                    <h2 class="mb-4">Finanzas</h2>
+                    <!-- RESUMEN -->
+                    <div class="row mb-5">
+                        <div class="col-md-4">
+                            <div class="finance-card">
+                                <h5>Cuotas Pagadas</h5>
+                                <h3>$320.000</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="finance-card">
+                                <h5>Donaciones</h5>
+                                <h3>$145.000</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="finance-card">
+                                <h5>Ventas</h5>
+                                <h3>$210.000</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="admin-welcome">
+                    <!-- CUOTAS -->
+                    <h3 class="mb-3">Cuotas Scouts</h3>
+                    <div class="table-responsive mb-5">
+                        <table class="table admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Scout</th>
+                                    <th>Rama</th>
+                                    <th>Cuota</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Enzo Fernández</td>
+                                    <td>Manada</td>
+                                    <td>$8.000</td>
+                                    <td>
+                                        <span class="badge bg-success">Pagada</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Daniela Farias</td>
+                                    <td>Compañía</td>
+                                    <td>$8.000</td>
+                                    <td>
+                                        <span class="badge bg-danger">Pendiente</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="admin-welcome">
+                    <!-- DONACIONES -->
+                    <h3 class="mb-3">Donaciones</h3>
+                    <div class="table-responsive mb-5">
+                        <table class="table admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Tipo</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Juan Pérez</td>
+                                    <td>juan@email.cl</td>
+                                    <td>Externo</td>
+                                    <td>$20.000</td>
+                                </tr>
+                                <tr>
+                                    <td>Iván Salas</td>
+                                    <td>ivan@email.cl</td>
+                                    <td>Interno</td>
+                                    <td>$15.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="admin-welcome">
+                    <!-- PRODUCTOS -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3>Productos</h3>
+                        <a href="admin-finanzas-producto-crear.html" class="btn btn-admin">Nuevo Producto</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pañoleta Scout</td>
+                                    <td>$8.000</td>
+                                    <td>25</td>
+                                    <td>
+                                        <a href="admin-finanzas-producto-editar.html" class="btn btn-warning btn-sm">Editar</a>
+                                        <button class="btn btn-danger btn-sm">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </main>
+        </div>
+        <!-- FOOTER -->
+        <footer class="admin-footer">
+            <img src="img/logo.png" alt="Logo">
+            <a href="#">Soporte</a>
+            <a href="#">&copy; Copyrigh</a>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
