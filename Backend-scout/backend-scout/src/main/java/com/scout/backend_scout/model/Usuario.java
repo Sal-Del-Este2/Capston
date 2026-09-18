@@ -16,7 +16,10 @@ public class Usuario {
     private String password;
     private String rol;
 
-    // Getters y setters
+    // 👇 Nuevo campo para estado
+    private String estado;
+
+    // --- Getters y setters ---
     public Long getId() {
         return id;
     }
@@ -63,5 +66,14 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    // 👇 Métodos para estado
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }
