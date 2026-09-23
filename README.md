@@ -41,9 +41,20 @@ Ambos grupos gestionan sus actividades y comunicaciones informalmente mediante r
     1. ejecutar en la terminar de Visual studio code ```mvn spring-boot:run```
     2. ejecutar en el codigo "open with Live Server"
 ## Integrantes del equipo con sus roles.
-1. Esteban Salas.
-2. Jason Venegas.
-3. Felipe Cariz.
+1. Esteban Salas (Líder técnico y Backend).
+   ```- Análisis y Gestión de: Levantamiento de requerimientos, historias de usuario, configuración y administración de Jira, planificación de Sprint y arquitectura de microservicios.
+   - Desarrollo de: Microservicio de los usuarios y seguridad, autenticación, JWT, roles, gestión de usuarios, recuperación de contraseña e integración entre microservicios.
+   - Base de Datos de: Modelo conceptual, modelo lógico, modelo físico y PostgreSQL.
+   - Documentación en: Casos de uso, diagramas UML, manual técnico.```
+3. Jason Venegas (Backend y Base de Datos).
+   ```- Base de Datos de: Modelo conceptual, modelo lógico, modelo físico y PostgreSQL.
+   - Desarrollo de: Microservicio de Contenido y financiero, CRUD de noticias, actividades, productos, cuotas y donaciones.
+   - Infraestructura en: Docker, despliegue y scripts de base de datos
+   - Pruebas: Pruebas de calidad.```
+4. Felipe Cariz (Frontend y UX/UI).
+   ```- Diseño en: Figma, wireframes y prototipos.
+   - Desarrollo en: Frontend, dashboards, formularios, integración con APIs y diseño responsive.
+   - Pruebas en: Usabilidad y experiencia de usuario.```
 ## Metodología de trabajo del equipo.
 El desarrollo se realizará utilizando metodología ágil Scrum, permitiendo una implementación progresiva para validar los requerimientos y funcionalidades.
 ## Arquitectura de la solución.
