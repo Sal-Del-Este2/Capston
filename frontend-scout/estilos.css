@@ -964,6 +964,26 @@ REGISTRO
     background-color: #b83232;
     color: #ffffff;
 }
+
+#confirmar-pago{
+    width: 100%;
+    margin-top: 18px;
+    padding: 11px 16px;
+
+    background-color: transparent;
+    color: #b83232;
+    border: 2px solid #b83232;
+    border-radius: 8px;
+
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#confirmar-pago:hover {
+    background-color: #1f5c43;
+    color: #ffffff;
+}
 /**Panel usuario**/
 .pagina-panel {
     margin: 0;

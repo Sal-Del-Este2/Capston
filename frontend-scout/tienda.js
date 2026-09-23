@@ -230,3 +230,62 @@ function mostrarCarrito() {
 
     });
 }
+
+/*-------------------Confirmar pago-------------------*/
+const botonConfirmarPago = document.getElementById("confirmar-pago");
+
+botonConfirmarPago.addEventListener("click", function () {
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío. Agrega productos antes de pagar.");
+    return;
+  }
+
+  let total = 0;
+  carrito.forEach(producto => {
+    const precioNumero = Number(producto.precio.replace("$", "").replace(".", ""));
+    total += precioNumero;
+  });
+
+  const pago = {
+    descripcion: "Compra en tienda scout",
+    monto: total,
+    usuarioId: 1
+  };
+
+  fetch("http://localhost:8082/finanzas/pagar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(pago)
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Respuesta backend:", data);
+    if (data.urlPago) {
+      window.location.href = data.urlPago; // ✅ Redirige al checkout
+    } else {
+      alert("❌ No se recibió la URL de pago. Revisa el backend.");
+    }
+  })
+  .catch(err => console.error("Error al iniciar pago:", err));
+});
+
+
+function iniciarPago() {
+  const pago = {
+    descripcion: "Uniforme Scout",
+    monto: 5000,
+    usuarioId: 1
+  };
+
+  fetch("http://localhost:8082/finanzas/pagar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(pago)
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Redirige al checkout sandbox de Mercado Pago
+    window.location.href = data.urlPago;
+  })
+  .catch(err => console.error("Error al iniciar pago:", err));
+}
