@@ -6,12 +6,11 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.resources.preference.Preference;
 
-import org.springframework.beans.factory.annotation.Value;   // ✅ Para inyectar el token
-import org.springframework.stereotype.Service;           // ✅ Para marcar la clase como servicio
-
-import java.math.BigDecimal; // ✅ Necesario para unitPrice
-import java.util.Arrays;     // ✅ Necesario para Arrays.asList
-import java.util.List;       // ✅ Mejor práctica para colecciones
+import org.springframework.beans.factory.annotation.Value;   // Inyectar el token
+import org.springframework.stereotype.Service;           // Marcar la clase como servicio
+import java.math.BigDecimal; // unitPrice
+import java.util.Arrays;     // Arrays.asList
+import java.util.List;
 
 @Service
 public class MercadoPagoService {
@@ -28,7 +27,7 @@ public class MercadoPagoService {
                 .title(titulo)
                 .description(descripcion)
                 .quantity(1)
-                .unitPrice(BigDecimal.valueOf(monto)) // ✅ Conversión correcta
+                .unitPrice(BigDecimal.valueOf(monto)) // Conversión correcta
                 .currencyId("CLP")
                 .build();
 
@@ -42,7 +41,7 @@ public class MercadoPagoService {
         PreferenceClient client = new PreferenceClient();
         Preference preference = client.create(request);
 
-        // ✅ Devuelve la URL de pago sandbox
+        // Devuelve la URL de pago sandbox
         return preference.getInitPoint();
     }
 }

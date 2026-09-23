@@ -16,7 +16,7 @@ public class Usuario {
     private String password;
     private String rol;
 
-    // 👇 Nuevo campo para estado
+    // Nuevo campo para estado
     private String estado;
 
     // --- Getters y setters ---
@@ -68,7 +68,7 @@ public class Usuario {
         this.rol = rol;
     }
 
-    // 👇 Métodos para estado
+    // Métodos para estado
     public String getEstado() {
         return estado;
     }

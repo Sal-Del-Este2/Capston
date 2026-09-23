@@ -8,7 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500"})
+@CrossOrigin(origins = {
+            "http://127.0.0.1:5500",
+            "http://localhost:5500",
+            "http://127.0.0.1:5501",
+            "http://localhost:5501"})
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -72,7 +76,7 @@ public class UsuarioController {
             return respuesta;
         }
 
-        // ⚠️ Validar estado antes de permitir login
+        // Validar estado antes de permitir login
         String estado = (u.getEstado() != null) ? u.getEstado().trim().toLowerCase() : "";
         if (estado.isEmpty() || estado.equals("inactivo")) {
             respuesta.put("error", "Tu cuenta está inactiva. Contacta al administrador.");
@@ -143,8 +147,6 @@ public class UsuarioController {
         respuesta.put("mensaje", "Usuario @" + u.getNickname() + " actualizado a estado " + nuevoEstado + ".");
         return respuesta;
     }
-
-    
 
 @GetMapping("/test-bcrypt")
 public String generarHash() {

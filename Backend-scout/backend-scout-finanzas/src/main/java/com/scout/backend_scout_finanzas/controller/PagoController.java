@@ -22,7 +22,7 @@ public class PagoController {
     @Autowired
     private MercadoPagoService mercadoPagoService;
 
-    // 🔹 Registrar pago local
+    // Registrar pago local
     @PostMapping("/registrar")
     public Map<String, String> registrarPago(@RequestBody Pago pago) {
         Map<String, String> respuesta = new HashMap<>();
@@ -35,19 +35,19 @@ public class PagoController {
         return respuesta;
     }
 
-    // 🔹 Listar todos los pagos
+    // Listar todos los pagos
     @GetMapping("/historial")
     public List<Pago> listarPagos() {
         return pagoRepository.findAll();
     }
 
-    // 🔹 Listar pagos por usuario
+    // Listar pagos por usuario
     @GetMapping("/historial/{usuarioId}")
     public List<Pago> listarPagosPorUsuario(@PathVariable Long usuarioId) {
         return pagoRepository.findByUsuarioId(usuarioId);
     }
 
-    // 🔹 Actualizar estado manualmente
+    // Actualizar estado manualmente
     @PutMapping("/estado/{id}")
     public Map<String, String> actualizarEstado(@PathVariable Long id, @RequestBody Map<String, String> body) {
         Map<String, String> respuesta = new HashMap<>();
@@ -63,7 +63,7 @@ public class PagoController {
         return respuesta;
     }
 
-    // 🔹 Generar preferencia de pago en Mercado Pago
+    // Generar preferencia de pago en Mercado Pago
     @PostMapping("/pagar")
     public ResponseEntity<Map<String, String>> pagar(@RequestBody Pago pago) {
         try {
@@ -84,7 +84,7 @@ public class PagoController {
         }
     }
 
-    // 🔹 Webhook de confirmación de Mercado Pago
+    // Webhook de confirmación de Mercado Pago
     @PostMapping("/confirmacion")
     public ResponseEntity<String> confirmarPago(@RequestBody Map<String, Object> payload) {
         try {
