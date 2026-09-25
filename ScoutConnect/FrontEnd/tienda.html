@@ -26,22 +26,34 @@
                         <a class="nav-link" href="login.html"> Iniciar sesión</a>
                         <a class="nav-link" href="registro.html"> Registrarse </a>
                     </div>
-                    <button class="carrito" id="abrir-carrito" type="button"><img src="img/iconos/carrito.svg"
-                            width="30px" alt="carrito">
+                    <button class="carrito" id="abrir-carrito" type="button"><img src="img/iconos/carrito.svg" width="30px" alt="carrito">
                         <span id="cantidad-carrito">0</span>
                     </button>
+                    <button id="vaciar-carrito-navbar"><img src="img/iconos/papelera.svg" width="30px" alt="papelera"></button>
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
+        <!-- <section class="encabezado-compras">
+            <div>
+                <p class="subtitulo-panel">Área privada</p>
+                <h1>Historial de compras</h1>
+                <p>Revisa los pedidos que has realizado, su valor y el estado de cada compra.</p>
+            </div>
+            
+        </section> -->
         <section id="tienda" class="seccion-tienda">
             <div class="encabezado-tienda">
                 <p class="subtitulo-seccion">Equipamiento y comunidad</p>
                 <h1>Tienda Scout</h1>
                 <p>Conoce algunos productos y artículos relacionados con la vida scout.</p>
             </div>
+            <div>
+                <a href="mis-compras.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="30px" alt="atras"> Volver a mi cuenta</a>
+            </div>
+        </section>
             <div class="contenedor-productos">
                 <!-- Pañolín Scout -->
                 <article class="tarjeta-producto">
@@ -55,7 +67,7 @@
                         <div class="acciones-producto">
                             <a href="#" class="boton-producto" data-nombre="Pañolín Scout" data-precio="$8.990"
                             data-descripcion="Accesorio representativo para actividades y ceremonias.">Ver</a>
-                            <button class="agregar-carrito" data-nombre="Pañolín Scout" data-precio="$8.990"> + </button>
+                            <button class="boton-agregar" data-nombre="Pañolín Scout" data-precio="$8.990">+</button>
                         </div>
                     </div>
                 </article>
@@ -71,7 +83,7 @@
                         <div class="acciones-producto">
                             <a href="#" class="boton-producto" data-nombre="Cantimplora" data-precio="$12.990"
                             data-descripcion="Ideal para campamentos, excursiones y actividades al aire libre.">Ver</a>
-                            <button class="agregar-carrito" data-nombre="Cantimplora" data-precio="$12.990">+</button>
+                            <button class="boton-agregar" data-nombre="Cantimplora" data-precio="$12.990">+</button>
                         </div>
                     </div>
                 </article>
@@ -87,7 +99,7 @@
                         <div class="acciones-producto">
                             <a href="#" class="boton-producto" data-nombre="Linterna" data-precio="$9.990"
                             data-descripcion="Elemento útil para campamentos y actividades nocturnas.">Ver</a>
-                            <button class="agregar-carrito" data-nombre="Linterna" data-precio="$9.990">+</button>
+                            <button class="boton-agregar" data-nombre="Linterna" data-precio="$9.990">+</button>
                         </div>
                         
                     </div>
@@ -103,7 +115,7 @@
             <h2 id="nombre-producto-modal"></h2>
             <p id="descripcion-producto-modal"></p>
             <strong id="precio-producto-modal"></strong>
-            <button class="agregar-carrito" type="button">Agregar al carrito</button>
+            <button id="agregar-carrito" type="button">Agregar al carrito</button>
         </div>
     </div>
     <!-- Modal del carrito -->
