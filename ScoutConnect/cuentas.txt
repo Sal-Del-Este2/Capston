@@ -1,0 +1,7 @@
+administrador
+admin@comunidadscout.cl
+ClaveAdmin#2026
+
+user
+apoderado@correo.cl
+ClaveScout#2026
