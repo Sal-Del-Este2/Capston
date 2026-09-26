@@ -11,20 +11,19 @@
 
 <body class="pagina-compras">
     <header>
-        <nav class=" navbar- navbar-expand-lg navbar-dark navbar-scout">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="panel-usuario.html">
                     <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80px"
                             alt="flor-de-lis"></span> Comunidad Scout</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle=" collapse" data-bs-target="menuUsuario"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUsuario"
                     aria-controls="menuUsuario" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="menuUsuario">
                     <div class="navbar-nav ms-auto">
-                        <a class="nav-link" href="panel-usuario.html"> Mi cuenta </a>
-                        <a class="nav-link active" href="mis-compras.html"> Historial de compra </a>
-                        <a class="nav-link" href="#" id="cerrar-sesion"> Cerrar sesión </a>
+                        <p id="titulo-bienvenida"></p>
+                        <a class="nav-link" href="index.html" id="cerrar-sesion"> Cerrar sesión</a>
                     </div>
                 </div>
             </div>
@@ -38,7 +37,7 @@
                 <p>Revisa los pedidos que has realizado, su valor y el estado de cada compra.</p>
             </div>
             <a href="panel-usuario.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="30px"
-                    alt="atras"> Volver a mi cuenta</a>
+                    alt="atras"> Volver</a>
         </section>
         <section class="resumen-compras" aria-label="Resumen de compras">
             <article class="tarjeta-resumen-compra">

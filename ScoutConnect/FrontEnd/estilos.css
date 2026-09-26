@@ -2801,3 +2801,10 @@ html {
 html {
     scroll-behavior: smooth;
 }
+
+#titulo-bienvenida{
+    margin: 5px 0 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}

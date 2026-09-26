@@ -19,12 +19,14 @@
                     aria-controls="menuTienda" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="menuTienda">
-                    <div class="navbar-nav mx-auto">
-                        <a class="nav-link" href="index.html"> Inicio</a>
-                        <a class="nav-link active" aria-current="page" href="tienda.html"> Tienda</a>
-                        <a class="nav-link" href="login.html"> Iniciar sesión</a>
-                        <a class="nav-link" href="registro.html"> Registrarse </a>
+                <div class="collapse navbar-collapse" id="menuUsuario">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link" href="panel-usuario.html">Inicio</a>
+                        <p id="titulo-bienvenida"></p>
+                        <a class="nav-link" href="index.html" id="cerrar-sesion"> Cerrar sesión</a>
+                    </div>
+                    <div>
+                        <p id="titulo-bienvenida"></p>
                     </div>
                     <button class="carrito" id="abrir-carrito" type="button"><img src="img/iconos/carrito.svg" width="30px" alt="carrito">
                         <span id="cantidad-carrito">0</span>
@@ -36,14 +38,6 @@
     </header>
 
     <main>
-        <!-- <section class="encabezado-compras">
-            <div>
-                <p class="subtitulo-panel">Área privada</p>
-                <h1>Historial de compras</h1>
-                <p>Revisa los pedidos que has realizado, su valor y el estado de cada compra.</p>
-            </div>
-            
-        </section> -->
         <section id="tienda" class="seccion-tienda">
             <div class="encabezado-tienda">
                 <p class="subtitulo-seccion">Equipamiento y comunidad</p>
@@ -51,7 +45,7 @@
                 <p>Conoce algunos productos y artículos relacionados con la vida scout.</p>
             </div>
             <div>
-                <a href="mis-compras.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="30px" alt="atras"> Volver a mi cuenta</a>
+                <a href="mis-compras.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="30px" alt="atras"> Volver</a>
             </div>
         </section>
             <div class="contenedor-productos">

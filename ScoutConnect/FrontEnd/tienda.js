@@ -66,7 +66,6 @@ window.addEventListener("click", function (evento) {
 /*-------------------Vaciar carrito-------------------*/
 botonVaciarCarrito.addEventListener("click", function () {
     if (carrito.length === 0) {alert("El carrito ya está vacío"); return;}
-
     const confirmar = confirm("¿Deseas eliminar todos los productos?");
     if (confirmar) {
         carrito = [];
