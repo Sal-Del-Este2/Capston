@@ -16,142 +16,116 @@ import java.util.*;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
-
     @Autowired
     private UsuarioRepository usuarioRepository;
-
     // Instancia de BCrypt para encriptar y validar contraseñas
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+    
+    // +
+    @GetMapping("/perfil/{correo}")
+    public Usuario obtenerPerfil(@PathVariable String correo) {
+        Optional<Usuario> usuario = usuarioRepository.findByCorreo(correo);
+        return usuario.orElse(null);
+    }
     // --- Registro de usuarios (solo administrador) ---
     @PostMapping("/registro")
     public Map<String, String> registrar(@RequestBody Usuario usuario,
                                          @RequestParam String rolSolicitante) {
         Map<String, String> respuesta = new HashMap<>();
-
         if (!rolSolicitante.equals("administrador")) {
             respuesta.put("error", "Solo un administrador puede crear usuarios.");
             return respuesta;
         }
-
         if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
             respuesta.put("error", "Ya existe una cuenta asociada a este correo.");
             return respuesta;
         }
-
         if (usuarioRepository.findByNickname(usuario.getNickname()).isPresent()) {
             respuesta.put("error", "Este nickname ya está registrado.");
             return respuesta;
         }
-
         if (usuario.getEstado() == null || usuario.getEstado().isEmpty()) {
             usuario.setEstado("activo");
         }
-
         // Encriptar contraseña antes de guardar
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
         usuarioRepository.save(usuario);
         respuesta.put("mensaje", "Usuario @" + usuario.getNickname() + " creado correctamente.");
         return respuesta;
     }
-
     // --- Login de usuarios ---
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody Usuario usuario) {
         Map<String, String> respuesta = new HashMap<>();
-
         Optional<Usuario> usuarioEncontrado = usuarioRepository.findByCorreo(usuario.getCorreo());
-
         if (usuarioEncontrado.isEmpty()) {
             respuesta.put("error", "Correo no registrado.");
             return respuesta;
         }
-
         Usuario u = usuarioEncontrado.get();
-
         // Validar contraseña con BCrypt
         if (!passwordEncoder.matches(usuario.getPassword(), u.getPassword())) {
             respuesta.put("error", "Contraseña incorrecta.");
             return respuesta;
         }
-
         // Validar estado antes de permitir login
         String estado = (u.getEstado() != null) ? u.getEstado().trim().toLowerCase() : "";
         if (estado.isEmpty() || estado.equals("inactivo")) {
             respuesta.put("error", "Tu cuenta está inactiva. Contacta al administrador.");
             return respuesta;
         }
-
         respuesta.put("mensaje", "Bienvenido " + u.getNombre());
+        respuesta.put("nombre", u.getNombre()); //+
+        respuesta.put("correo", u.getCorreo()); //+
         respuesta.put("rol", u.getRol());
         respuesta.put("estado", u.getEstado());
         return respuesta;
     }
-
     // --- Listar usuarios ---
     @GetMapping("/listar")
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
-    }
-
+    public List<Usuario> listarUsuarios() {return usuarioRepository.findAll();}
     // --- Editar usuario ---
     @PutMapping("/editar/{id}")
     public Map<String, String> editarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
         Map<String, String> respuesta = new HashMap<>();
-
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
         if (usuarioExistente.isEmpty()) {
             respuesta.put("error", "Usuario no encontrado.");
             return respuesta;
         }
-
         Usuario u = usuarioExistente.get();
         u.setNombre(usuarioActualizado.getNombre());
         u.setNickname(usuarioActualizado.getNickname());
         u.setCorreo(usuarioActualizado.getCorreo());
         u.setRol(usuarioActualizado.getRol());
-
         if (usuarioActualizado.getEstado() != null && !usuarioActualizado.getEstado().isEmpty()) {
             u.setEstado(usuarioActualizado.getEstado());
         }
-
         usuarioRepository.save(u);
-
         respuesta.put("mensaje", "Usuario @" + u.getNickname() + " actualizado correctamente.");
         return respuesta;
     }
-
     // --- Cambiar estado de usuario ---
     @PutMapping("/estado/{id}")
     public Map<String, String> cambiarEstado(@PathVariable Long id, @RequestBody Map<String, String> body) {
         Map<String, String> respuesta = new HashMap<>();
-
         Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
         if (usuarioExistente.isEmpty()) {
             respuesta.put("error", "Usuario no encontrado.");
             return respuesta;
         }
-
         Usuario u = usuarioExistente.get();
         String nuevoEstado = body.get("estado");
-
         if (nuevoEstado == null || nuevoEstado.isEmpty()) {
             respuesta.put("error", "Debe especificar un estado válido (activo/inactivo).");
             return respuesta;
         }
-
         u.setEstado(nuevoEstado);
         usuarioRepository.save(u);
-
         respuesta.put("mensaje", "Usuario @" + u.getNickname() + " actualizado a estado " + nuevoEstado + ".");
         return respuesta;
     }
 
 @GetMapping("/test-bcrypt")
-public String generarHash() {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    return encoder.encode("ClaveAdmin#2026");
-}
-
+public String generarHash() {BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); return encoder.encode("ClaveAdmin#2026");}
 }
