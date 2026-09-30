@@ -26,9 +26,6 @@
                         <p id="titulo-bienvenida"></p>
                         <a class="nav-link" href="index.html" id="cerrar-sesion"> Cerrar sesión</a>
                     </div>
-                    <div>
-                        <p id="titulo-bienvenida"></p>
-                    </div>
                 </div>
             </div>
         </nav>
@@ -49,40 +46,36 @@
                 <div class="grid-formulario-perfil">
                     <div class="campo-perfil">
                         <label for="nombre-perfil">Nombre completo</label>
-                        <input type="text" id="nombre-perfil" name="nombre" placeholder="Ingresa tu nombre completo" required>
+                        <input type="text" id="nombre-perfil" name="nombre" placeholder="Ingresa tu nombre completo" readonly>
                     </div>
-                    <!-- <div class="campo-perfil">
+                    <div class="campo-perfil">
                         <label for="rut-perfil"> RUT</label>
-                        <input type="text" id="rut-perfil" name="rut" placeholder="12.345.678-9" required>
-                    </div> -->
+                        <input type="text" id="rut-perfil" name="rut" placeholder="12.345.678-9" readonly>
+                    </div>
                     <div class="campo-perfil">
                         <label for="correo-perfil"> Correo electrónico</label>
                         <input type="email" id="correo-perfil" name="correo" readonly>
                     </div>
                     <div class="campo-perfil">
-                        <label for="telefono-perfil"> Teléfono</label>
-                        <input type="tel" id="telefono-perfil" name="telefono" placeholder="+56 9 1234 5678">
+                        <label for="fecha-nacimiento"> Fecha de nacimiento</label>
+                        <input type="date" id="fecha-nacimiento" name="fechaNacimiento" readonly>
                     </div>
                     <div class="campo-perfil">
-                        <label for="fecha-nacimiento"> Fecha de nacimiento</label>
-                        <input type="date" id="fecha-nacimiento" name="fechaNacimiento">
+                        <label for="telefono-perfil"> Teléfono</label>
+                        <input type="tel" id="telefono-perfil" name="telefono" placeholder="Ejemplo: +56 9 1234 5678">
                     </div>
+
                     <div class="campo-perfil">
                         <label for="comuna-perfil"> Comuna</label>
                         <input type="text" id="comuna-perfil" name="comuna" placeholder="Ejemplo: Peñalolén">
                     </div>
                     <div class="campo-perfil campo-completo">
                         <label for="direccion-perfil"> Dirección</label>
-                        <input type="text" id="direccion-perfil" name="direccion" placeholder="Ingresa tu dirección">
+                        <input type="text" id="direccion-perfil" name="direccion" placeholder="Ejemplo: calle dos 1234, bloc C">
                     </div>
                     <div class="campo-perfil campo-completo">
                         <label for="grupo-perfil"> Grupo Scout</label>
-                        <select id="grupo-perfil" name="grupo">
-                            <option value="">Selecciona un grupo</option>
-                            <option value="Peñalolén"> Grupo Scout Peñalolén</option>
-                            <option value="La Reina"> Grupo Scout La Reina</option>
-                            <option value="Ñuñoa"> Grupo Scout Ñuñoa</option>
-                        </select>
+                        <input type="text" id="grupo-perfil" name="grupo" readonly>
                     </div>
                 </div>
                 <div class="acciones-perfil">
