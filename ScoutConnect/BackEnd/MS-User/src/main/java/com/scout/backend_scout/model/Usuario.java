@@ -1,11 +1,10 @@
 package com.scout.backend_scout.model;
 
+import java.time.LocalDate;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +14,7 @@ public class Usuario {
     private String password;
     private String rol;
     private String telefono;
-    private String nacimiento;
+    private LocalDate nacimiento;
     private String comuna;
     private String direccion;
     private String grupo;
@@ -39,8 +38,8 @@ public class Usuario {
     public void setRut(String rut) {this.rut = rut;}
     public String getTelefono() {return telefono;}
     public void setTelefono(String telefono) {this.telefono = telefono;}
-    public String getNacimiento() {return nacimiento;}
-    public void setNacimiento(String nacimiento) {this.nacimiento = nacimiento;}
+    public LocalDate getNacimiento() {return nacimiento;}
+    public void setNacimiento(LocalDate nacimiento) {this.nacimiento = nacimiento;}
     public String getComuna() {return comuna;}
     public void setComuna(String comuna) {this.comuna = comuna;}
     public String getDireccion() {return direccion;}

@@ -5,14 +5,8 @@ import com.scout.backend_scout.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.util.*;
-
-@CrossOrigin(origins = {
-            "http://127.0.0.1:5500",
-            "http://localhost:5500",
-            "http://127.0.0.1:5501",
-            "http://localhost:5501"})
+@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:5501", "http://localhost:5501"})
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -27,6 +21,30 @@ public class UsuarioController {
         Optional<Usuario> usuario = usuarioRepository.findByCorreo(correo);
         return usuario.orElse(null);
     }
+    // +
+    @PutMapping("/perfil/{correo}")
+    public Map<String, String> actualizarPerfil(
+        @PathVariable String correo,
+        @RequestBody Usuario datosPerfil) {
+
+    // System.out.println("PUT recibido para correo: " + correo);
+    // System.out.println("Comuna recibida: " + datosPerfil.getComuna());
+
+    Map<String, String> respuesta = new HashMap<>();
+    Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo);
+    if (usuarioExistente.isEmpty()) {
+        respuesta.put("error", "Usuario no encontrado.");
+        return respuesta;
+    }
+    Usuario usuario = usuarioExistente.get();
+    // Solo actualizar campos permitidos
+    usuario.setTelefono(datosPerfil.getTelefono());
+    usuario.setComuna(datosPerfil.getComuna());
+    usuario.setDireccion(datosPerfil.getDireccion());
+    usuarioRepository.save(usuario);
+    respuesta.put("mensaje", "Perfil actualizado correctamente.");
+    return respuesta;
+}
     // --- Registro de usuarios (solo administrador) ---
     @PostMapping("/registro")
     public Map<String, String> registrar(@RequestBody Usuario usuario,
@@ -125,7 +143,19 @@ public class UsuarioController {
         respuesta.put("mensaje", "Usuario @" + u.getNickname() + " actualizado a estado " + nuevoEstado + ".");
         return respuesta;
     }
-
+    // +
+    @DeleteMapping("/nombre/{nombre}")
+    public Map<String, String> eliminarPorNombre(@PathVariable String nombre) {
+    Map<String, String> respuesta = new HashMap<>();
+    Optional<Usuario> usuarioExistente = usuarioRepository.findByNombre(nombre);
+    if (usuarioExistente.isEmpty()) {
+        respuesta.put("error", "Usuario no encontrado.");
+        return respuesta;
+    }
+    usuarioRepository.delete(usuarioExistente.get());
+    respuesta.put("mensaje", "Usuario eliminado correctamente.");
+    return respuesta;
+}
 @GetMapping("/test-bcrypt")
 public String generarHash() {BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); return encoder.encode("ClaveAdmin#2026");}
 }
