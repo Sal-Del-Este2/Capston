@@ -3,7 +3,7 @@ if (formularioLogin) {
     formularioLogin.addEventListener("submit", async function (evento) {
         evento.preventDefault();
         const correo = document.getElementById("correo-login").value.trim();
-        const password = document.getElementById("password-login").value;
+        const password = document.getElementById("password-login").value.trim();
         if (correo === "" || password === "") {
             alert("Debes completar el correo y la contraseña.");
             return;
@@ -30,11 +30,12 @@ if (formularioLogin) {
             }
             // Guardar sesión
             sessionStorage.setItem("usuarioAutenticado", "true");
-            sessionStorage.setItem("correoUsuario", correo);
+            sessionStorage.setItem("correoUsuario", data.correo || correo);
             sessionStorage.setItem("nombreUsuario", data.nombre || ""); //+
-            sessionStorage.setItem("rolUsuario", data.rol);
+            sessionStorage.setItem("rolUsuario", data.rol || "");
             // Redirigir según rol
-            if (data.rol === "administrador") {
+            // if (data.rol === "dministrador") {
+            if (data.rol && data.rol.toLowerCase() === "administrador") {
                 window.location.href = "panel-admin.html";
             } else {
                 window.location.href = "panel-usuario.html";

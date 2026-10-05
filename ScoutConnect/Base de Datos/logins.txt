@@ -1,0 +1,11 @@
+admin@counidadscout.cl
+ClaveAdmin#2026
+
+dirigente@comunidadscout.cl
+ClaveDirigente#2026
+
+loopez@comunidadscout.cl
+Banco.123456789
+
+apoderado@comunidadscout.cl
+Banco.123456789
