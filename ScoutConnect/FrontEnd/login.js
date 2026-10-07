@@ -30,11 +30,11 @@ if (formularioLogin) {
             }
             // Guardar sesión
             sessionStorage.setItem("usuarioAutenticado", "true");
+            sessionStorage.setItem("usuarioId",data.id);
             sessionStorage.setItem("correoUsuario", data.correo || correo);
             sessionStorage.setItem("nombreUsuario", data.nombre || ""); //+
             sessionStorage.setItem("rolUsuario", data.rol || "");
             // Redirigir según rol
-            // if (data.rol === "dministrador") {
             if (data.rol && data.rol.toLowerCase() === "administrador") {
                 window.location.href = "panel-admin.html";
             } else {
@@ -46,3 +46,22 @@ if (formularioLogin) {
         }
     });
 }
+// visor de contraseña
+const passwordInput = document.getElementById("password-login");
+const botonMostrarPassword = document.getElementById("mostrar-password");
+const iconoPassword = document.getElementById("icono-password");
+if (passwordInput && botonMostrarPassword && iconoPassword) {botonMostrarPassword.addEventListener("click", function (evento) {evento.preventDefault();
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        iconoPassword.src = "img/iconos/ojo-a.svg";
+        iconoPassword.alt = "Ocultar contraseña";
+        botonMostrarPassword.setAttribute("aria-label", "Ocultar contraseña");
+        botonMostrarPassword.setAttribute("aria-pressed", "true");
+    } else {
+        passwordInput.type = "password";
+        iconoPassword.src = "img/iconos/ojo-c.svg";
+        iconoPassword.alt = "Mostrar contraseña";
+        botonMostrarPassword.setAttribute("aria-label", "Mostrar contraseña");
+        botonMostrarPassword.setAttribute("aria-pressed", "false");
+    }
+});}

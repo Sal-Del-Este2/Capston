@@ -1,7 +1,6 @@
 package com.scout.backend_scout.model;
 
 import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -10,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
+// import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 // import jakarta.persistence.*;
@@ -21,26 +20,29 @@ public class Usuario {
     @Id 
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String rut;
-    private String telefono;
-    private LocalDate nacimiento;
-    private String nickname;
-    private String correo;
-    // private String password;
-    private String direccion;
-    // private String rol;
+    @Column(name = "nombre")private String nombre;
+    @Column(name = "rut")private String rut;
+    @Column(name = "telefono")private String telefono;
+    @Column(name = "nacimiento")private LocalDate nacimiento;
+    @Column(name = "nickname")private String nickname;
+    @Column(name = "correo")private String correo;
+    @Column(name = "direccion")private String direccion;
+    @Column(name = "password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)private String password;
     @ManyToOne
     @JoinColumn (name = "rol_id") private Rol rol;
-    // private String comuna;
     @ManyToOne
     @JoinColumn(name = "comuna_id") private Comuna comuna;
-    // private String grupo;
+    @ManyToOne
+    @JoinColumn(name = "region_id") private Region region;
     @ManyToOne
     @JoinColumn(name = "grupo_id") private Grupo grupo;
-    // private String estado;
     @ManyToOne
     @JoinColumn(name = "estado_id") private Estado estado;
+    // Métodos para el pdf
+    // @Lob 
+    @Column(name = "pdf_dato", columnDefinition = "BYTEA")private byte[] pdfDato; // guarda el archivo
+    @Column(name = "pdf_nombre")private String pdfNombre; // guardar el nombre del archivo
     // --- Getters y setters ---
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -64,21 +66,15 @@ public class Usuario {
     public void setComuna(Comuna comuna) {this.comuna = comuna;}
     public Estado getEstado() {return estado;}
     public void setEstado(Estado estado) {this.estado = estado;}
+    public Region getRegion() {return region;}
+    public void setRegion(Region region) {this.region = region;}
     public Grupo getGrupo() {return grupo;}
     public void setGrupo(Grupo grupo) {this.grupo = grupo;}
     public Rol getRol() {return rol;}
     public void setRol(Rol rol) {this.rol = rol;}
-    
-    // Métodos para el pdf
-    @Lob 
-    @Column(name = "pdf_dato", columnDefinition = "BYTEA")
-    private byte[] pdfDato; // guarda el archivo
-    private String pdfNombre; // guardar el nombre del archivo
     // Getters y Setters
     public byte[] getPdfDato() { return pdfDato; }
-    public void setPdfDato(byte[] pdfDato) { this.pdfDato = pdfDato; }
+    public void setPdfDato(byte[] pdfDato) {this.pdfDato = pdfDato; }
     public String getPdfNombre() { return pdfNombre; }
-    public void setPdfNombre(String pdfNombre) { this.pdfNombre = pdfNombre; }
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
+    public void setPdfNombre(String pdfNombre) {this.pdfNombre = pdfNombre; }
 }

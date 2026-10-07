@@ -1,21 +1,24 @@
-const USUARIO_ADMINISTRADOR_INICIAL = {
-    id: 1,
-    nombre: "Administrador Comunidad Scout",
-    nickname: "admin_scout",
-    correo: "admin@comunidadscout.cl",
-    rol: "administrador",
-    estado: "activo"
-};
+// const USUARIO_ADMINISTRADOR_INICIAL = {
+//     id: 1,
+//     nombre: "Administrador Comunidad Scout",
+//     nickname: "admin_scout",
+//     correo: "admin@comunidadscout.cl",
+//     rol: "administrador",
+//     estado: "activo"
+// };
+
 let usuarios = [];
 const listaUsuarios =document.getElementById("lista-usuarios");
 const totalUsuarios =document.getElementById("total-usuarios");
 const usuariosActivos =document.getElementById("usuarios-activos");
 const usuariosInactivos =document.getElementById("usuarios-inactivos");
 const totalAdministradores =document.getElementById("total-administradores");
+
 const buscadorUsuario =document.getElementById("buscar-usuario");
 const filtroRol =document.getElementById("filtro-rol");
 const filtroEstado =document.getElementById("filtro-estado");
 const sinResultados =document.getElementById("sin-resultados-usuarios");
+
 const botonNuevoUsuario =document.getElementById("boton-nuevo-usuario");
 const contenedorFormulario =document.getElementById("contenedor-formulario-usuario");
 const formularioUsuario =document.getElementById("form-usuario");
@@ -23,219 +26,350 @@ const tituloFormulario =document.getElementById("titulo-formulario-usuario");
 const cerrarFormulario =document.getElementById("cerrar-formulario-usuario");
 const cancelarFormulario =document.getElementById("cancelar-formulario-usuario");
 
+const campoNombre = document.getElementById("nombre-usuario");
+const campoRut = document.getElementById("rut-usuario");
+const campoTelefono = document.getElementById("telefono-usuario");
+const campoNacimiento = document.getElementById("nacimiento-usuario");
+const campoNickname = document.getElementById("nickname-usuario");
+const campoCorreo = document.getElementById("correo-usuario");
+const campoPassword = document.getElementById("password-usuario");
+const campoDireccion = document.getElementById("direccion-usuario");
+
+const campoRol = document.getElementById("rol-usuario");
+const campoEstado = document.getElementById("estado-usuario");
+const campoRegion = document.getElementById("region-usuario");
+const campoComuna = document.getElementById("comuna-usuario");
+const campoGrupo = document.getElementById("grupo-usuario");
+
+const campoPdf = document.getElementById("pdf-usuario");
+
+// Evita ataques XSS convirtiendo texto plano en texto seguro para mostrar en HTML.
 function escaparHTML(texto) {const elemento = document.createElement("div");
-    elemento.textContent = String(texto); return elemento.innerHTML;
+    elemento.textContent = String(texto ?? ""); return elemento.innerHTML;
+}
+// Intenta convertir la respuesta del backend a JSON. Si no es JSON válido, devuelve el texto como error.
+async function leerRespuesta(respuesta) {
+    const texto = await respuesta.text();
+    if (!texto) {
+        return {};
+    } try {
+        return JSON.parse(texto);
+    } catch (error) {
+        return {error: texto};
+    }
+}
+// llena el formulario con el dato del usuario
+async function cargarCatalogos() {
+    try {
+        const [respuestaRoles, respuestaEstados, respuestaRegiones, respuestaComunas, respuestaGrupos] = await Promise.all([
+            fetch("http://localhost:8080/roles/listar"),
+            fetch("http://localhost:8080/estados/listar"),
+            fetch("http://localhost:8080/regiones/listar"),
+            fetch("http://localhost:8080/comunas/listar"),
+            fetch("http://localhost:8080/grupos/listar")
+        ]);
+        const [roles, estados, regiones, comunas, grupos] = await Promise.all([
+            respuestaRoles.json(),
+            respuestaEstados.json(),
+            respuestaRegiones.json(),
+            respuestaComunas.json(),
+            respuestaGrupos.json()
+        ]);
+        cargarOpciones(campoRol, roles, "Seleccione un rol");
+        cargarOpciones(campoEstado, estados, "Seleccione un estado");
+        cargarOpciones(campoRegion, regiones, "Seleccione una región");
+        cargarOpciones(campoComuna, comunas, "Seleccione una comuna");
+        cargarOpciones(campoGrupo, grupos, "Seleccione un grupo");
+    } catch (error) {console.error("Error al cargar catálogos:", error);
+        alert("No se pudieron cargar los datos del formulario.");
+    }
+}
+// cargar opciones desde el backend
+function cargarOpciones(select, elementos, textoInicial) {select.innerHTML = "";
+    const opcionInicial = document.createElement("option");
+    opcionInicial.value = "";
+    opcionInicial.textContent = textoInicial;
+    select.appendChild(opcionInicial);
+    elementos.forEach(function (elemento) {
+        const opcion = document.createElement("option");
+        opcion.value = elemento.id;
+        opcion.textContent = elemento.nombre;
+        select.appendChild(opcion);
+    });
 }
 // Función para cargar usuarios desde el backend
 async function cargarUsuarios() {
     try {const respuesta = await fetch("http://localhost:8080/usuarios/listar");
-        const data = await respuesta.json();
-        usuarios = data; // ahora la lista viene desde PostgreSQL
+        if (!respuesta.ok) {throw new Error("No se pudo obtener la lista de usuarios.");}
+        usuarios = await respuesta.json();
         mostrarUsuarios();
-    } catch (error) {
-        console.error("Error al cargar usuarios:", error);
+        // usuarios = data; // ahora la lista viene desde PostgreSQL
+    } catch (error) {console.error("Error al cargar usuarios:", error);
         alert("No se pudo cargar la lista de usuarios desde el servidor.");
     }
 }
-function guardarUsuarios() {localStorage.setItem("usuariosAdmin",JSON.stringify(usuarios));}
+// Actualiza los contadores del panel administrativo
 function actualizarIndicadores() {
-    // const activos = usuarios.filter(function (usuario) {return usuario.estado === "activo";});
-    const activos = usuarios.filter(usuario => usuario.estado?.nombre?.toLowerCase() === "activo");
-    // const inactivos = usuarios.filter(function (usuario) {return usuario.estado === "inactivo";});
-    const inactivos = usuarios.filter(usuario => usuario.estado?.nombre?.toLowerCase() === "inactivo");
-    // const administradores = usuarios.filter(function (usuario) {return (usuario.rol === "administrador" && usuario.estado === "activo");});
-    const administradores = usuarios.filter(usuario => usuario.rol?.nombre?.toLowerCase() === "administrador");
+    const activos = usuarios.filter(function (usuario) {return usuario.estado?.nombre?.toLowerCase() === "activo";});
+    const inactivos = usuarios.filter(function (usuario) {return usuario.estado?.nombre?.toLowerCase() === "inactivo";});
+    const administradores = usuarios.filter(function (usuario) {return usuario.rol?.nombre?.toLowerCase() === "administrador";});
     totalUsuarios.textContent = usuarios.length;
     usuariosActivos.textContent = activos.length;
     usuariosInactivos.textContent = inactivos.length;
     totalAdministradores.textContent = administradores.length;
 }
-function obtenerUsuariosFiltrados() {const textoBusqueda = buscadorUsuario.value
-    .trim()
-    .toLowerCase();
-    const rolSeleccionado = filtroRol.value;
-    const estadoSeleccionado = filtroEstado.value;
-    return usuarios.filter(function (usuario) {const coincideTexto =
-        usuario.nombre
-            .toLowerCase()
-            .includes(textoBusqueda) ||
-        usuario.nickname
-            .toLowerCase()
-            .includes(textoBusqueda) ||
-        usuario.correo
-            .toLowerCase()
-            .includes(textoBusqueda);
-        // const coincideRol = rolSeleccionado === "TODOS" || usuario.rol === rolSeleccionado;
-        const coincideRol = rolSeleccionado === "TODOS" || usuario.rol?.nombre?.toLowerCase() === rolSeleccionado.toLowerCase();
-        // const coincideEstado = estadoSeleccionado === "TODOS" || usuario.estado === estadoSeleccionado;
-        const coincideEstado = estadoSeleccionado === "TODOS" || usuario.estado?.nombre?.toLowerCase() === estadoSeleccionado.toLowerCase();
-        return (coincideTexto && coincideRol && coincideEstado);
+// filtros de la gestion de usuarios en admin
+function obtenerUsuariosFiltrados() {
+    const textoBusqueda = buscadorUsuario.value.trim().toLowerCase();
+    const rolSeleccionado = filtroRol.value.toLowerCase();
+    const estadoSeleccionado = filtroEstado.value.toLowerCase();
+    return usuarios.filter(function (usuario) {
+        const coincideTexto =
+        usuario.nombre?.toLowerCase().includes(textoBusqueda) ||
+        usuario.nickname?.toLowerCase().includes(textoBusqueda) ||
+        usuario.correo?.toLowerCase().includes(textoBusqueda);
+        const nombreRol = usuario.rol?.nombre?.trim().toLowerCase();
+        const nombreEstado = usuario.estado?.nombre?.trim().toLowerCase();
+        const coincideEstado = estadoSeleccionado === "todos" || nombreEstado === estadoSeleccionado;
+        const coincideRol = rolSeleccionado === "todos" || nombreRol === rolSeleccionado;
+        return coincideTexto && coincideRol && coincideEstado;
     });
 }
+// filtrar usuarios
 function mostrarUsuarios() {
     const usuariosFiltrados = obtenerUsuariosFiltrados();
+    const usuarioActualId = Number(sessionStorage.getItem("usuarioId"));
     listaUsuarios.innerHTML = "";
     sinResultados.hidden = usuariosFiltrados.length !== 0;
-    usuariosFiltrados.forEach(
-        function (usuario) {
-            const fila = document.createElement("tr");
-            const claseEstado = usuario.estado === "activo" ? "estado-activo-admin" : "estado-inactivo-admin";
-            const textoBotonEstado = usuario.estado === "activo" ? "Desactivar" : "Activar";
-            fila.innerHTML = `
-                <td>${escaparHTML(usuario.nombre)}</td>
-                <td>@${escaparHTML(usuario.nickname)}</td>
-                <td>${escaparHTML(usuario.correo)}</td>
-                <td><span class="rol-usuario-admin">
-                    ${usuario.rol?.nombre
-                        // usuario.rol === "administrador"
-                        ? "Administrador"
-                        : "Usuario"}
-                </span></td>
-                <td><span class="estado-usuario-admin ${claseEstado}" > ${usuario.estado === "activo"
-                    ? "Activo"
-                    : "Inactivo"}
-                </span></td>
-                <td><div class="acciones-tabla-admin">
-                    <button type="button" class="boton-editar-admin" data-id="${usuario.id}" > Editar </button>
-                    <button type="button" class="boton-estado-admin" data-id="${usuario.id}" > ${textoBotonEstado}</button>
-                </div></td>
-            `;
-            listaUsuarios.appendChild(fila);
-        }
-    );
-    activarBotonesTabla();
+    usuariosFiltrados.forEach(function (usuario) {
+        const esUsuarioActual = usuario.id === usuarioActualId;
+        const botonEliminar = esUsuarioActual
+                ? `<button type="button" class="boton-eliminar-admin" data-id="${usuario.id}" disabled> No disponible </button>`
+                : `<button type="button" class="boton-eliminar-admin" data-id="${usuario.id}"><img src="img/iconos/cerrar.svg" width="30px" alt="cerrar"></button>`;
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+            <td>${escaparHTML(usuario.nombre)}</td>
+            <td>@${escaparHTML(usuario.nickname)}</td>
+            <td>${escaparHTML(usuario.correo)}</td>
+            <td>${escaparHTML(usuario.rol?.nombre)}</td>
+            <td>${escaparHTML(usuario.estado?.nombre)}</td>
+            <td>
+                <button type="button" class="boton-editar-admin" data-id="${usuario.id}">Editar</button>
+                ${botonEliminar}
+            </td>
+        `;
+        listaUsuarios.appendChild(fila);
+    });
+    activarBotonesEditar();
     actualizarIndicadores();
 }
-function activarBotonesTabla() {
+// activar edicion
+function activarBotonesEditar() {
     const botonesEditar = document.querySelectorAll(".boton-editar-admin");
-    const botonesEstado = document.querySelectorAll(".boton-estado-admin");
-    botonesEditar.forEach(function (boton) {boton.addEventListener("click", function () {abrirEdicionUsuario(Number(boton.dataset.id));});});
-    botonesEstado.forEach(function (boton) {boton.addEventListener("click", function () {cambiarEstadoUsuario(Number(boton.dataset.id));});});
+    const botonesEliminar = document.querySelectorAll(".boton-eliminar-admin"); // ++
+    botonesEditar.forEach(function (boton) {boton.addEventListener("click", function () {
+        abrirEdicionUsuario(Number(boton.dataset.id));});
+    });
+    botonesEliminar.forEach(function (boton) {boton.addEventListener("click", function () {
+        eliminarUsuario(Number(boton.dataset.id));});
+    });
 }
-function abrirFormularioNuevo() {formularioUsuario.reset();
+// eliminar usuarios
+async function eliminarUsuario(idUsuario) {
+    const usuarioActualId = Number(sessionStorage.getItem("usuarioId"));
+    if (idUsuario === usuarioActualId) {alert("No puedes eliminar tu propia cuenta administrativa.");
+        return;
+    }
+    const usuario = usuarios.find(function (elemento) {return elemento.id === idUsuario;});
+    if (!usuario) {
+        return;
+    }
+    const confirmarEliminacion = confirm(`¿Deseas eliminar al usuario "${usuario.nickname}"?`);
+    if (!confirmarEliminacion) {
+        return;
+    }
+    try {
+        const respuesta = await fetch(`http://localhost:8080/usuarios/${idUsuario}`,{method: "DELETE"});
+        const data = await leerRespuesta(respuesta);
+        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo eliminar el usuario.");
+            return;
+        }
+        if (data.error) {alert(data.error);
+            return;
+        }
+        alert(data.mensaje);
+        await cargarUsuarios();
+    } catch (error) {console.error("Error al eliminar usuario:",error);
+        alert("No se pudo conectar con el servidor.");
+    }
+}
+// abrir formulario
+function abrirFormularioNuevo() {
+    formularioUsuario.reset();
     document.getElementById("usuario-id").value = "";
+    campoPdf.value = "";
+    campoPassword.required = true;
     tituloFormulario.textContent = "Registrar usuario";
-    document.getElementById("rol-usuario").value = "usuario";
-    document.getElementById("estado-usuario").value = "activo";
     contenedorFormulario.hidden = false;
-    document.getElementById("nombre-usuario").focus();
+    campoNombre.focus();
     contenedorFormulario.scrollIntoView({behavior: "smooth"});
 }
+// cierra el formulario
+function cerrarFormularioUsuario() {formularioUsuario.reset();
+    document.getElementById("usuario-id").value = "";
+    campoPassword.required = true;
+    contenedorFormulario.hidden = true;
+}
+// abre la edicion del formulario
 function abrirEdicionUsuario(idUsuario) {
     const usuario = usuarios.find(function (elemento) {return elemento.id === idUsuario;});
     if (!usuario) {
         return;
     }
-    tituloFormulario.textContent ="Editar usuario";
+    tituloFormulario.textContent = "Editar usuario";
     document.getElementById("usuario-id").value = usuario.id;
-    document.getElementById("nombre-usuario").value = usuario.nombre;
-    document.getElementById("nickname-usuario").value = usuario.nickname;
-    document.getElementById("correo-usuario").value = usuario.correo;
-    // document.getElementById("rol-usuario").value = usuario.rol;
-    document.getElementById("rol-usuario").value = usuario.rol?.id || "";
-    // document.getElementById("estado-usuario").value = usuario.estado;
-    document.getElementById("estado-usuario").value = usuario.estado?.id || "";
+    campoNombre.value = usuario.nombre ?? "";
+    campoRut.value = usuario.rut ?? "";
+    campoTelefono.value = usuario.telefono ?? "";
+    campoNacimiento.value = usuario.nacimiento ?? "";
+    campoNickname.value = usuario.nickname ?? "";
+    campoCorreo.value = usuario.correo ?? "";
+    campoDireccion.value = usuario.direccion ?? "";
+    campoRol.value = usuario.rol?.id ?? "";
+    campoEstado.value = usuario.estado?.id ?? "";
+    campoRegion.value = usuario.region?.id ?? "";
+    campoComuna.value = usuario.comuna?.id ?? "";
+    campoGrupo.value = usuario.grupo?.id ?? "";
+    campoPassword.value = "";
+    campoPassword.required = false;
+    campoPdf.value = "";
     contenedorFormulario.hidden = false;
     contenedorFormulario.scrollIntoView({behavior: "smooth"});
 }
-function cerrarFormularioUsuario() {
-    formularioUsuario.reset();
-    contenedorFormulario.hidden = true;
-}
-async function cambiarEstadoUsuario(idUsuario) {
-    const usuario = usuarios.find(function (elemento) {return elemento.id === idUsuario;});
-    if (!usuario) {
-        return;
-    }
-    if (usuario.id === USUARIO_ADMINISTRADOR_INICIAL.id) {alert("La cuenta administrativa principal no puede ser desactivada.");
-        return;
-    }
-    const nuevoEstado = usuario.estado === "activo" ? "inactivo" : "activo";
-    const confirmarCambio = confirm(`¿Deseas cambiar el estado de @${usuario.nickname} a ${nuevoEstado}?`);
-    if (!confirmarCambio) {
-        return;
-    }
-    try {
-        const respuesta = await fetch(`http://localhost:8080/usuarios/estado/${idUsuario}`, {method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ estado: nuevoEstado })});
-        const data = await respuesta.json();
-        if (data.error) {alert(data.error);
-        } else {alert(data.mensaje);
-            await cargarUsuarios(); // refresca la lista desde el backend
+// valida el formulario para crear
+function validarFormulario() {
+    const camposTexto = [campoNombre, campoRut, campoTelefono, campoNickname, campoCorreo, campoDireccion];
+    for (const campo of camposTexto) {
+        if (!campo.value.trim()) {alert(`Debe completar el campo: ${campo.previousElementSibling.textContent}`); campo.focus();
+            return false;
         }
-    } catch (error) {
-        console.error("Error al cambiar estado:", error);
-        alert("No se pudo conectar con el servidor.");
     }
+    if (!campoNacimiento.value) {alert("Debe ingresar la fecha de nacimiento."); campoNacimiento.focus();
+        return false;
+    }
+    const idUsuario = document.getElementById("usuario-id").value;
+    if (!idUsuario && !campoPassword.value.trim()) {alert("Debe ingresar la contraseña."); campoPassword.focus();
+        return false;
+    }
+    const selects = [campoRol, campoEstado, campoRegion, campoComuna, campoGrupo];
+
+    for (const select of selects) {if (!select.value) {alert(`Debe seleccionar: ${select.previousElementSibling.textContent}`); select.focus();
+            return false;
+        }
+    }
+    if (campoPdf.files.length > 0) {const archivo = campoPdf.files[0];
+        if (archivo.type !== "application/pdf") {alert("Solo se permiten archivos PDF."); campoPdf.value = "";campoPdf.focus();
+            return false;
+        }
+        if (archivo.size > 5 * 1024 * 1024) {alert("El PDF no puede superar los 5 MB."); campoPdf.value = ""; campoPdf.focus();
+            return false;
+        }
+    }
+    return true;
 }
-// Formulario de registro y edición de usuarios desde el frontend al backend
+// obtiene los datos del usuario
+function obtenerDatosUsuario(incluirPassword) {
+    const datosUsuario = {
+        nombre: campoNombre.value.trim(),
+        rut: campoRut.value.trim(),
+        telefono: campoTelefono.value.trim(),
+        nacimiento: campoNacimiento.value,
+        nickname: campoNickname.value.trim().toLowerCase(),
+        correo: campoCorreo.value.trim().toLowerCase(),
+        direccion: campoDireccion.value.trim(),
+        rol: {id: Number(campoRol.value)},
+        estado: {id: Number(campoEstado.value)},
+        region: {id: Number(campoRegion.value)},
+        comuna: {id: Number(campoComuna.value)},
+        grupo: {id: Number(campoGrupo.value)}
+    };
+    if (incluirPassword) {datosUsuario.password = campoPassword.value.trim();}
+    return datosUsuario;
+}
+// crear usuario
+async function crearUsuario() {
+    const datosUsuario = obtenerDatosUsuario(true);
+    const formularioMultipart = new FormData();
+    formularioMultipart.append("usuario", new Blob([JSON.stringify(datosUsuario)],{type: "application/json"}));
+    if (campoPdf.files.length > 0) {formularioMultipart.append("archivo", campoPdf.files[0]);}
+    const respuesta = await fetch("http://localhost:8080/usuarios/registro?rolSolicitante=administrador",{
+            method: "POST",
+            body: formularioMultipart
+        }
+    );
+    const data = await leerRespuesta(respuesta);
+    if (!respuesta.ok) {console.error("Error del backend:", data);
+        alert(data.error || data.message || "El servidor rechazó la creación del usuario.");
+        return false;
+    }
+    if (data.error) {alert(data.error);
+        return false;
+    }
+    alert(data.mensaje);
+    return true;
+}
+//editar usuario
+async function editarUsuario(idUsuario) {
+    const datosUsuario = obtenerDatosUsuario(false);
+    const formularioMultipart = new FormData();
+    formularioMultipart.append("usuario",new Blob(
+        [JSON.stringify(datosUsuario)],{type: "application/json"})
+    );
+    if (campoPdf.files.length > 0) {formularioMultipart.append("archivo",campoPdf.files[0]);
+    }
+    const respuesta = await fetch(`http://localhost:8080/usuarios/editar/${idUsuario}`,{
+        method: "PUT",
+        body: formularioMultipart
+    });
+    const data = await leerRespuesta(respuesta);
+    if (!respuesta.ok) {console.error("Error del backend:", data);
+        alert(data.error || data.message || "El servidor rechazó la edición del usuario.");
+        return false;
+    }
+    if (data.error) {alert(data.error);
+        return false;
+    }
+    alert(data.mensaje);
+    return true;
+}
 formularioUsuario.addEventListener("submit", async function (evento) {
     evento.preventDefault();
-    const idUsuario = Number(document.getElementById("usuario-id").value);
-    const nombre = document.getElementById("nombre-usuario").value.trim();
-    const nickname = document.getElementById("nickname-usuario").value.trim().toLowerCase();
-    const correo = document.getElementById("correo-usuario").value.trim().toLowerCase();
-    const rol = document.getElementById("rol-usuario").value;
-    let estado = document.getElementById("estado-usuario").value;
-    // Si no se selecciona estado, lo dejamos en "activo"
-    if (!estado || estado.trim() === "") {estado = "activo";}
-    const validarNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+$/;
-    const validarNickname = /^[a-z0-9_]{3,20}$/;
-    if (!validarNombre.test(nombre)) {alert("El nombre solo puede contener letras y espacios.");
-        return;}
-    if (!validarNickname.test(nickname)) {alert("El nickname debe tener entre 3 y 20 caracteres y solo puede contener letras, números y guion bajo.");
-        return;}
+    if (!validarFormulario()) {
+        return;
+    }
+    const idUsuario = document.getElementById("usuario-id").value;
     try {
-        if (!idUsuario) {
-            // --- CREACIÓN ---
-            const respuesta = await fetch("http://localhost:8080/usuarios/registro?rolSolicitante=administrador", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    nombre: nombre,
-                    nickname: nickname,
-                    correo: correo,
-                    password: "ClaveTemporal123", // idealmente usar un input real
-                    // rol: rol,
-                    rol: {id: parseInt(rol)},
-                    // estado: estado
-                    estado: {id: parseInt(estado)}
-                })
-            });
-            const data = await respuesta.json();
-            if (data.error) {alert(data.error);
-            } else {alert(data.mensaje); cerrarFormularioUsuario();
-                await cargarUsuarios(); // refresca la lista desde el backend
+        if (!idUsuario) {const creado = await crearUsuario();
+            if (!creado) {
+                return;
             }
-        } else {
-            // --- EDICIÓN ---
-            const respuesta = await fetch(`http://localhost:8080/usuarios/editar/${idUsuario}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    nombre: nombre,
-                    nickname: nickname,
-                    correo: correo,
-                    // rol: rol,
-                    rol: {id: parseInt(rol)},
-                    // estado: estado
-                    estado: {id: parseInt(estado)}
-                })
-            });
-            const data = await respuesta.json();
-            if (data.error) {
-                alert(data.error);
-            } else {alert(data.mensaje);
-                cerrarFormularioUsuario();
-                await cargarUsuarios(); // refresca la lista desde el backend
+        } else {const editado = await editarUsuario(idUsuario);
+            if (!editado) {
+                return;
             }
         }
-    } catch (error) {console.error("Error al registrar/editar usuario:", error); alert("No se pudo conectar con el servidor.");}
+        cerrarFormularioUsuario();
+        await cargarUsuarios();
+    } catch (error) {console.error("Error al guardar usuario:", error);alert("No se pudo conectar con el servidor.");}
 });
 buscadorUsuario.addEventListener("input", mostrarUsuarios);
 filtroRol.addEventListener("change", mostrarUsuarios);
 filtroEstado.addEventListener("change", mostrarUsuarios);
-botonNuevoUsuario.addEventListener("click", abrirFormularioNuevo);
-cerrarFormulario.addEventListener("click", cerrarFormularioUsuario);
-cancelarFormulario.addEventListener("click", cerrarFormularioUsuario);
-cargarUsuarios();
-mostrarUsuarios();
+botonNuevoUsuario.addEventListener("click",abrirFormularioNuevo);
+cerrarFormulario.addEventListener("click",cerrarFormularioUsuario);
+cancelarFormulario.addEventListener("click",cerrarFormularioUsuario);
+async function iniciarPagina() {
+    await cargarCatalogos();
+    await cargarUsuarios();
+}
+iniciarPagina();

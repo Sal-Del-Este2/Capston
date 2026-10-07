@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Table (name = "comunas")
 public class Comuna {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     public Long getId() {return id;}

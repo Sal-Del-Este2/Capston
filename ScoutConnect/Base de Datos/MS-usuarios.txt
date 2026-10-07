@@ -77,7 +77,7 @@ CREATE TABLE usuarios (
 	CONSTRAINT fk_usuarios_estados FOREIGN KEY (estado_id) REFERENCES estados(id) ON UPDATE CASCADE ON DELETE SET NULL,
 	CONSTRAINT fk_usuarios_roles FOREIGN KEY (rol_id) REFERENCES roles(id) ON UPDATE CASCADE ON DELETE SET NULL,
 	CONSTRAINT fk_usuarios_grupos FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE CASCADE ON DELETE SET NULL,
-    CONSTRAINT fk_usuarios_comunas FOREIGN KEY (comuna_id) REFERENCES comunas(id)ON UPDATE CASCADE ON DELETE SET NULL);
+	CONSTRAINT fk_usuarios_comunas FOREIGN KEY (comuna_id) REFERENCES comunas(id)ON UPDATE CASCADE ON DELETE SET NULL);
 INSERT INTO usuarios (nombre, rut, telefono, nacimiento, nickname, correo, password, estado_id, rol_id, grupo_id, direccion, comuna_id)
 VALUES
 ('Administrador','11.222.333-4','9 11112222','1982/11/29','admin','admin@comunidadscout.cl','ClaveAdmin#2026',1,1,1,'dirección admin',35),
@@ -102,7 +102,8 @@ SELECT
     r.id AS rol_id, r.nombre AS rol_nombre,
     g.id AS grupo_id, g.nombre AS grupo_nombre,
     c.id AS comuna_id, c.nombre AS comuna_nombre,
-    reg.id AS region_id, reg.nombre AS region_nombre
+    reg.id AS region_id, reg.nombre AS region_nombre,
+    u.pdf_dato, u.pdf_nombre
 FROM usuarios u
 LEFT JOIN estados e ON u.estado_id = e.id
 LEFT JOIN roles r ON u.rol_id = r.id

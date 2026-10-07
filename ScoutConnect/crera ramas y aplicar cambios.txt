@@ -1,0 +1,24 @@
+actualizar el local
+git pull
+
+
+crear y cambiar a la rama
+git checkout -b MS-usuarios
+
+git add .
+
+git commit -m "Se normaliza el microservicio usuarios"
+
+git push origin MS-usuarios
+
+regresar a la rama principal
+git chekout main
+
+agregar los cambios de la rama al main
+git merge MS-usuarios
+
+subir
+git push origin main
+
+
+se modifica y normaliza el ms-usuario

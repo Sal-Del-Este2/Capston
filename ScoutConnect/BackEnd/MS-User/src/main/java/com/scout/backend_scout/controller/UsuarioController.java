@@ -3,12 +3,14 @@ package com.scout.backend_scout.controller;
 import com.scout.backend_scout.model.Comuna;
 import com.scout.backend_scout.model.Estado;
 import com.scout.backend_scout.model.Grupo;
+import com.scout.backend_scout.model.Region;
 import com.scout.backend_scout.model.Rol;
 import com.scout.backend_scout.model.Usuario;
 
 import com.scout.backend_scout.repository.ComunaRepository;
 import com.scout.backend_scout.repository.EstadoRepository;
 import com.scout.backend_scout.repository.GrupoRepository;
+import com.scout.backend_scout.repository.RegionRepository;
 import com.scout.backend_scout.repository.RolRepository;
 import com.scout.backend_scout.repository.UsuarioRepository;
 
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,15 +49,18 @@ public class UsuarioController {
     @Autowired
     private ComunaRepository comunaRepository;
     @Autowired
+    private RegionRepository regionRepository;
+    @Autowired
     private GrupoRepository grupoRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    // Perfil
+    // Cargar perfil
     @GetMapping("/perfil/{correo}")
     public Usuario obtenerPerfil(@PathVariable String correo) {
         return usuarioRepository
             .findByCorreo(correo)
             .orElse(null);
     }
+    // actualizar perfiles
     @PutMapping("/perfil/{correo}")
     public Map<String, String> actualizarPerfil(
         @PathVariable String correo,
@@ -81,10 +87,12 @@ public class UsuarioController {
             respuesta.put("mensaje", "Perfil actualizado correctamente.");
             return respuesta;
         }
-    // Registrar
-    @PostMapping("/registro")
+    // Registrar nuevos usuarios.
+    @PostMapping(value = "/registro", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String, String> registrar(
-        @RequestBody Usuario usuario,
+        @RequestPart("usuario") Usuario usuario,
+        @RequestPart(value = "archivo", required = false) MultipartFile archivo,
+        // @RequestBody Usuario usuario,
         @RequestParam String rolSolicitante) {
             Map<String, String> respuesta = new HashMap<>();
             if (!rolSolicitante.equalsIgnoreCase("administrador")) {respuesta.put("error", "Solo un administrador puede crear usuarios.");
@@ -96,7 +104,22 @@ public class UsuarioController {
             if (usuario.getRut() == null || usuario.getRut().trim().isEmpty()) {respuesta.put("error", "Debe ingresar el RUT.");
                 return respuesta;
             }
+            if (usuario.getTelefono() == null || usuario.getTelefono().trim().isEmpty()) {respuesta.put("error", "Debe ingresar el teléfono.");
+                return respuesta;
+            }
+            if (usuario.getNacimiento() == null) {respuesta.put("error", "Debe ingresar la fecha de nacimiento.");
+                return respuesta;
+            }
+            if (usuario.getNickname() == null || usuario.getNickname().trim().isEmpty()) {respuesta.put("error", "Debe ingresar el nickname.");
+                return respuesta;
+            }
+            if (usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()) {respuesta.put("error", "Debe ingresar el correo.");
+                return respuesta;
+            }
             if (usuario.getPassword() == null || usuario.getPassword().trim().isEmpty()) {respuesta.put("error", "Debe ingresar la contraseña.");
+                return respuesta;
+            }
+            if (usuario.getDireccion() == null || usuario.getDireccion().trim().isEmpty()) {respuesta.put("error", "Debe ingresar la dirección.");
                 return respuesta;
             }
             if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {respuesta.put("error", "Ya existe una cuenta asociada a este correo.");
@@ -105,49 +128,59 @@ public class UsuarioController {
             if (usuarioRepository.findByNickname(usuario.getNickname()).isPresent()) {respuesta.put("error", "Este nickname ya está registrado.");
                 return respuesta;
             }
-            //validar rol
             if (usuario.getRol() == null || usuario.getRol().getId() == null) {respuesta.put("error", "Debe seleccionar un rol.");
                 return respuesta;
             }
-            Rol rol = rolRepository
-                .findById(usuario.getRol().getId())
-                .orElse(null);
+            Rol rol = rolRepository.findById(usuario.getRol().getId()).orElse(null);
             if (rol == null) {respuesta.put("error", "Rol no válido.");
                 return respuesta;
             }
-            // validar estado
             if (usuario.getEstado() == null || usuario.getEstado().getId() == null) {respuesta.put("error", "Debe seleccionar un estado.");
                 return respuesta;
             }
-            Estado estado = estadoRepository
-                .findById(usuario.getEstado().getId())
-                .orElse(null);
+            Estado estado = estadoRepository.findById(usuario.getEstado().getId()).orElse(null);
             if (estado == null) {respuesta.put("error", "Estado no válido.");
                 return respuesta;
             }
-            // Validar Comuna
             if (usuario.getComuna() == null || usuario.getComuna().getId() == null) {respuesta.put("error", "Debe seleccionar una comuna.");
                 return respuesta;
             }
-            Comuna comuna = comunaRepository
-                .findById(usuario.getComuna().getId())
-                .orElse(null);
+            Comuna comuna = comunaRepository.findById(usuario.getComuna().getId()).orElse(null);
             if (comuna == null) {respuesta.put("error", "Comuna no válida.");
                 return respuesta;
             }
-            // Validar grupo
+            if (usuario.getRegion() == null || usuario.getRegion().getId() == null) {respuesta.put("error", "Debe seleccionar una region.");
+                return respuesta;
+            }
+            Region region = regionRepository.findById(usuario.getRegion().getId()).orElse(null);
+            if (region == null) {respuesta.put("error", "Region no válida.");
+                return respuesta;
+            }
             if (usuario.getGrupo() == null || usuario.getGrupo().getId() == null) {respuesta.put("error", "Debe seleccionar un grupo.");
                 return respuesta;
             }
-            Grupo grupo = grupoRepository
-                .findById(usuario.getGrupo().getId())
-                .orElse(null);
+            Grupo grupo = grupoRepository.findById(usuario.getGrupo().getId()).orElse(null);
             if (grupo == null) {respuesta.put("error", "Grupo no válido.");
                 return respuesta;
+            }
+            if (archivo != null && !archivo.isEmpty()) {
+                if (archivo.getSize() > 5 * 1024 * 1024) {respuesta.put("error", "El PDF no puede superar los 5 MB.");
+                    return respuesta;
+                }
+                if (!"application/pdf".equals(archivo.getContentType())) {respuesta.put("error","Solo se permiten archivos PDF.");
+                    return respuesta;
+                }
+                try {
+                    usuario.setPdfDato(archivo.getBytes());
+                    usuario.setPdfNombre(archivo.getOriginalFilename());
+                } catch (IOException e) {respuesta.put("error","No se pudo leer el archivo PDF.");
+                    return respuesta;
+                }
             }
             usuario.setRol(rol);
             usuario.setEstado(estado);
             usuario.setComuna(comuna);
+            usuario.setRegion(region);
             usuario.setGrupo(grupo);
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             usuarioRepository.save(usuario);
@@ -174,6 +207,7 @@ public class UsuarioController {
             if (estado.equals("inactivo")) {respuesta.put("error", "Tu cuenta está inactiva. Contacta al administrador.");
                 return respuesta;
             }
+            respuesta.put("id", String.valueOf(u.getId())); // +
             respuesta.put("mensaje", "Bienvenido " + u.getNombre());
             respuesta.put("nombre", u.getNombre());
             respuesta.put("correo", u.getCorreo());
@@ -181,18 +215,21 @@ public class UsuarioController {
             respuesta.put("estado", u.getEstado() != null ? u.getEstado().getNombre() : "");
             return respuesta;
         }
-    // Enlistar
+    // Enlistar usuarios
     @GetMapping("/listar")
     public List<Usuario> listarUsuarios() {return usuarioRepository.findAll();}
-    // Editar
-    @PutMapping("/editar/{id}")
+    
+    // Editar usuarios
+    @PutMapping(value = "/editar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String, String> editarUsuario(
         @PathVariable Long id,
-        @RequestBody Usuario usuarioActualizado) {
+        @RequestPart ("usuario") Usuario usuarioActualizado,
+        @RequestPart (value = "archivo", required = false) MultipartFile archivo) {
+
             Map<String, String> respuesta = new HashMap<>();
+
             Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
-            if (usuarioExistente.isEmpty()) {
-                respuesta.put("error", "Usuario no encontrado.");
+            if (usuarioExistente.isEmpty()) {respuesta.put("error", "Usuario no encontrado.");
                 return respuesta;
             }
             Optional<Usuario> correoExistente = usuarioRepository.findByCorreo(usuarioActualizado.getCorreo());
@@ -205,47 +242,108 @@ public class UsuarioController {
                 respuesta.put("error", "El nickname ya está registrado.");
                 return respuesta;
             }
-            Usuario u = usuarioExistente.get();
-            u.setNombre(usuarioActualizado.getNombre());
-            u.setRut(usuarioActualizado.getRut());
-            u.setTelefono(usuarioActualizado.getTelefono());
-            u.setNacimiento(usuarioActualizado.getNacimiento());
-            u.setNickname(usuarioActualizado.getNickname());
-            u.setCorreo(usuarioActualizado.getCorreo());
-            u.setDireccion(usuarioActualizado.getDireccion());
-            if (usuarioActualizado.getRol() != null && usuarioActualizado.getRol().getId() != null) {
-                Optional<Rol> rol = rolRepository.findById(usuarioActualizado.getRol().getId());
-                if (rol.isEmpty()) {respuesta.put("error", "Rol no válido.");
+            if (usuarioActualizado.getNombre() == null || usuarioActualizado.getNombre().trim().isEmpty()) {
+                respuesta.put("error", "Debe ingresar el nombre.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getRut() == null || usuarioActualizado.getRut().trim().isEmpty()) {
+                respuesta.put("error", "Debe ingresar el RUT.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getTelefono() == null || usuarioActualizado.getTelefono().trim().isEmpty()) {
+                respuesta.put("error", "Debe ingresar el teléfono.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getNacimiento() == null) {
+                respuesta.put("error", "Debe ingresar la fecha de nacimiento.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getNickname() == null || usuarioActualizado.getNickname().trim().isEmpty()) {
+                respuesta.put("error", "Debe ingresar el nickname.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getCorreo() == null || usuarioActualizado.getCorreo().trim().isEmpty()) {
+                respuesta.put("error", "Debe ingresar el correo.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getDireccion() == null || usuarioActualizado.getDireccion().trim().isEmpty()) {
+                respuesta.put("error", "Debe ingresar la dirección.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getRol() == null || usuarioActualizado.getRol().getId() == null) {       
+                respuesta.put("error", "Debe seleccionar un rol.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getEstado() == null || usuarioActualizado.getEstado().getId() == null) {
+                respuesta.put("error", "Debe seleccionar un estado.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getRegion() == null || usuarioActualizado.getRegion().getId() == null) {
+                respuesta.put("error", "Debe seleccionar una región.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getComuna() == null || usuarioActualizado.getComuna().getId() == null) {
+                respuesta.put("error", "Debe seleccionar una comuna.");
+                return respuesta;
+            }
+            if (usuarioActualizado.getGrupo() == null || usuarioActualizado.getGrupo().getId() == null) {
+                respuesta.put("error", "Debe seleccionar un grupo.");
+                return respuesta;
+            }
+            Rol rol = rolRepository.findById(usuarioActualizado.getRol().getId()).orElse(null);
+            if (rol == null) {respuesta.put("error", "Rol no válido.");
+                return respuesta;
+            }
+            Estado estado = estadoRepository.findById(usuarioActualizado.getEstado().getId()).orElse(null);
+            if (estado == null) {respuesta.put("error", "Estado no válido.");
+                return respuesta;
+            }
+            Region region = regionRepository.findById(usuarioActualizado.getRegion().getId()).orElse(null);
+            if (region == null) {respuesta.put("error", "Región no válida.");
+                return respuesta;
+            }
+            Comuna comuna = comunaRepository.findById(usuarioActualizado.getComuna().getId()).orElse(null);
+            if (comuna == null) {respuesta.put("error", "Comuna no válida.");
+                return respuesta;
+            }
+            Grupo grupo = grupoRepository.findById(usuarioActualizado.getGrupo().getId()).orElse(null);
+            if (grupo == null) {respuesta.put("error", "Grupo no válido.");
+                return respuesta;
+            }
+
+            Usuario usuario = usuarioExistente.get();
+
+            usuario.setNombre(usuarioActualizado.getNombre());
+            usuario.setRut(usuarioActualizado.getRut());
+            usuario.setTelefono(usuarioActualizado.getTelefono());
+            usuario.setNacimiento(usuarioActualizado.getNacimiento());
+            usuario.setNickname(usuarioActualizado.getNickname());
+            usuario.setCorreo(usuarioActualizado.getCorreo());
+            usuario.setDireccion(usuarioActualizado.getDireccion());
+
+            usuario.setRol(rol);
+            usuario.setEstado(estado);
+            usuario.setRegion(region);
+            usuario.setComuna(comuna);
+            usuario.setGrupo(grupo);
+            if (archivo != null && !archivo.isEmpty()) {
+                if (archivo.getSize() > 5 * 1024 * 1024) {respuesta.put("error", "El PDF no puede superar los 5 MB.");
                     return respuesta;
                 }
-                u.setRol(rol.get());
-            }
-            if (usuarioActualizado.getEstado() != null && usuarioActualizado.getEstado().getId() != null) {
-                Optional<Estado> estado = estadoRepository.findById(usuarioActualizado.getEstado().getId());
-                if (estado.isEmpty()) {respuesta.put("error", "Estado no válido.");
+                if (!"application/pdf".equals(archivo.getContentType())) {respuesta.put("error", "Solo se permiten archivos PDF.");
                     return respuesta;
                 }
-                u.setEstado(estado.get());
-            }
-            if (usuarioActualizado.getGrupo() != null && usuarioActualizado.getGrupo().getId() != null) {
-                Optional<Grupo> grupo = grupoRepository.findById(usuarioActualizado.getGrupo().getId());
-                if (grupo.isEmpty()) {respuesta.put("error", "Grupo no válido.");
+                try {usuario.setPdfDato(archivo.getBytes());
+                    usuario.setPdfNombre(archivo.getOriginalFilename());
+                } catch (IOException e) {respuesta.put("error", "No se pudo leer el archivo PDF.");
                     return respuesta;
                 }
-                u.setGrupo(grupo.get());
             }
-            if (usuarioActualizado.getComuna() != null && usuarioActualizado.getComuna().getId() != null) {
-                Optional<Comuna> comuna = comunaRepository.findById(usuarioActualizado.getComuna().getId());
-                if (comuna.isEmpty()) {respuesta.put("error", "Comuna no válida.");
-                    return respuesta;
-                }
-                u.setComuna(comuna.get());
-            }
-            usuarioRepository.save(u);
-            respuesta.put("mensaje", "Usuario @" + u.getNickname() + " actualizado correctamente.");
+            usuarioRepository.save(usuario);
+            respuesta.put("mensaje", "Usuario @" + usuario.getNickname() + " actualizado correctamente.");
             return respuesta;
         }
-    // Cambiar estado
+    // Cambiar estado de usuarios
     @PutMapping("/estado/{id}")
     public Map<String, String> cambiarEstado(
         @PathVariable Long id,
@@ -268,23 +366,23 @@ public class UsuarioController {
             respuesta.put("mensaje", "Estado actualizado correctamente.");
             return respuesta;
         }
-    // Eliminar
-    @DeleteMapping("/nombre/{nombre}")
-    public Map<String, String> eliminarPorNombre(
-        @PathVariable String nombre) {
+    // Eliminar usuarios y todo sus datos
+    @DeleteMapping("/{id}")
+    public Map<String, String> eliminarPorId(
+        @PathVariable Long id) {
             Map<String, String> respuesta = new HashMap<>();
-            Optional<Usuario> usuarioExistente = usuarioRepository.findByNombre(nombre);
-            if (usuarioExistente.isEmpty()) {
-                respuesta.put("error", "Usuario no encontrado.");
+            Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
+            if (usuarioExistente.isEmpty()) {respuesta.put("error", "Usuario no encontrado.");
                 return respuesta;
             }
-            usuarioRepository.delete(usuarioExistente.get());
-            respuesta.put("mensaje", "Usuario eliminado correctamente.");
-            return respuesta;
-        }
-    // Test BCRYPT
+            usuarioRepository.deleteById(id);
+            respuesta.put("mensaje", "Usuario eliminado correctamente."
+            );
+        return respuesta;
+    }
+    // Generar hash BCrypt
     @GetMapping("/test-bcrypt")
-    public String generarHash() {return passwordEncoder.encode("ClaveAdmin#2026");}
+    public String generarHash() {return passwordEncoder.encode("ContraseñaGenerica");}
     // Obtener usuario por ID
     @GetMapping("/{id}")
     public Usuario obtenerPorId(@PathVariable Long id) {return usuarioRepository.findById(id).orElse(null);}
@@ -294,7 +392,7 @@ public class UsuarioController {
         .filter(u -> u.getRol() != null && rolNombre.equalsIgnoreCase(u.getRol().getNombre()))
         .toList();
     }
-    // Subir pdf
+    // Subir pdf a base de datos
     @PostMapping("/perfil/{correo}/pdf")
     public Map<String, String> subirPdf(
         @PathVariable String correo,
@@ -306,9 +404,7 @@ public class UsuarioController {
             if (archivo.getSize() > 5 * 1024 * 1024) {respuesta.put("error", "El PDF no puede superar los 5 MB.");
                 return respuesta;
             }
-            if (!archivo.getContentType().equals("application/pdf")) {respuesta.put("error", "Solo se permiten archivos PDF.");
-                return respuesta;
-            }
+            // if (!archivo.getContentType().equals("application/pdf")) {
             if (!"application/pdf".equals(archivo.getContentType())) {
                 respuesta.put("error", "Solo se permiten archivos PDF.");
                 return respuesta;
@@ -329,7 +425,7 @@ public class UsuarioController {
                 return respuesta;
             }
         }
-    // Descargar pdf
+    // Descargar pdf de base de datos
     @GetMapping("/perfil/{correo}/pdf")
     public ResponseEntity<byte[]> descargarPdf(@PathVariable String correo) {Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo);
         if (usuarioExistente.isEmpty() || usuarioExistente.get().getPdfDato() == null) {return ResponseEntity.notFound().build();}
@@ -337,10 +433,14 @@ public class UsuarioController {
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_PDF)
             .contentLength(usuario.getPdfDato().length)
-            .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + usuario.getPdfNombre() + "\"")
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                "inline; filename=\"" +
+                // "attachment; filename=\""
+                usuario.getPdfNombre() +
+                "\"")
             .body(usuario.getPdfDato());
     }
-    // Eliminar pdf
+    // Eliminar pdf de base de datos
     @DeleteMapping("/perfil/{correo}/pdf")
     public Map<String, String> eliminarPdf(@PathVariable String correo) {Map<String, String> respuesta = new HashMap<>();
         Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo);

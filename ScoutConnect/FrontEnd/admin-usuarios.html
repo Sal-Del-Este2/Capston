@@ -77,17 +77,20 @@
                 <div class="campo-filtro-admin">
                     <label for="filtro-rol">Rol</label>
                     <select id="filtro-rol">
-                        <option value="TODOS">Todos</option>
-                        <option value="usuario">Usuario</option>
+                        <option value="todos">Todos</option>
                         <option value="administrador">Administrador</option>
+                        <option value="dirigente">Dirigente</option>
+                        <option value="scout">Scout</option>
+                        <option value="apoderado">Apoderado</option>
                     </select>
                 </div>
                 <div class="campo-filtro-admin">
                     <label for="filtro-estado">Estado</label>
                     <select id="filtro-estado">
-                        <option value="TODOS">Todos</option>
+                        <option value="todos">Todos</option>
                         <option value="activo">Activo</option>
                         <option value="inactivo">Inactivo</option>
+                        <option value="suspendido">Suspendido</option>
                     </select>
                 </div>
             </div>
@@ -128,6 +131,18 @@
                         <input type="text" id="nombre-usuario" required>
                     </div>
                     <div class="campo-admin">
+                        <label for="rut-usuario">RUT</label>
+                        <input type="text" id="rut-usuario" placeholder="11.222.333-4" required>
+                    </div>
+                    <div class="campo-admin">
+                        <label for="telefono-usuario">Teléfono</label>
+                        <input type="text" id="telefono-usuario" placeholder="9 11112222" required>
+                    </div>
+                    <div class="campo-admin">
+                        <label for="nacimiento-usuario">Fecha de nacimiento</label>
+                        <input type="date" id="nacimiento-usuario" required>
+                    </div>
+                    <div class="campo-admin">
                         <label for="nickname-usuario">Nickname</label>
                         <input type="text" id="nickname-usuario" minlength="3" maxlength="20" required>
                     </div>
@@ -136,24 +151,40 @@
                         <input type="email" id="correo-usuario" required>
                     </div>
                     <div class="campo-admin">
+                        <label for="password-usuario">Contraseña</label>
+                        <input type="text" id="password-usuario" minlength="8" required>
+                    </div>
+                    <div class="campo-admin">
+                        <label for="direccion-usuario">Dirección</label>
+                        <input type="text" id="direccion-usuario" required>
+                    </div>
+                    <div class="campo-admin">
+                        <label for="comuna-usuario">Comuna</label>
+                        <select id="comuna-usuario" required><option value="">Seleccione una comuna</option></select>
+                    </div>
+                    <div class="campo-admin">
+                        <label for="region-usuario">Región</label>
+                        <select id="region-usuario" required><option value="">Seleccione una región</option></select>
+                    </div>
+                    <div class="campo-admin">
                         <label for="rol-usuario">Rol</label>
                         <select id="rol-usuario" name="rol"><option value="">Seleccione un rol</option></select>
-                        <!-- <select id="rol-usuario" required>
-                            <option value="usuario">Usuario</option>
-                            <option value="administrador">Administrador</option>
-                        </select> -->
                     </div>
                     <div class="campo-admin">
                         <label for="estado-usuario">Estado</label>
-                        <select id="estado-usuario" required>
-                            <option value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
-                        </select>
+                        <select id="estado-usuario" required><option value="activo">Seleccione un estado</option></select>
+                    </div>
+                    <div class="campo-admin">
+                        <label for="grupo-usuario">Grupo</label>
+                        <select id="grupo-usuario" required><option value="">Seleccione un grupo</option></select>
                     </div>
                 </div>
+                <div class="campo-admin">
+                    <label for="pdf-usuario">PDF</label>
+                    <input type="file" id="pdf-usuario" accept="application/pdf"><small>Si adjunta un PDF, reemplazará el archivo existente.</small>
+                </div>
                 <div class="acciones-formulario-admin">
-                    <button type="button" id="cancelar-formulario-usuario"
-                        class="boton-cancelar-admin">Cancelar</button>
+                    <button type="button" id="cancelar-formulario-usuario" class="boton-cancelar-admin">Cancelar</button>
                     <button type="submit" class="boton-guardar-admin">Guardar usuario</button>
                 </div>
             </form>

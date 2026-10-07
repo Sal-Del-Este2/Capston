@@ -85,10 +85,19 @@
                 </div>
             </form>
         </section>
+        <section class="contenedor-pdf-perfil">
+            <div>
+                <h2>Acuerdo de Uso de datos Personales</h2>
+                <p id="mensaje-pdf">Cargando documento...</p>
+                <a id="enlace-descargar-pdf" class="boton-panel" target="_blank" hidden>Descargar PDF</a>
+            </div>
+            <div><iframe id="visor-pdf" title="Documento PDF del usuario" width="80%" height="500" hidden></iframe></div>
+        </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="panel-usuario.js"></script>
     <script src="perfil-usuario.js"></script>
+    <script src="panel-usuario.js"></script>
+    
 </body>
 
 </html>
