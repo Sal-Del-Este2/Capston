@@ -1,0 +1,117 @@
+para crear desde cero:
+CREATE USER postgres WITH PASSWORD 'Charmander.123';
+GRANT ALL PRIVILEGES ON DATABASE scout1 TO backend_scout;
+
+
+si ya esta creado y no recuerda la contraseña:
+ALTER USER postgres WITH PASSWORD 'Charmander.123';
+
+---------------------------------------------------------------
+-- 1
+CREATE TABLE regiones (
+    id BIGSERIAL PRIMARY KEY,nombre VARCHAR(100) UNIQUE NOT NULL);
+INSERT INTO regiones (nombre)
+VALUES ('Arica y Parinacota'),('Tarapacá'),('Antofagasta'),('Atacama'),
+('Coquimbo'),('Valparaíso'),('Metropolitana de Santiago'),
+('Libertador General Bernardo OHiggins'),('Maule'),('Ñuble'),('Biobío'),
+('Araucanía'),('Los Ríos'),('Los Lagos'),('Aysén del General Carlos Ibáñez del Campo'),
+('Magallanes y de la Antártica Chilena');
+select * from regiones order by id;
+
+-- 2
+CREATE TABLE comunas (
+    id BIGSERIAL PRIMARY KEY, nombre VARCHAR(100) UNIQUE NOT NULL, region_id BIGINT,
+	CONSTRAINT
+	fk_comunas_regiones FOREIGN KEY (region_id) REFERENCES regiones(id) ON UPDATE CASCADE ON DELETE SET NULL);
+INSERT INTO comunas (nombre, region_id)
+VALUES ('Colina',7),('Lampa',7),('Til Til',7),('Pirque',7),('Puente Alto',7),('San José de Maipo',7),('Buin',7),
+('Calera de Tango',7),('Paine',7),('San Bernardo',7),('Alhué',7),('Curacaví',7),('María Pinto',7),('Melipilla',7),
+('San Pedro',7),('Cerrillos',7),('Cerro Navia',7),('Conchalí',7),('El Bosque',7),('Estación Central',7),
+('Huechuraba',7),('Independencia',7),('La Cisterna',7),('La Granja',7),('La Florida',7),('La Pintana',7),
+('La Reina',7),('Las Condes',7),('Lo Barnechea',7),('Lo Espejo',7),('Lo Prado',7),('Macul',7),('Maipú',7),
+('Ñuñoa',7),('Pedro Aguirre Cerda',7),('Peñalolén',7),('Providencia',7),('Pudahuel',7),('Quilicura',7),
+('Quinta Normal',7),('Recoleta',7),('Renca',7),('San Miguel',7),('San Joaquín',7),('San Ramón',7),('Santiago',7),
+('Vitacura',7),('El Monte',7),('Isla de Maipo',7),('Padre Hurtado',7),('Peñaflor',7),('Talagante',7);
+select * from comunas order by id;
+
+--3
+CREATE TABLE roles (
+    id BIGSERIAL PRIMARY KEY, nombre VARCHAR(50) UNIQUE NOT NULL);
+INSERT INTO roles (nombre) 
+VALUES ('Administrador'),('Scout'),('Apoderado'),('Dirigente');
+select * from roles order by id;
+
+--4
+CREATE TABLE estados (
+    id BIGSERIAL PRIMARY KEY, nombre VARCHAR(50) UNIQUE NOT NULL);
+INSERT INTO estados (nombre) 
+VALUES ('Activo'),('Inactivo'),('Suspendido');
+select * from estados order by id;
+
+--5
+CREATE TABLE grupos (
+    id BIGSERIAL PRIMARY KEY, nombre VARCHAR(100) NOT NULL, comuna_id BIGINT,
+	CONSTRAINT
+	fk_grupos_comunas FOREIGN KEY (comuna_id) REFERENCES comunas(id) ON UPDATE CASCADE ON DELETE SET NULL);
+INSERT INTO grupos (nombre, comuna_id)
+VALUES ('Reino Likankura',36),('Reino Anchimellen',35);
+select * from grupos order by id;
+
+--6
+CREATE TABLE usuarios (
+    id BIGSERIAL PRIMARY KEY,
+	nombre VARCHAR(255),
+	rut VARCHAR(20),
+	telefono VARCHAR(50),
+	nacimiento DATE,
+	nickname VARCHAR(255),
+	correo VARCHAR(255),
+	password VARCHAR(255),
+	estado_id BIGINT,
+	rol_id BIGINT,
+	grupo_id BIGINT,
+	direccion VARCHAR(255),
+	comuna_id BIGINT,
+	pdf_dato bytea,
+	pdf_nombre VARCHAR(255),
+	CONSTRAINT fk_usuarios_estados FOREIGN KEY (estado_id) REFERENCES estados(id) ON UPDATE CASCADE ON DELETE SET NULL,
+	CONSTRAINT fk_usuarios_roles FOREIGN KEY (rol_id) REFERENCES roles(id) ON UPDATE CASCADE ON DELETE SET NULL,
+	CONSTRAINT fk_usuarios_grupos FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE CASCADE ON DELETE SET NULL,
+	CONSTRAINT fk_usuarios_comunas FOREIGN KEY (comuna_id) REFERENCES comunas(id)ON UPDATE CASCADE ON DELETE SET NULL);
+INSERT INTO usuarios (nombre, rut, telefono, nacimiento, nickname, correo, password, estado_id, rol_id, grupo_id, direccion, comuna_id)
+VALUES
+('Administrador','11.222.333-4','9 11112222','1982/11/29','admin','admin@comunidadscout.cl','ClaveAdmin#2026',1,1,1,'dirección admin',35),
+('Dirigente','22.333.444-5','9 22223333','1985/10/19','dirigente','dirigente@comunidadscout.cl','ClaveDirigente#2026',1,4,1,'dirección dirigente',36),
+('Luis Lopez','33.444.555-6','9 33334444','2020/10/15','Azul','loopez@comunidadscout.cl','Banco.123456789',1,2,1,'dirección luis',36),
+('Apoderado','44.555.666-7','9 44445555','1990/09/06','apoderado','apoderado@comunidadscout.cl', 'Banco.123456789',1,3,1,'dirección apoderado',36);
+select * from usuarios order by id;
+
+-- securitizar contraseñas
+
+-- extencion activa
+--CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- encriptar a los usuarios. "solo una vez"
+--UPDATE usuarios
+--SET password = crypt(password, gen_salt('bf'));
+
+-- consulta global
+SELECT 
+    u.id AS usuario_id, u.nombre AS usuario_nombre, u.rut, u.telefono, u.nacimiento, u.nickname, u.correo, u.direccion,
+    e.id AS estado_id, e.nombre AS estado_nombre,
+    r.id AS rol_id, r.nombre AS rol_nombre,
+    g.id AS grupo_id, g.nombre AS grupo_nombre,
+    c.id AS comuna_id, c.nombre AS comuna_nombre,
+    reg.id AS region_id, reg.nombre AS region_nombre,
+    u.pdf_dato, u.pdf_nombre
+FROM usuarios u
+LEFT JOIN estados e ON u.estado_id = e.id
+LEFT JOIN roles r ON u.rol_id = r.id
+-- Grupo
+LEFT JOIN grupos g ON u.grupo_id = g.id
+-- Comuna (del usuario)
+LEFT JOIN comunas c ON u.comuna_id = c.id
+-- Región (desde la comuna del usuario)
+LEFT JOIN regiones reg ON c.region_id = reg.id
+ORDER BY u.id;
+
