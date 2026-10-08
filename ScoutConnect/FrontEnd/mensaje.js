@@ -1,56 +1,13 @@
-const correoUsuarioActual =
-    sessionStorage.getItem("correoUsuario");
+const API_MENSAJES =
+    "http://localhost:8080/mensajes";
 
-const usuariosRegistrados =
-    JSON.parse(
-        localStorage.getItem("usuariosRegistrados")
-    ) || [];
+const API_USUARIOS =
+    "http://localhost:8080/usuarios";
 
-const usuarioActual = usuariosRegistrados.find(
-    function (usuario) {
-        return usuario.correo === correoUsuarioActual;
-    }
-);
+const usuarioActualId =
+    Number(sessionStorage.getItem("usuarioId"));
 
-const nicknameUsuarioActual =
-    usuarioActual
-        ? usuarioActual.nickname
-        : "usuario_actual";
-
-
-let mensajes = [
-    {
-        id: 1,
-        remitente: "administracion",
-        destinatarios: [nicknameUsuarioActual],
-        asunto: "Confirmación de inscripción",
-        contenido:
-            "Tu inscripción al campamento fue registrada correctamente.",
-        fecha: "28-08-2026",
-        estado: "No leído"
-    },
-    {
-        id: 2,
-        remitente: "administracion",
-        destinatarios: [nicknameUsuarioActual],
-        asunto: "Estado de cuota",
-        contenido:
-            "El pago de tu cuota de marzo fue recibido correctamente.",
-        fecha: "20-08-2026",
-        estado: "Leído"
-    },
-    {
-        id: 3,
-        remitente: "grupo_penalolen",
-        destinatarios: [nicknameUsuarioActual],
-        asunto: "Información de la tienda",
-        contenido:
-            "Tu pedido se encuentra actualmente en preparación.",
-        fecha: "15-08-2026",
-        estado: "Leído"
-    }
-];
-
+let mensajes = [];
 
 const listaMensajes =
     document.getElementById("lista-mensajes");
@@ -65,75 +22,356 @@ const botonEliminarSeleccionados =
     document.getElementById("eliminar-seleccionados");
 
 const mensajeBandejaVacia =
-    document.getElementById("mensaje-bandeja-vacia");
+    document.getElementById(
+        "mensaje-bandeja-vacia"
+    );
 
 const botonNuevoMensaje =
-    document.getElementById("boton-nuevo-mensaje");
+    document.getElementById(
+        "boton-nuevo-mensaje"
+    );
 
 const contenedorNuevoMensaje =
-    document.getElementById("contenedor-nuevo-mensaje");
+    document.getElementById(
+        "contenedor-nuevo-mensaje"
+    );
 
 const cerrarFormularioMensaje =
-    document.getElementById("cerrar-formulario-mensaje");
+    document.getElementById(
+        "cerrar-formulario-mensaje"
+    );
+
+const cancelarFormularioMensaje =
+    document.getElementById(
+        "cancelar-formulario-mensaje"
+    );
 
 const formularioMensaje =
     document.getElementById("form-mensaje");
 
+const tituloFormularioMensaje =
+    document.getElementById(
+        "titulo-formulario-mensaje"
+    );
+
+const campoMensajePadre =
+    document.getElementById("mensaje-padre");
+
+const selectorDestinatario =
+    document.getElementById(
+        "destinatario-mensaje"
+    );
+
+const campoAsunto =
+    document.getElementById("asunto-mensaje");
+
+const campoContenido =
+    document.getElementById("texto-mensaje");
+
+const campoArchivos =
+    document.getElementById("archivos-mensaje");
+
+const listaAdjuntos =
+    document.getElementById(
+        "lista-adjuntos-mensaje"
+    );
 
 function escaparHTML(texto) {
-    const elemento = document.createElement("div");
+    const elemento =
+        document.createElement("div");
 
-    elemento.textContent = texto;
+    elemento.textContent =
+        String(texto ?? "");
 
     return elemento.innerHTML;
 }
 
+async function leerRespuesta(respuesta) {
+    const texto =
+        await respuesta.text();
 
-function formatearDestinatarios(destinatarios) {
-    return destinatarios
-        .map(function (destinatario) {
-            if (destinatario === "administracion") {
-                return "Administración";
-            }
+    if (!texto) {
+        return {};
+    }
 
-            return `@${destinatario}`;
-        })
-        .join(", ");
+    try {
+        return JSON.parse(texto);
+    } catch (error) {
+        return {
+            error: texto
+        };
+    }
 }
 
+function obtenerNombreEstado(estado) {
+    if (estado === "NO_LEIDO") {
+        return "No leído";
+    }
+
+    if (estado === "LEIDO") {
+        return "Leído";
+    }
+
+    if (estado === "ENVIADO") {
+        return "Enviado";
+    }
+
+    return estado || "";
+}
 
 function obtenerClaseEstado(estado) {
-    return estado === "No leído"
+    return estado === "NO_LEIDO"
         ? "mensaje-no-leido"
         : "mensaje-leido";
 }
 
+function formatearFecha(fecha) {
+    if (!fecha) {
+        return "";
+    }
 
-function mostrarMensajes() {
-    if (!listaMensajes) {
+    const fechaConvertida =
+        new Date(fecha);
+
+    if (Number.isNaN(
+        fechaConvertida.getTime()
+    )) {
+        return fecha;
+    }
+
+    return fechaConvertida.toLocaleString(
+        "es-CL"
+    );
+}
+
+function nombreParticipante(
+    nickname,
+    nombre
+) {
+    if (nombre) {
+        return `${nombre} (@${nickname})`;
+    }
+
+    return `@${nickname}`;
+}
+
+function mapearMensaje(mensaje) {
+    return {
+        ...mensaje,
+
+        estadoTexto:
+            obtenerNombreEstado(
+                mensaje.estado
+            )
+    };
+}
+
+async function cargarMensajes() {
+    if (!usuarioActualId) {
+        alert(
+            "No se encontró la sesión del usuario."
+        );
+
         return;
     }
 
+    try {
+        const [
+            respuestaRecibidos,
+            respuestaEnviados
+        ] = await Promise.all([
+            fetch(
+                `${API_MENSAJES}/recibidos/` +
+                `${usuarioActualId}`
+            ),
+
+            fetch(
+                `${API_MENSAJES}/enviados/` +
+                `${usuarioActualId}`
+            )
+        ]);
+
+        const datosRecibidos =
+            await leerRespuesta(
+                respuestaRecibidos
+            );
+
+        const datosEnviados =
+            await leerRespuesta(
+                respuestaEnviados
+            );
+
+        if (!respuestaRecibidos.ok) {
+            throw new Error(
+                datosRecibidos.error ||
+                "No se pudieron cargar los mensajes recibidos."
+            );
+        }
+
+        if (!respuestaEnviados.ok) {
+            throw new Error(
+                datosEnviados.error ||
+                "No se pudieron cargar los mensajes enviados."
+            );
+        }
+
+        const recibidos =
+            Array.isArray(datosRecibidos)
+                ? datosRecibidos.map(mapearMensaje)
+                : [];
+
+        const enviados =
+            Array.isArray(datosEnviados)
+                ? datosEnviados.map(mapearMensaje)
+                : [];
+
+        mensajes = [
+            ...recibidos,
+            ...enviados
+        ];
+
+        mensajes.sort(function (a, b) {
+            return new Date(
+                b.fechaCreacion
+            ) - new Date(
+                a.fechaCreacion
+            );
+        });
+
+        mostrarMensajes();
+
+    } catch (error) {
+        console.error(
+            "Error al cargar mensajes:",
+            error
+        );
+
+        alert(
+            "No se pudieron cargar los mensajes."
+        );
+    }
+}
+
+async function cargarDestinatarios() {
+    try {
+        const respuesta =
+            await fetch(
+                `${API_USUARIOS}/listar`
+            );
+
+        const usuarios =
+            await leerRespuesta(respuesta);
+
+        if (!respuesta.ok) {
+            throw new Error(
+                usuarios.error ||
+                "No se pudieron cargar los usuarios."
+            );
+        }
+
+        selectorDestinatario.innerHTML =
+            `
+                <option value="">
+                    Selecciona un destinatario
+                </option>
+            `;
+
+        if (!Array.isArray(usuarios)) {
+            return;
+        }
+
+        usuarios
+            .filter(function (usuario) {
+                const usuarioId =
+                    Number(usuario.id);
+
+                const estado =
+                    typeof usuario.estado ===
+                    "string"
+                        ? usuario.estado
+                        : usuario.estado?.nombre;
+
+                const activo =
+                    estado?.toLowerCase() ===
+                    "activo";
+
+                return activo &&
+                    usuarioId !== usuarioActualId;
+            })
+            .forEach(function (usuario) {
+                const opcion =
+                    document.createElement("option");
+
+                opcion.value =
+                    usuario.id;
+
+                opcion.textContent =
+                    nombreParticipante(
+                        usuario.nickname,
+                        usuario.nombre
+                    );
+
+                selectorDestinatario.appendChild(
+                    opcion
+                );
+            });
+
+    } catch (error) {
+        console.error(
+            "Error al cargar destinatarios:",
+            error
+        );
+
+        alert(
+            "No se pudieron cargar los destinatarios."
+        );
+    }
+}
+
+function mostrarMensajes() {
     listaMensajes.innerHTML = "";
 
-    if (mensajes.length === 0) {
-        mensajeBandejaVacia.hidden = false;
-        seleccionarTodos.checked = false;
-        seleccionarTodos.disabled = true;
+    if (!mensajes.length) {
+        mensajeBandejaVacia.hidden =
+            false;
+
+        seleccionarTodos.checked =
+            false;
+
+        seleccionarTodos.disabled =
+            true;
 
         actualizarSeleccionados();
 
         return;
     }
 
-    mensajeBandejaVacia.hidden = true;
-    seleccionarTodos.disabled = false;
+    mensajeBandejaVacia.hidden =
+        true;
+
+    seleccionarTodos.disabled =
+        false;
 
     mensajes.forEach(function (mensaje) {
         const tarjeta =
             document.createElement("article");
 
-        tarjeta.classList.add("tarjeta-mensaje");
+        tarjeta.classList.add(
+            "tarjeta-mensaje"
+        );
+
+        const remitente =
+            mensaje.remitenteNickname ||
+            "desconocido";
+
+        const destinatario =
+            mensaje.destinatarioNickname ||
+            "desconocido";
+
+        const claseEstado =
+            obtenerClaseEstado(
+                mensaje.estado
+            );
 
         tarjeta.innerHTML = `
             <div class="selector-mensaje">
@@ -141,71 +379,85 @@ function mostrarMensajes() {
                     type="checkbox"
                     class="seleccionar-mensaje"
                     data-id="${mensaje.id}"
-                    aria-label="Seleccionar mensaje"
-                >
+                    aria-label="Seleccionar mensaje">
             </div>
 
             <div class="contenido-mensaje">
 
-                <div class="encabezado-tarjeta-mensaje">
+                <div
+                    class="encabezado-tarjeta-mensaje">
 
                     <div>
                         <h3>
-                            ${escaparHTML(mensaje.asunto)}
+                            ${escaparHTML(
+                                mensaje.asunto
+                            )}
                         </h3>
 
-                        <p class="fecha-mensaje">
-                            ${escaparHTML(mensaje.fecha)}
-                        </p>
-
-                        <p class="participantes-mensaje">
-                            <strong>De:</strong>
-                            @${escaparHTML(mensaje.remitente)}
-                        </p>
-
-                        <p class="participantes-mensaje">
-                            <strong>Para:</strong>
+                        <p
+                            class="fecha-mensaje">
                             ${escaparHTML(
-                                formatearDestinatarios(
-                                    mensaje.destinatarios
+                                formatearFecha(
+                                    mensaje.fechaCreacion
                                 )
+                            )}
+                        </p>
+
+                        <p
+                            class="participantes-mensaje">
+                            <strong>De:</strong>
+                            @${escaparHTML(
+                                remitente
+                            )}
+                        </p>
+
+                        <p
+                            class="participantes-mensaje">
+                            <strong>Para:</strong>
+                            @${escaparHTML(
+                                destinatario
                             )}
                         </p>
                     </div>
 
                     <span
-                        class="estado-mensaje
-                        ${obtenerClaseEstado(mensaje.estado)}"
-                    >
-                        ${mensaje.estado}
+                        class="estado-mensaje ${claseEstado}">
+                        ${escaparHTML(
+                            mensaje.estadoTexto
+                        )}
                     </span>
-
                 </div>
 
                 <p class="texto-mensaje">
-                    ${escaparHTML(mensaje.contenido)}
+                    ${escaparHTML(
+                        mensaje.contenido
+                    )}
                 </p>
 
-                <div class="acciones-tarjeta-mensaje">
+                <div
+                    class="acciones-tarjeta-mensaje">
 
                     <button
                         type="button"
                         class="boton-leer-mensaje"
-                        data-id="${mensaje.id}"
-                    >
+                        data-id="${mensaje.id}">
                         Ver mensaje
                     </button>
 
                     <button
                         type="button"
-                        class="boton-eliminar-mensaje"
-                        data-id="${mensaje.id}"
-                    >
-                        Eliminar
+                        class="boton-responder-mensaje"
+                        data-id="${mensaje.id}">
+                        Responder
                     </button>
 
+                    <button
+                        type="button"
+                        class="boton-eliminar-mensaje"
+                        data-id="${mensaje.id}">
+                        Eliminar
+                    </button>
                 </div>
-
             </div>
         `;
 
@@ -216,53 +468,63 @@ function mostrarMensajes() {
     actualizarSeleccionados();
 }
 
-
 function activarEventosMensajes() {
-    const casillas =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".seleccionar-mensaje"
-        );
+        )
+        .forEach(function (casilla) {
+            casilla.addEventListener(
+                "change",
+                actualizarSeleccionados
+            );
+        });
 
-    const botonesLeer =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".boton-leer-mensaje"
-        );
+        )
+        .forEach(function (boton) {
+            boton.addEventListener(
+                "click",
+                function () {
+                    verMensaje(
+                        Number(boton.dataset.id)
+                    );
+                }
+            );
+        });
 
-    const botonesEliminar =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
+            ".boton-responder-mensaje"
+        )
+        .forEach(function (boton) {
+            boton.addEventListener(
+                "click",
+                function () {
+                    responderMensaje(
+                        Number(boton.dataset.id)
+                    );
+                }
+            );
+        });
+
+    document
+        .querySelectorAll(
             ".boton-eliminar-mensaje"
-        );
-
-    casillas.forEach(function (casilla) {
-        casilla.addEventListener(
-            "change",
-            actualizarSeleccionados
-        );
-    });
-
-    botonesLeer.forEach(function (boton) {
-        boton.addEventListener(
-            "click",
-            function () {
-                verMensaje(
-                    Number(boton.dataset.id)
-                );
-            }
-        );
-    });
-
-    botonesEliminar.forEach(function (boton) {
-        boton.addEventListener(
-            "click",
-            function () {
-                eliminarMensaje(
-                    Number(boton.dataset.id)
-                );
-            }
-        );
-    });
+        )
+        .forEach(function (boton) {
+            boton.addEventListener(
+                "click",
+                function () {
+                    eliminarMensaje(
+                        Number(boton.dataset.id)
+                    );
+                }
+            );
+        });
 }
-
 
 function actualizarSeleccionados() {
     const casillas =
@@ -275,7 +537,8 @@ function actualizarSeleccionados() {
             ".seleccionar-mensaje:checked"
         );
 
-    const cantidad = seleccionadas.length;
+    const cantidad =
+        seleccionadas.length;
 
     contadorSeleccionados.textContent =
         cantidad === 1
@@ -294,224 +557,528 @@ function actualizarSeleccionados() {
         cantidad < casillas.length;
 }
 
+function limpiarFormulario() {
+    formularioMensaje.reset();
 
-function verMensaje(idMensaje) {
-    const mensaje = mensajes.find(
-        function (elemento) {
-            return elemento.id === idMensaje;
+    campoMensajePadre.value =
+        "";
+
+    selectorDestinatario.disabled =
+        false;
+
+    campoAsunto.readOnly =
+        false;
+
+    tituloFormularioMensaje.textContent =
+        "Enviar un nuevo mensaje";
+
+    listaAdjuntos.innerHTML =
+        "";
+}
+
+function abrirFormularioMensaje() {
+    limpiarFormulario();
+
+    contenedorNuevoMensaje.hidden =
+        false;
+
+    selectorDestinatario.focus();
+
+    contenedorNuevoMensaje.scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function cerrarFormulario() {
+    limpiarFormulario();
+
+    contenedorNuevoMensaje.hidden =
+        true;
+}
+
+function mostrarArchivosSeleccionados() {
+    listaAdjuntos.innerHTML =
+        "";
+
+    const archivos =
+        Array.from(campoArchivos.files);
+
+    archivos.forEach(function (archivo) {
+        const elemento =
+            document.createElement("p");
+
+        elemento.textContent =
+            `${archivo.name} ` +
+            `(${Math.ceil(
+                archivo.size / 1024
+            )} KB)`;
+
+        listaAdjuntos.appendChild(
+            elemento
+        );
+    });
+}
+
+function validarArchivos(archivos) {
+    const extensionesPermitidas = [
+        "pdf",
+        "docx",
+        "xlsx",
+        "jpg",
+        "jpeg",
+        "png"
+    ];
+
+    if (archivos.length > 2) {
+        alert(
+            "Puedes adjuntar como máximo 2 archivos."
+        );
+
+        return false;
+    }
+
+    for (const archivo of archivos) {
+        const partes =
+            archivo.name.split(".");
+
+        const extension =
+            partes.length > 1
+                ? partes.pop().toLowerCase()
+                : "";
+
+        if (!extensionesPermitidas.includes(
+            extension
+        )) {
+            alert(
+                `El archivo "${archivo.name}" ` +
+                "no tiene un formato permitido."
+            );
+
+            return false;
         }
+    }
+
+    return true;
+}
+
+async function enviarMensaje() {
+    const destinatarioId =
+        Number(selectorDestinatario.value);
+
+    const asunto =
+        campoAsunto.value.trim();
+
+    const contenido =
+        campoContenido.value.trim();
+
+    const archivos =
+        Array.from(campoArchivos.files);
+
+    if (!destinatarioId) {
+        alert(
+            "Selecciona un destinatario."
+        );
+
+        return false;
+    }
+
+    if (!asunto) {
+        alert(
+            "Escribe un asunto."
+        );
+
+        return false;
+    }
+
+    if (asunto.length > 255) {
+        alert(
+            "El asunto no puede superar " +
+            "los 255 caracteres."
+        );
+
+        return false;
+    }
+
+    if (!contenido) {
+        alert(
+            "Escribe el contenido del mensaje."
+        );
+
+        return false;
+    }
+
+    if (contenido.length > 500) {
+        alert(
+            "El mensaje no puede superar " +
+            "los 500 caracteres."
+        );
+
+        return false;
+    }
+
+    if (!validarArchivos(archivos)) {
+        return false;
+    }
+
+    const datosMensaje = {
+        remitenteId: usuarioActualId,
+        destinatarioId,
+        asunto,
+        contenido
+    };
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "mensaje",
+        JSON.stringify(datosMensaje)
     );
+
+    archivos.forEach(function (archivo) {
+        formData.append(
+            "archivos",
+            archivo
+        );
+    });
+
+    const mensajePadreId =
+        Number(campoMensajePadre.value);
+
+    const url =
+        mensajePadreId
+            ? `${API_MENSAJES}/` +
+              `${mensajePadreId}/respuesta`
+            : API_MENSAJES;
+
+    const respuesta =
+        await fetch(url, {
+            method: "POST",
+            body: formData
+        });
+
+    const data =
+        await leerRespuesta(respuesta);
+
+    if (!respuesta.ok) {
+        alert(
+            data.error ||
+            "No se pudo enviar el mensaje."
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
+async function marcarComoLeido(idMensaje) {
+    const respuesta =
+        await fetch(
+            `${API_MENSAJES}/${idMensaje}/leer` +
+            `?usuarioId=${usuarioActualId}`,
+            {
+                method: "PUT"
+            }
+        );
+
+    if (!respuesta.ok) {
+        const data =
+            await leerRespuesta(respuesta);
+
+        console.error(
+            data.error ||
+            "No se pudo marcar el mensaje como leído."
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
+async function verMensaje(idMensaje) {
+    const mensaje =
+        mensajes.find(function (elemento) {
+            return elemento.id === idMensaje;
+        });
 
     if (!mensaje) {
         return;
     }
 
-    mensaje.estado = "Leído";
+    if (
+        mensaje.estado === "NO_LEIDO" &&
+        mensaje.destinatarioId ===
+        usuarioActualId
+    ) {
+        await marcarComoLeido(idMensaje);
+        mensaje.estado = "LEIDO";
+        mensaje.estadoTexto = "Leído";
+    }
 
     alert(
-        `De: @${mensaje.remitente}\n` +
-        `Para: ${formatearDestinatarios(
-            mensaje.destinatarios
-        )}\n` +
+        `De: @${mensaje.remitenteNickname}\n` +
+        `Para: @${mensaje.destinatarioNickname}\n` +
         `Asunto: ${mensaje.asunto}\n` +
-        `Fecha: ${mensaje.fecha}\n\n` +
+        `Fecha: ${formatearFecha(
+            mensaje.fechaCreacion
+        )}\n\n` +
         `${mensaje.contenido}`
     );
 
     mostrarMensajes();
 }
 
-
-function eliminarMensaje(idMensaje) {
-    const mensaje = mensajes.find(
-        function (elemento) {
+async function responderMensaje(idMensaje) {
+    const mensaje =
+        mensajes.find(function (elemento) {
             return elemento.id === idMensaje;
-        }
-    );
+        });
 
     if (!mensaje) {
         return;
     }
 
-    const confirmarEliminacion = confirm(
-        `¿Deseas eliminar el mensaje ` +
-        `"${mensaje.asunto}"?`
-    );
+    campoMensajePadre.value =
+        mensaje.id;
 
-    if (!confirmarEliminacion) {
+    selectorDestinatario.value =
+        mensaje.remitenteId;
+
+    selectorDestinatario.disabled =
+        true;
+
+    campoAsunto.value =
+        mensaje.asunto.startsWith("Re:")
+            ? mensaje.asunto
+            : `Re: ${mensaje.asunto}`;
+
+    campoAsunto.readOnly =
+        true;
+
+    campoContenido.value =
+        "";
+
+    campoArchivos.value =
+        "";
+
+    listaAdjuntos.innerHTML =
+        "";
+
+    tituloFormularioMensaje.textContent =
+        "Responder mensaje";
+
+    contenedorNuevoMensaje.hidden =
+        false;
+
+    campoContenido.focus();
+
+    contenedorNuevoMensaje.scrollIntoView({
+        behavior: "smooth"
+    });
+
+    if (mensaje.estado === "NO_LEIDO") {
+        await marcarComoLeido(idMensaje);
+    }
+}
+
+async function eliminarMensaje(idMensaje) {
+    const mensaje =
+        mensajes.find(function (elemento) {
+            return elemento.id === idMensaje;
+        });
+
+    if (!mensaje) {
         return;
     }
 
-    mensajes = mensajes.filter(
-        function (elemento) {
-            return elemento.id !== idMensaje;
-        }
-    );
+    const confirmar =
+        confirm(
+            `¿Deseas eliminar el mensaje ` +
+            `"${mensaje.asunto}"?`
+        );
 
-    mostrarMensajes();
+    if (!confirmar) {
+        return;
+    }
+
+    const respuesta =
+        await fetch(
+            `${API_MENSAJES}/${idMensaje}` +
+            `?usuarioId=${usuarioActualId}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+    const data =
+        await leerRespuesta(respuesta);
+
+    if (!respuesta.ok) {
+        alert(
+            data.error ||
+            "No se pudo eliminar el mensaje."
+        );
+
+        return;
+    }
+
+    await cargarMensajes();
 }
-
 
 seleccionarTodos.addEventListener(
     "change",
     function () {
-        const casillas =
-            document.querySelectorAll(
+        document
+            .querySelectorAll(
                 ".seleccionar-mensaje"
-            );
-
-        casillas.forEach(function (casilla) {
-            casilla.checked =
-                seleccionarTodos.checked;
-        });
+            )
+            .forEach(function (casilla) {
+                casilla.checked =
+                    seleccionarTodos.checked;
+            });
 
         actualizarSeleccionados();
     }
 );
 
-
 botonEliminarSeleccionados.addEventListener(
     "click",
-    function () {
+    async function () {
         const seleccionadas =
             document.querySelectorAll(
                 ".seleccionar-mensaje:checked"
             );
 
-        const idsSeleccionados =
-            Array.from(seleccionadas).map(
-                function (casilla) {
+        const ids =
+            Array.from(seleccionadas)
+                .map(function (casilla) {
                     return Number(
                         casilla.dataset.id
                     );
-                }
+                });
+
+        if (!ids.length) {
+            return;
+        }
+
+        const confirmar =
+            confirm(
+                `¿Deseas eliminar ${ids.length} ` +
+                "mensajes seleccionados?"
             );
 
-        if (idsSeleccionados.length === 0) {
+        if (!confirmar) {
             return;
         }
 
-        const confirmarEliminacion = confirm(
-            `¿Deseas eliminar ` +
-            `${idsSeleccionados.length} ` +
-            `mensajes seleccionados?`
-        );
+        try {
+            for (const id of ids) {
+                const respuesta =
+                    await fetch(
+                        `${API_MENSAJES}/${id}` +
+                        `?usuarioId=${usuarioActualId}`,
+                        {
+                            method: "DELETE"
+                        }
+                    );
 
-        if (!confirmarEliminacion) {
-            return;
-        }
-
-        mensajes = mensajes.filter(
-            function (mensaje) {
-                return !idsSeleccionados.includes(
-                    mensaje.id
-                );
+                if (!respuesta.ok) {
+                    console.error(
+                        `No se pudo eliminar ` +
+                        `el mensaje ${id}.`
+                    );
+                }
             }
-        );
 
-        mostrarMensajes();
+            await cargarMensajes();
+
+        } catch (error) {
+            console.error(
+                "Error al eliminar mensajes:",
+                error
+            );
+
+            alert(
+                "No se pudieron eliminar " +
+                "todos los mensajes."
+            );
+        }
     }
 );
-
 
 botonNuevoMensaje.addEventListener(
     "click",
-    function () {
-        contenedorNuevoMensaje.hidden = false;
-
-        document
-            .getElementById(
-                "destinatarios-mensaje"
-            )
-            .focus();
-    }
+    abrirFormularioMensaje
 );
-
 
 cerrarFormularioMensaje.addEventListener(
     "click",
-    function () {
-        contenedorNuevoMensaje.hidden = true;
-        formularioMensaje.reset();
-    }
+    cerrarFormulario
 );
 
+cancelarFormularioMensaje.addEventListener(
+    "click",
+    cerrarFormulario
+);
+
+campoArchivos.addEventListener(
+    "change",
+    function () {
+        const archivos =
+            Array.from(campoArchivos.files);
+
+        if (!validarArchivos(archivos)) {
+            campoArchivos.value =
+                "";
+
+            listaAdjuntos.innerHTML =
+                "";
+
+            return;
+        }
+
+        mostrarArchivosSeleccionados();
+    }
+);
 
 formularioMensaje.addEventListener(
     "submit",
-    function (evento) {
+    async function (evento) {
         evento.preventDefault();
 
-        const selectorDestinatarios =
-            document.getElementById(
-                "destinatarios-mensaje"
-            );
+        try {
+            const enviado =
+                await enviarMensaje();
 
-        const destinatarios = Array.from(
-            selectorDestinatarios.selectedOptions
-        ).map(function (opcion) {
-            return opcion.value;
-        });
+            if (!enviado) {
+                return;
+            }
 
-        const asunto = document
-            .getElementById("asunto-mensaje")
-            .value;
+            cerrarFormulario();
 
-        const contenido = document
-            .getElementById("texto-mensaje")
-            .value
-            .trim();
+            await cargarMensajes();
 
-        if (
-            destinatarios.length === 0 ||
-            asunto === "" ||
-            contenido === ""
-        ) {
             alert(
-                "Debes seleccionar al menos un destinatario, " +
-                "completar el asunto y escribir el mensaje."
+                "Tu mensaje fue enviado correctamente."
             );
 
-            return;
-        }
+        } catch (error) {
+            console.error(
+                "Error al enviar el mensaje:",
+                error
+            );
 
-        if (
-            destinatarios.includes(
-                nicknameUsuarioActual
-            )
-        ) {
             alert(
-                "No puedes enviarte un mensaje a ti mismo."
+                "No se pudo conectar con el servidor."
             );
-
-            return;
         }
-
-        const fechaActual =
-            new Date().toLocaleDateString(
-                "es-CL"
-            );
-
-        mensajes.unshift({
-            id: Date.now(),
-            remitente: nicknameUsuarioActual,
-            destinatarios: destinatarios,
-            asunto: asunto,
-            contenido: contenido,
-            fecha: fechaActual,
-            estado: "Leído"
-        });
-
-        formularioMensaje.reset();
-        contenedorNuevoMensaje.hidden = true;
-
-        mostrarMensajes();
-
-        alert(
-            "Tu mensaje fue enviado correctamente."
-        );
     }
 );
-
-
-mostrarMensajes();
+async function iniciarMensajes() {
+    if (!usuarioActualId) {alert("La sesión no contiene un usuario válido.");return;}
+    await cargarDestinatarios();
+    await cargarMensajes();
+}
+iniciarMensajes();

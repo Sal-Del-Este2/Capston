@@ -41,7 +41,9 @@ public class Usuario {
     @JoinColumn(name = "estado_id") private Estado estado;
     // Métodos para el pdf
     // @Lob 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "pdf_dato", columnDefinition = "BYTEA")private byte[] pdfDato; // guarda el archivo
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "pdf_nombre")private String pdfNombre; // guardar el nombre del archivo
     // --- Getters y setters ---
     public Long getId() {return id;}

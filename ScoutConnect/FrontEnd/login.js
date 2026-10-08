@@ -34,12 +34,16 @@ if (formularioLogin) {
             sessionStorage.setItem("correoUsuario", data.correo || correo);
             sessionStorage.setItem("nombreUsuario", data.nombre || ""); //+
             sessionStorage.setItem("rolUsuario", data.rol || "");
+            sessionStorage.setItem("nicknameUsuario", data.nickname || "");
             // Redirigir según rol
-            if (data.rol && data.rol.toLowerCase() === "administrador") {
-                window.location.href = "panel-admin.html";
-            } else {
-                window.location.href = "panel-usuario.html";
-            }
+            const rol = (data.rol || "").toLowerCase();
+            sessionStorage.setItem("rolUsuario", rol);
+            switch (rol) {
+                case "administrador": window.location.href = "panel-admin.html"; break;
+                case "dirigente": window.location.href = "panel-recluta.html";break;
+                case "apoderado": window.location.href = "panel-usuario.html";break;
+                case "recluta": window.location.href = "panel-recluta.html"; break;
+                default: window.location.href = "panel-usuario.html";} // scout
         } catch (error) {
             console.error("Error en el login:", error);
             alert("Error al conectar con el servidor.");

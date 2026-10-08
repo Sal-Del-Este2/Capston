@@ -59,7 +59,6 @@
                     seleccionados</button>
             </div>
             <div id="lista-mensajes" class="lista-mensajes">
-                <!-- Los mensajes se cargarán desde mensajes.js -->
             </div>
             <p id="mensaje-bandeja-vacia" class="mensaje-bandeja-vacia" hidden>No tienes mensajes disponibles.</p>
         </section>
@@ -67,42 +66,51 @@
             <div class="encabezado-formulario-mensaje">
                 <div>
                     <p class="subtitulo-panel">Contacto</p>
-                    <h2>Enviar un nuevo mensaje</h2>
+                    <h2 id="titulo-formulario-mensaje">Enviar un nuevo mensaje</h2>
                 </div>
                 <button type="button" id="cerrar-formulario-mensaje" class="boton-cerrar-formulario"
                     aria-label="Cerrar formulario"><img src="img/iconos/cerrar.svg" width="30px" alt="cerrar"></button>
             </div>
             <form id="form-mensaje">
+                <input type="hidden" id="mensaje-padre">
                 <div class="campo-mensaje">
                     <label for="destinatarios-mensaje">Destinatario</label>
-                    <select id="destinatarios-mensaje" multiple size="5" required>
-                        <option value="administracion">Administración</option>
-                        <option value="ana_scout">@ana_scout</option>
-                        <option value="cristobal_ventura">@cristobal_ventura</option>
-                        <option value="grupo_penalolen">@grupo_penalolen</option>
-                        <option value="monitor_aventura">@monitor_aventura</option>
+                    <select id="destinatario-mensaje" required>
+                        <option value="">Selecciona un destinatario</option>
+
                     </select>
-                    <small>Puedes seleccionar uno o varios destinatarios. En Windows mantén presionada la tecla Ctrl y
-                        en Mac utiliza Command.</small>
+                    <!-- <small>Puedes seleccionar uno o varios destinatarios. En Windows mantén presionada la tecla Ctrl y
+                        en Mac utiliza Command.</small> -->
                 </div>
                 <div class="campo-mensaje">
                     <label for="asunto-mensaje">Asunto</label>
-                    <select id="asunto-mensaje" required>
-                        <option value="">Selecciona un asunto</option>
+                    <input id="asunto-mensaje" maxlength="255" type="text" required>
+                    <!-- <select id="asunto-mensaje" required> -->
+                        <!-- <option value="">Selecciona un asunto</option>
                         <option value="Cuotas">Consulta por cuotas</option>
                         <option value="Actividades">Consulta por actividades</option>
                         <option value="Tienda">Consulta por compras</option>
                         <option value="Datos personales">Actualización de datos personales</option>
-                        <option value="Otro">Otro asunto</option>
-                    </select>
+                        <option value="Otro">Otro asunto</option> -->
+                    <!-- </select> -->
                 </div>
                 <div class="campo-mensaje">
                     <label for="texto-mensaje">Mensaje</label>
-                    <textarea id="texto-mensaje" rows="6" maxlength="500" placeholder="Escribe tu consulta..."
-                        required></textarea>
+                    <textarea id="texto-mensaje" rows="6" maxlength="500" placeholder="Escribe tu consulta..." required></textarea>
                     <small>Máximo 500 caracteres</small>
                 </div>
-                <button type="submit" class="boton-enviar-mensaje">Enviar mensaje</button>
+                <div class="campo-mensaje">
+                    <label for="archivos-mensaje">Adjuntos</label>
+                    <input type="file" id="archivos-mensaje" multiple accept=".pdf,.docx,.xlsx,.jpg,.jpeg,.png">
+                    <small>Máximo 2 archivos. Formatos: PDF, DOCX, XLSX, JPG y PNG. </small>
+                </div>
+                <div id="lista-adjuntos-mensaje" class="lista-adjuntos-mensaje" aria-live="polite">
+                </div>
+                <div>
+                    <button type="button" id="cancelar-formulario-mensaje" class="boton-cancelar-mensaje">Cancelar</button>
+                    <button type="submit" class="boton-enviar-mensaje">Enviar mensaje</button>
+                </div>
+                
             </form>
         </section>
     </main>
