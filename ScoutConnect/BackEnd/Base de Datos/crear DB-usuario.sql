@@ -1,12 +1,9 @@
-para crear desde cero:
-CREATE USER postgres WITH PASSWORD 'Charmander.123';
-GRANT ALL PRIVILEGES ON DATABASE scout1 TO backend_scout;
+
+jueves 17:00
 
 
-si ya esta creado y no recuerda la contraseña:
-ALTER USER postgres WITH PASSWORD 'Charmander.123';
 
----------------------------------------------------------------
+
 -- 1
 CREATE TABLE regiones (
     id BIGSERIAL PRIMARY KEY,nombre VARCHAR(100) UNIQUE NOT NULL);
