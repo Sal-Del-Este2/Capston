@@ -58,10 +58,7 @@ public class SecurityConfig {
     }
 }
 // package com.scout.microservicio_actividades.config;
-
 // import org.springframework.context.annotation.Configuration;
-
 // @Configuration
 // public class SecurityConfig {
-    
 // }

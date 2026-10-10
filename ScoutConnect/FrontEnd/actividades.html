@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <title>Noticias y eventos | Comunidad Scout</title>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a href="index.html"class="navbar-brand fw-bold">
+                    <span class="simbolo-logo"><img src="img/iconos/flor-de-lis.svg" width="80" alt="Flor de lis"></span>Comunidad Scout
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuActividades"
+                    aria-controls="menuActividades" aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuActividades">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                        <a class="nav-link active" href="actividades.html">Noticias y eventos</a>
+                        <a class="nav-link" href="panel-usuario.html" id="enlace-panel-usuario" hidden>Mi panel</a>
+                        <a class="nav-link" href="index.html" id="cerrar-sesion" hidden>Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="mis-actividades">
+        <section class="encabezado-actividades">
+            <div>
+                <p class="subtitulo-panel">Comunidad Scout</p>
+                <h1>Noticias y eventos</h1>
+                <p id="descripcion-actividades">Revisa las noticias, actividades y eventosdestacados de nuestra comunidad.</p>
+            </div>
+            <a href="index.html" class="boton-volver-panel"><img src="img/iconos/atras.svg" width="30" alt="Volver">Volver</a>
+        </section>
+        <section class="resumen-actividades" aria-label="Resumen de contenido">
+            <article class="tarjeta-resumen-actividad">
+                <p>Noticias visibles</p>
+                <strong id="total-noticias-publicas">0</strong>
+            </article>
+            <article class="tarjeta-resumen-actividad">
+                <p>Eventos visibles</p>
+                <strong id="total-eventos-publicos">0</strong>
+            </article>
+            <article class="tarjeta-resumen-actividad">
+                <p>Eventos finalizados</p>
+                <strong id="eventos-finalizados-publicos">0</strong>
+            </article>
+        </section>
+        <section class="contenedor-actividades">
+            <div class="encabezado-lista-actividades">
+                <div>
+                    <p class="subtitulo-panel">Actualidad</p>
+                    <h2>Noticias</h2>
+                </div>
+            </div>
+            <div id="lista-noticias-publicas" class="lista-actividades">
+                <!-- Se carga desde actividades.js -->
+            </div>
+            <p id="sin-noticias-publicas" class="mensaje-bandeja-vacia" hidden>No hay noticias disponibles.</p>
+        </section>
+        <section class="contenedor-actividades">
+            <div class="encabezado-lista-actividades">
+                <div>
+                    <p class="subtitulo-panel">Calendario</p>
+                    <h2>Eventos</h2>
+                </div>
+            </div>
+            <div id="lista-eventos-publicos" class="lista-actividades">
+                <!-- Se carga desde actividades.js -->
+            </div>
+            <p id="sin-eventos-publicos" class="mensaje-bandeja-vacia" hidden>No hay eventos disponibles.</p>
+        </section>
+        <section id="contenedor-detalle-evento" class="contenedor-nuevo-mensaje" hidden>
+            <div class="encabezado-formulario-mensaje">
+                <div>
+                    <p class="subtitulo-panel">Detalle del evento</p>
+                    <h2 id="titulo-detalle-evento">Evento</h2>
+                </div>
+                <button type="button" id="cerrar-detalle-evento" class="boton-cerrar-formulario" aria-label="Cerrar detalle">
+                    <img src="img/iconos/cerrar.svg" width="30" alt="Cerrar">
+                </button>
+            </div>
+            <div id="contenido-detalle-evento">
+                <!-- Se carga desde actividades.js -->
+            </div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="actividades.js"></script>
+</body>
+</html>
