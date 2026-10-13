@@ -1,12 +1,3 @@
-// const USUARIO_ADMINISTRADOR_INICIAL = {
-//     id: 1,
-//     nombre: "Administrador Comunidad Scout",
-//     nickname: "admin_scout",
-//     correo: "admin@comunidadscout.cl",
-//     rol: "administrador",
-//     estado: "activo"
-// };
-
 let usuarios = [];
 const listaUsuarios =document.getElementById("lista-usuarios");
 const totalUsuarios =document.getElementById("total-usuarios");
@@ -50,13 +41,9 @@ function escaparHTML(texto) {const elemento = document.createElement("div");
 // Intenta convertir la respuesta del backend a JSON. Si no es JSON válido, devuelve el texto como error.
 async function leerRespuesta(respuesta) {
     const texto = await respuesta.text();
-    if (!texto) {
-        return {};
-    } try {
-        return JSON.parse(texto);
-    } catch (error) {
-        return {error: texto};
-    }
+    if (!texto) {return {};
+    } try {return JSON.parse(texto);
+    } catch (error) {return {error: texto};}
 }
 // llena el formulario con el dato del usuario
 async function cargarCatalogos() {

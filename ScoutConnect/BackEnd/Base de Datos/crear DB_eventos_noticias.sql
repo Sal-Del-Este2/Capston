@@ -1,10 +1,11 @@
 
+
+
 -- 1
 CREATE TABLE estados_contenido (
     id SMALLSERIAL PRIMARY KEY,
     nombre VARCHAR(20) NOT NULL UNIQUE
 );
--- incluir datos en tabla 1
 INSERT INTO estados_contenido (nombre)
 VALUES
     ('PENDIENTE'),
