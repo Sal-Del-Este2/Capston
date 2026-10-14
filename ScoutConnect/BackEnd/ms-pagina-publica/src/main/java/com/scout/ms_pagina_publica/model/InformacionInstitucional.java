@@ -1,22 +1,30 @@
 package com.scout.ms_pagina_publica.model;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "informacion_institucional")
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+
+@Entity 
+@Table (name = "informacion_institucional")
 @Getter
 @Setter
 @NoArgsConstructor
 public class InformacionInstitucional {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nombre_institucion", nullable = false, length = 200)
+    @Column (name = "nombre_institucion", nullable = false, length = 200)
     private String nombreInstitucion;
     @Column(name = "mision", columnDefinition = "TEXT")
     private String mision;
@@ -36,7 +44,7 @@ public class InformacionInstitucional {
     private String logoUrl;
     @Column(name = "fecha_actualizacion", nullable = false)
     private LocalDateTime fechaActualizacion;
-    @PrePersist
-    @PreUpdate
+    @PrePersist 
+    @PreUpdate 
     public void actualizarFecha() {fechaActualizacion = LocalDateTime.now();}
 }
