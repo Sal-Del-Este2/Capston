@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información institucional | Comunidad Scout</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-admin">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="panel-admin.html">
+                    <span class="simbolo-logo">
+                        <img src="img/iconos/flor-de-lis.svg" width="80" alt="flor-de-lis">
+                    </span>
+                    Comunidad Scout
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuAdministrador">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link" href="panel-admin.html">Administración</a>
+                        <a class="nav-link active" href="admin-informacion.html">Información</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion-admin">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="gestion-admin">
+        <section class="encabezado-gestion-admin">
+            <div>
+                <p class="subtitulo-admin">Administración</p>
+                <h1>Información institucional</h1>
+                <p>Actualiza la información pública de la comunidad scout.</p>
+            </div>
+
+            <a href="panel-admin.html" class="boton-volver-panel">
+                <img src="img/iconos/atras.svg" width="30" alt="atras">
+                Volver
+            </a>
+        </section>
+
+        <section class="contenedor-gestion-admin">
+            <div class="encabezado-listado-admin">
+                <div>
+                    <p class="subtitulo-admin">Datos institucionales</p>
+                    <h2>Editar información</h2>
+                </div>
+            </div>
+
+            <form id="form-informacion">
+                <input type="hidden" id="informacion-id">
+
+                <div class="cuadricula-formulario-admin">
+                    <div class="campo-admin">
+                        <label for="nombre-institucion">Nombre de la institución</label>
+                        <input type="text" id="nombre-institucion" maxlength="200" required>
+                    </div>
+
+                    <div class="campo-admin">
+                        <label for="correo-contacto">Correo de contacto</label>
+                        <input type="email" id="correo-contacto" maxlength="150">
+                    </div>
+
+                    <div class="campo-admin">
+                        <label for="telefono-contacto">Teléfono de contacto</label>
+                        <input type="text" id="telefono-contacto" maxlength="30">
+                    </div>
+
+                    <div class="campo-admin">
+                        <label for="sitio-web">Sitio web</label>
+                        <input type="url" id="sitio-web" maxlength="255">
+                    </div>
+
+                    <div class="campo-admin">
+                        <label for="logo-url">URL del logo</label>
+                        <input type="url" id="logo-url" maxlength="500">
+                    </div>
+                </div>
+
+                <div class="campo-admin">
+                    <label for="mision">Misión</label>
+                    <textarea id="mision" rows="4"></textarea>
+                </div>
+
+                <div class="campo-admin">
+                    <label for="vision">Visión</label>
+                    <textarea id="vision" rows="4"></textarea>
+                </div>
+
+                <div class="campo-admin">
+                    <label for="historia">Historia</label>
+                    <textarea id="historia" rows="5"></textarea>
+                </div>
+
+                <div class="campo-admin">
+                    <label for="valores">Valores</label>
+                    <textarea id="valores" rows="4"></textarea>
+                </div>
+
+                <div class="acciones-formulario-admin">
+                    <button type="button" id="boton-cancelar" class="boton-cancelar-admin">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="boton-guardar-admin">
+                        Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin-informacion.js"></script>
+</body>
+
+</html>

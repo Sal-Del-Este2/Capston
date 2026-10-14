@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de políticas | Comunidad Scout</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-admin">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="panel-admin.html">
+                    <span class="simbolo-logo">
+                        <img src="img/iconos/flor-de-lis.svg" width="80" alt="flor-de-lis">
+                    </span>
+                    Comunidad Scout
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuAdministrador">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuAdministrador">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link" href="panel-admin.html">Administración</a>
+                        <a class="nav-link active" href="admin-politicas.html">Políticas</a>
+                        <a class="nav-link" href="#" id="cerrar-sesion-admin">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="gestion-admin">
+        <section class="encabezado-gestion-admin">
+            <div>
+                <p class="subtitulo-admin">Administración</p>
+                <h1>Gestión de políticas</h1>
+                <p>Crea, edita y administra las políticas públicas de la comunidad.</p>
+            </div>
+
+            <a href="panel-admin.html" class="boton-volver-panel">
+                <img src="img/iconos/atras.svg" width="30" alt="atras">
+                Volver
+            </a>
+        </section>
+
+        <section class="resumen-gestion-admin">
+            <article class="tarjeta-indicador-admin">
+                <span>Total de políticas</span>
+                <strong id="total-politicas">0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>Publicadas</span>
+                <strong id="politicas-publicadas">0</strong>
+            </article>
+
+            <article class="tarjeta-indicador-admin">
+                <span>No publicadas</span>
+                <strong id="politicas-no-publicadas">0</strong>
+            </article>
+        </section>
+
+        <section class="contenedor-gestion-admin">
+            <div class="encabezado-listado-admin">
+                <div>
+                    <p class="subtitulo-admin">Políticas registradas</p>
+                    <h2>Listado de políticas</h2>
+                </div>
+
+                <button type="button" id="boton-nueva-politica" class="boton-nuevo-admin">
+                    Nueva política
+                </button>
+            </div>
+
+            <div class="filtros-admin">
+                <div class="campo-filtro-admin">
+                    <label for="buscar-politica">Buscar</label>
+                    <input type="search" id="buscar-politica" placeholder="Título o contenido">
+                </div>
+
+                <div class="campo-filtro-admin">
+                    <label for="filtro-estado-politica">Estado</label>
+                    <select id="filtro-estado-politica">
+                        <option value="todos">Todas</option>
+                        <option value="publicada">Publicadas</option>
+                        <option value="no-publicada">No publicadas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tabla-responsive">
+                <table class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Tipo</th>
+                            <th>Versión</th>
+                            <th>Estado</th>
+                            <th>Última actualización</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-politicas"></tbody>
+                </table>
+            </div>
+
+            <p id="sin-resultados-politicas" class="mensaje-sin-resultados" hidden>
+                No se encontraron políticas.
+            </p>
+        </section>
+
+        <section id="contenedor-formulario-politica" class="contenedor-formulario-admin" hidden>
+            <div class="encabezado-formulario-admin">
+                <div>
+                    <p class="subtitulo-admin">Política</p>
+                    <h2 id="titulo-formulario-politica">Crear política</h2>
+                </div>
+
+                <button type="button" id="cerrar-formulario-politica"
+                    class="boton-cerrar-formulario" aria-label="Cerrar formulario">
+                    <img src="img/iconos/cerrar.svg" width="30" alt="cerrar">
+                </button>
+            </div>
+
+            <form id="form-politica">
+                <input type="hidden" id="politica-id">
+
+                <div class="cuadricula-formulario-admin">
+                    <div class="campo-admin">
+                        <label for="tipo-politica">Tipo de política</label>
+                        <select id="tipo-politica" required>
+                            <option value="">Seleccione un tipo</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-admin">
+                        <label for="titulo-politica">Título</label>
+                        <input type="text" id="titulo-politica" maxlength="200" required>
+                    </div>
+
+                    <div class="campo-admin">
+                        <label for="estado-politica">Estado</label>
+                        <select id="estado-politica">
+                            <option value="true">Publicada</option>
+                            <option value="false">No publicada</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="campo-admin">
+                    <label for="contenido-politica">Contenido</label>
+                    <textarea id="contenido-politica" rows="10" required></textarea>
+                </div>
+
+                <div class="acciones-formulario-admin">
+                    <button type="button" id="cancelar-formulario-politica" class="boton-cancelar-admin">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="boton-guardar-admin">
+                        Guardar política
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin-politicas.js"></script>
+</body>
+
+</html>
