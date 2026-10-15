@@ -36,6 +36,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Validación -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
         <!-- PostgreSQL Driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -56,6 +62,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>

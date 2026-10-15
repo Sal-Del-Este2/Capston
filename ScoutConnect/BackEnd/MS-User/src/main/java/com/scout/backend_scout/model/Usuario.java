@@ -39,12 +39,15 @@ public class Usuario {
     @JoinColumn(name = "grupo_id") private Grupo grupo;
     @ManyToOne
     @JoinColumn(name = "estado_id") private Estado estado;
+    @Column(name = "debe_cambiar_password", nullable = false)
+    private Boolean debeCambiarPassword = false;
     // Métodos para el pdf
     // @Lob 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "pdf_dato", columnDefinition = "BYTEA")private byte[] pdfDato; // guarda el archivo
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "pdf_nombre")private String pdfNombre; // guardar el nombre del archivo
+
     // --- Getters y setters ---
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -79,4 +82,7 @@ public class Usuario {
     public void setPdfDato(byte[] pdfDato) {this.pdfDato = pdfDato; }
     public String getPdfNombre() { return pdfNombre; }
     public void setPdfNombre(String pdfNombre) {this.pdfNombre = pdfNombre; }
+
+    public Boolean getDebeCambiarPassword() {return debeCambiarPassword;}
+    public void setDebeCambiarPassword(Boolean debeCambiarPassword) {this.debeCambiarPassword = debeCambiarPassword;}
 }
