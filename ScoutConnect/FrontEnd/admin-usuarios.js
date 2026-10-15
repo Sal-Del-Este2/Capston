@@ -237,32 +237,18 @@ function abrirEdicionUsuario(idUsuario) {
 function validarFormulario() {
     const camposTexto = [campoNombre, campoRut, campoTelefono, campoNickname, campoCorreo, campoDireccion];
     for (const campo of camposTexto) {
-        if (!campo.value.trim()) {alert(`Debe completar el campo: ${campo.previousElementSibling.textContent}`); campo.focus();
-            return false;
-        }
+        if (!campo.value.trim()) {alert(`Debe completar el campo: ${campo.previousElementSibling.textContent}`); campo.focus(); return false;}
     }
-    if (!campoNacimiento.value) {alert("Debe ingresar la fecha de nacimiento."); campoNacimiento.focus();
-        return false;
-    }
+    if (!campoNacimiento.value) {alert("Debe ingresar la fecha de nacimiento."); campoNacimiento.focus(); return false;}
     const idUsuario = document.getElementById("usuario-id").value;
-    if (!idUsuario && !campoPassword.value.trim()) {alert("Debe ingresar la contraseña."); campoPassword.focus();
-        return false;
-    }
+    if (!idUsuario && !campoPassword.value.trim()) {alert("Debe ingresar la contraseña."); campoPassword.focus(); return false;}
     const selects = [campoRol, campoEstado, campoRegion, campoComuna, campoGrupo];
-
-    for (const select of selects) {if (!select.value) {alert(`Debe seleccionar: ${select.previousElementSibling.textContent}`); select.focus();
-            return false;
-        }
+    for (const select of selects) {if (!select.value) {alert(`Debe seleccionar: ${select.previousElementSibling.textContent}`); select.focus(); return false;}
     }
     if (campoPdf.files.length > 0) {const archivo = campoPdf.files[0];
-        if (archivo.type !== "application/pdf") {alert("Solo se permiten archivos PDF."); campoPdf.value = "";campoPdf.focus();
-            return false;
-        }
-        if (archivo.size > 5 * 1024 * 1024) {alert("El PDF no puede superar los 5 MB."); campoPdf.value = ""; campoPdf.focus();
-            return false;
-        }
-    }
-    return true;
+        if (archivo.type !== "application/pdf") {alert("Solo se permiten archivos PDF."); campoPdf.value = "";campoPdf.focus(); return false;}
+        if (archivo.size > 5 * 1024 * 1024) {alert("El PDF no puede superar los 5 MB."); campoPdf.value = ""; campoPdf.focus(); return false;}
+    }return true;
 }
 // obtiene los datos del usuario
 function obtenerDatosUsuario(incluirPassword) {
@@ -331,32 +317,42 @@ async function editarUsuario(idUsuario) {
 }
 formularioUsuario.addEventListener("submit", async function (evento) {
     evento.preventDefault();
-    if (!validarFormulario()) {
-        return;
-    }
+    if (!validarFormulario()) {return;}
     const idUsuario = document.getElementById("usuario-id").value;
     try {
         if (!idUsuario) {const creado = await crearUsuario();
-            if (!creado) {
-                return;
-            }
+            if (!creado) {return;}
         } else {const editado = await editarUsuario(idUsuario);
-            if (!editado) {
-                return;
-            }
+            if (!editado) {return;}
         }
         cerrarFormularioUsuario();
         await cargarUsuarios();
     } catch (error) {console.error("Error al guardar usuario:", error);alert("No se pudo conectar con el servidor.");}
 });
+const botonAsignarPassword = document.getElementById("boton-asignar-password");
+const campoPasswordTemporal = document.getElementById("password-temporal-usuario");
+if (botonAsignarPassword) {botonAsignarPassword.addEventListener("click", async function () {
+    const usuarioId = document.getElementById("usuario-id").value;
+    const passwordTemporal = campoPasswordTemporal.value.trim();
+    if (!usuarioId) {alert("Selecciona primero un usuario para asignarle una contraseña temporal."); return;}
+    if (passwordTemporal.length < 6) {alert("La contraseña temporal debe tener al menos 6 caracteres.");return;}
+    try {
+        const respuesta = await fetch(`http://localhost:8080/usuarios/password/${usuarioId}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({password: passwordTemporal})
+        });
+        const data = await leerRespuesta(respuesta);
+        if (!respuesta.ok || data.error) {alert(data.error || "No se pudo asignar la contraseña temporal.");return;}
+        alert(data.mensaje);
+        campoPasswordTemporal.value = "";
+    } catch (error) {console.error("Error al asignar contraseña temporal:", error); alert("No se pudo conectar con el servidor.");}
+});}
 buscadorUsuario.addEventListener("input", mostrarUsuarios);
 filtroRol.addEventListener("change", mostrarUsuarios);
 filtroEstado.addEventListener("change", mostrarUsuarios);
 botonNuevoUsuario.addEventListener("click",abrirFormularioNuevo);
 cerrarFormulario.addEventListener("click",cerrarFormularioUsuario);
 cancelarFormulario.addEventListener("click",cerrarFormularioUsuario);
-async function iniciarPagina() {
-    await cargarCatalogos();
-    await cargarUsuarios();
-}
+async function iniciarPagina() {await cargarCatalogos(); await cargarUsuarios();}
 iniciarPagina();

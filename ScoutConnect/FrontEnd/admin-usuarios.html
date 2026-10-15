@@ -123,7 +123,20 @@
                 <button type="button" id="cerrar-formulario-usuario" class="boton-cerrar-formulario"
                     aria-label="Cerrar formulario"><img src="img/iconos/cerrar.svg" width="30px" alt="cerrar"></button>
             </div>
+            <div class="campo-admin">
+                <label for="password-temporal-usuario">Contraseña temporal</label>
+                <input type="text" id="password-temporal-usuario" placeholder="Mínimo 6 caracteres">
+            </div>
+            <div>
+                <button type="button" id="boton-asignar-password" class="boton-volver-panel">Asignar contraseña temporal</button>
+            </div>
+            <br>
+
             <form id="form-usuario">
+                <div class="acciones-formulario-admin">
+                    <button type="button" id="cancelar-formulario-usuario" class="boton-cancelar-admin">Cancelar</button>
+                    <button type="submit" class="boton-guardar-admin">Guardar usuario</button>
+                </div>
                 <input type="hidden" id="usuario-id">
                 <div class="cuadricula-formulario-admin">
                     <div class="campo-admin">
@@ -183,14 +196,11 @@
                     <label for="pdf-usuario">PDF</label>
                     <input type="file" id="pdf-usuario" accept="application/pdf"><small>Si adjunta un PDF, reemplazará el archivo existente.</small>
                 </div>
-                <div class="acciones-formulario-admin">
-                    <button type="button" id="cancelar-formulario-usuario" class="boton-cancelar-admin">Cancelar</button>
-                    <button type="submit" class="boton-guardar-admin">Guardar usuario</button>
-                </div>
             </form>
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="sesion-admin.js"></script>
     <script src="admin-usuarios.js"></script>
 </body>
 

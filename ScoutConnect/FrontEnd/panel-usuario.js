@@ -5,7 +5,7 @@ if (usuarioAutenticado !== "true") {window.location.href = "login.html";}
 const nombreUsuario = sessionStorage.getItem("nombreUsuario");
 const tituloBienvenida = document.getElementById("titulo-bienvenida");
 if (tituloBienvenida && nombreUsuario) {tituloBienvenida.innerHTML = `
-        ${nombreUsuario}<img src="img/iconos/perfil.svg" width="50px" alt="Icono perfil">`;
+        <img src="img/iconos/perfil.svg" width="30px" alt="Icono perfil"> ${nombreUsuario} `;
 }
 //Cerrar la sesión
 if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {

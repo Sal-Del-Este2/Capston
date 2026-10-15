@@ -169,8 +169,7 @@ function comprimirImagen(archivo) {
                 const dimensionMaxima = 900;
                 let ancho = imagen.width;
                 let alto = imagen.height;
-                if (ancho > dimensionMaxima || alto > dimensionMaxima) {
-                    const proporcion = Math.min(dimensionMaxima / ancho,dimensionMaxima / alto);
+                if (ancho > dimensionMaxima || alto > dimensionMaxima) {const proporcion = Math.min(dimensionMaxima / ancho,dimensionMaxima / alto);
                     ancho = Math.round(ancho * proporcion);
                     alto = Math.round(alto * proporcion);
                 }
