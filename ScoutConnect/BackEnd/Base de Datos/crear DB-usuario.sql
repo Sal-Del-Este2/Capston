@@ -1,9 +1,3 @@
-
-jueves 17:00
-
-
-
-
 -- 1
 CREATE TABLE regiones (
     id BIGSERIAL PRIMARY KEY,nombre VARCHAR(100) UNIQUE NOT NULL);
@@ -71,6 +65,7 @@ CREATE TABLE usuarios (
 	comuna_id BIGINT,
 	pdf_dato bytea,
 	pdf_nombre VARCHAR(255),
+	debe_cambiar_password BOOLEAN NOT NULL DEFAULT FALSE,
 	CONSTRAINT fk_usuarios_estados FOREIGN KEY (estado_id) REFERENCES estados(id) ON UPDATE CASCADE ON DELETE SET NULL,
 	CONSTRAINT fk_usuarios_roles FOREIGN KEY (rol_id) REFERENCES roles(id) ON UPDATE CASCADE ON DELETE SET NULL,
 	CONSTRAINT fk_usuarios_grupos FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE CASCADE ON DELETE SET NULL,
@@ -168,7 +163,7 @@ LEFT JOIN comunas c ON u.comuna_id = c.id
 LEFT JOIN regiones reg ON c.region_id = reg.id
 ORDER BY u.id;
 
--- btener columnas
+-- obtener columnas
 SELECT column_name 
 FROM information_schema.columns 
 WHERE table_name = 'usua'
