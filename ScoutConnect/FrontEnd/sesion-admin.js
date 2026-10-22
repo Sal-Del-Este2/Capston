@@ -1,5 +1,4 @@
 const TIEMPO_INACTIVIDAD_ADMIN = 5 * 60 * 1000;
-
 function obtenerRolSesion() {
     return (
         sessionStorage.getItem("rol") ||
@@ -8,55 +7,23 @@ function obtenerRolSesion() {
         ""
     ).trim().toLowerCase();
 }
-
-function esAdministradorActivo() {
-    return (
-        sessionStorage.getItem("usuarioAutenticado") === "true" &&
-        obtenerRolSesion() === "administrador"
-    );
-}
-
-function cerrarSesionPorInactividad() {
-    sessionStorage.clear();
+function esAdministradorActivo() {return (sessionStorage.getItem("usuarioAutenticado") === "true" && obtenerRolSesion() === "administrador");}
+function cerrarSesionPorInactividad() {sessionStorage.clear();
     alert("Tu sesión administrativa se cerró por inactividad.");
     window.location.replace("login.html");
 }
-
 function reiniciarTemporizadorInactividad() {
-    if (!esAdministradorActivo()) {
-        return;
-    }
-
+    if (!esAdministradorActivo()) {return;}
     sessionStorage.setItem("ultimaActividadAdmin", Date.now().toString());
-
     clearTimeout(window.temporizadorInactividadAdmin);
-
-    window.temporizadorInactividadAdmin = setTimeout(
-        cerrarSesionPorInactividad,
-        TIEMPO_INACTIVIDAD_ADMIN
-    );
+    window.temporizadorInactividadAdmin = setTimeout(cerrarSesionPorInactividad, TIEMPO_INACTIVIDAD_ADMIN);
 }
-
 function validarSesionAdministrador() {
-    if (!esAdministradorActivo()) {
-        window.location.replace("login.html");
-        return false;
-    }
-
-    const ultimaActividad = Number(
-        sessionStorage.getItem("ultimaActividadAdmin")
-    );
-
-    if (
-        ultimaActividad &&
-        Date.now() - ultimaActividad > TIEMPO_INACTIVIDAD_ADMIN
-    ) {
-        cerrarSesionPorInactividad();
-        return false;
-    }
-
+    if (!esAdministradorActivo()) {window.location.replace("login.html"); return false;}
+    const ultimaActividad = Number(sessionStorage.getItem("ultimaActividadAdmin"));
+    if (ultimaActividad && Date.now() - ultimaActividad > TIEMPO_INACTIVIDAD_ADMIN
+    ) {cerrarSesionPorInactividad(); return false;}
     reiniciarTemporizadorInactividad();
-
     [
         "click",
         "keydown",
@@ -65,13 +32,7 @@ function validarSesionAdministrador() {
         "scroll",
         "submit",
         "change"
-    ].forEach(evento => {
-        document.addEventListener(evento, reiniciarTemporizadorInactividad, {
-            passive: true
-        });
-    });
-
+    ].forEach(evento => {document.addEventListener(evento, reiniciarTemporizadorInactividad, {passive: true});});
     return true;
 }
-
 validarSesionAdministrador();

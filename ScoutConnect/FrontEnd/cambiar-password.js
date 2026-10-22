@@ -11,11 +11,12 @@ if (formularioCambiarPassword) {
         if (passwordNueva.length < 6) {alert("La nueva contraseña debe tener al menos 6 caracteres."); return;}
         if (passwordNueva !== passwordConfirmar) {alert("Las contraseñas nuevas no coinciden."); return;}
         try {
-            const respuesta = await fetch(URL_CAMBIAR_PASSWORD, {
+            // const respuesta = await fetch(URL_CAMBIAR_PASSWORD, {
+            const respuesta = await fetchAutenticado(URL_CAMBIAR_PASSWORD, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    correo: correo,
+                    // correo: correo,
                     passwordActual: passwordActual,
                     passwordNueva: passwordNueva
                 })
