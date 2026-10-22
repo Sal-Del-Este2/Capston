@@ -56,10 +56,10 @@ function mapearMensaje(mensaje) {
     };
 }
 async function cargarMensajes() {
-    if (!usuarioAdministradorId) {alert("No se encontró el usuario administrador.");return;}
+    // if (!usuarioAdministradorId) {alert("No se encontró el usuario administrador.");return;}
     try {const [respuestaRecibidos, respuestaEnviados] = await Promise.all([
-            fetch(`${API_MENSAJES}/recibidos/${usuarioAdministradorId}`),
-            fetch(`${API_MENSAJES}/enviados/${usuarioAdministradorId}`)
+        fetchAutenticado(`${API_MENSAJES}/recibidos`),
+        fetchAutenticado(`${API_MENSAJES}/enviados`)
         ]);
         const recibidos =await leerRespuesta(respuestaRecibidos);
         const enviados =await leerRespuesta(respuestaEnviados);
@@ -73,7 +73,7 @@ async function cargarMensajes() {
         alert("No se pudieron cargar los mensajes.");}
 }
 async function cargarDestinatarios() {
-    try {const respuesta = await fetch("http://localhost:8080/usuarios/listar");
+    try {const respuesta = await fetchAutenticado("http://localhost:8080/usuarios/listar");
         const usuarios = await respuesta.json();
         if (!respuesta.ok) {throw new Error("No se pudieron cargar los usuarios.");}
         selectorDestinatario.innerHTML = '<option value="">Seleccione un destinatario</option>';
@@ -198,10 +198,10 @@ async function enviarMensaje() {
     const archivos = Array.from(campoArchivos.files);
     if (archivos.length > 2) {alert("Solo puedes adjuntar hasta 2 archivos.");return false;}
     const formData = new FormData();
-    const datosMensaje = {remitenteId: usuarioAdministradorId, destinatarioId, asunto, contenido};
+    const datosMensaje = {destinatarioId: destinatarioId, asunto, contenido}; // remitenteId: usuarioAdministradorId, 
     formData.append("mensaje", JSON.stringify(datosMensaje));
     archivos.forEach(function (archivo) {formData.append("archivos", archivo);});
-    const respuesta = await fetch(API_MENSAJES, {method: "POST",body: formData});
+    const respuesta = await fetchAutenticado(API_MENSAJES, {method: "POST",body: formData});
     const data = await leerRespuesta(respuesta);
     if (!respuesta.ok) {alert(data.error || "No se pudo enviar el mensaje.");return false;}
     alert("Mensaje enviado correctamente.");
@@ -225,7 +225,7 @@ formularioMensaje.addEventListener("submit",
     }
 );
 async function marcarComoLeido(idMensaje) {
-    const respuesta = await fetch(`${API_MENSAJES}/${idMensaje}/leer` + `?usuarioId=${usuarioAdministradorId}`, {method: "PUT"});
+    const respuesta = await fetchAutenticado(`${API_MENSAJES}/${idMensaje}/leer` + `?usuarioId=${usuarioAdministradorId}`, {method: "PUT"});
     if (!respuesta.ok) {return;}
     await cargarMensajes();
 }
@@ -258,7 +258,7 @@ async function responderMensaje(idMensaje) {
 }
 async function eliminarMensaje(idMensaje) {
     if (!confirm("¿Deseas eliminar este mensaje?")) {return;}
-    const respuesta =await fetch(`${API_MENSAJES}/${idMensaje}` + `?usuarioId=${usuarioAdministradorId}`, {method: "DELETE"});
+    const respuesta =await fetchAutenticado(`${API_MENSAJES}/${idMensaje}` + `?usuarioId=${usuarioAdministradorId}`, {method: "DELETE"});
     const data =await leerRespuesta(respuesta);
     if (!respuesta.ok) {alert(data.error || "No se pudo eliminar el mensaje.");return;}
     await cargarMensajes();
@@ -271,7 +271,7 @@ botonEliminarSeleccionados.addEventListener("click",
         const ids = Array.from(seleccionadas).map(function (casilla) {return Number(casilla.dataset.id);});
         if (!ids.length) {return;}
         if (!confirm(`¿Deseas eliminar ${ids.length} mensajes?`)) {return;}
-        for (const id of ids) {await fetch(`${API_MENSAJES}/${id}` + `?usuarioId=${usuarioAdministradorId}`, {method: "DELETE"});}
+        for (const id of ids) {await fetchAutenticado(`${API_MENSAJES}/${id}` + `?usuarioId=${usuarioAdministradorId}`, {method: "DELETE"});}
         await cargarMensajes();
     }
 );

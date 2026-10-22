@@ -198,7 +198,7 @@ async function enviarMensaje() {
     if (!contenido) {alert("Escribe el contenido del mensaje.");return false;}
     if (contenido.length > 500) {alert("El mensaje no puede superar " +"los 500 caracteres.");return false;}
     if (!validarArchivos(archivos)) {return false;}
-    const datosMensaje = {remitenteId: usuarioActualId, destinatarioId, asunto, contenido};
+    const datosMensaje = {destinatarioId: destinatarioId, asunto, contenido}; // remitenteId: usuarioActualId,
     const formData = new FormData();
     formData.append("mensaje", JSON.stringify(datosMensaje));
     archivos.forEach(function (archivo) {formData.append("archivos", archivo);});

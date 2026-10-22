@@ -86,7 +86,7 @@ function cargarOpciones(select, elementos, textoInicial) {select.innerHTML = "";
 }
 // Función para cargar usuarios desde el backend
 async function cargarUsuarios() {
-    try {const respuesta = await fetch("http://localhost:8080/usuarios/listar");
+    try {const respuesta = await fetchAutenticado("http://localhost:8080/usuarios/listar");
         if (!respuesta.ok) {throw new Error("No se pudo obtener la lista de usuarios.");}
         usuarios = await respuesta.json();
         mostrarUsuarios();
@@ -176,7 +176,7 @@ async function eliminarUsuario(idUsuario) {
         return;
     }
     try {
-        const respuesta = await fetch(`http://localhost:8080/usuarios/${idUsuario}`,{method: "DELETE"});
+        const respuesta = await fetchAutenticado(`http://localhost:8080/usuarios/${idUsuario}`,{method: "DELETE"});
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {alert(data.error || data.message || "No se pudo eliminar el usuario.");
             return;
@@ -275,7 +275,7 @@ async function crearUsuario() {
     const formularioMultipart = new FormData();
     formularioMultipart.append("usuario", new Blob([JSON.stringify(datosUsuario)],{type: "application/json"}));
     if (campoPdf.files.length > 0) {formularioMultipart.append("archivo", campoPdf.files[0]);}
-    const respuesta = await fetch("http://localhost:8080/usuarios/registro?rolSolicitante=administrador",{
+    const respuesta = await fetchAutenticado("http://localhost:8080/usuarios/registro?rolSolicitante=administrador",{
             method: "POST",
             body: formularioMultipart
         }
@@ -300,7 +300,7 @@ async function editarUsuario(idUsuario) {
     );
     if (campoPdf.files.length > 0) {formularioMultipart.append("archivo",campoPdf.files[0]);
     }
-    const respuesta = await fetch(`http://localhost:8080/usuarios/editar/${idUsuario}`,{
+    const respuesta = await fetchAutenticado(`http://localhost:8080/usuarios/editar/${idUsuario}`,{
         method: "PUT",
         body: formularioMultipart
     });
@@ -337,7 +337,7 @@ if (botonAsignarPassword) {botonAsignarPassword.addEventListener("click", async 
     if (!usuarioId) {alert("Selecciona primero un usuario para asignarle una contraseña temporal."); return;}
     if (passwordTemporal.length < 6) {alert("La contraseña temporal debe tener al menos 6 caracteres.");return;}
     try {
-        const respuesta = await fetch(`http://localhost:8080/usuarios/password/${usuarioId}`, {
+        const respuesta = await fetchAutenticado(`http://localhost:8080/usuarios/password/${usuarioId}`, {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({password: passwordTemporal})

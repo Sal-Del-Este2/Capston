@@ -29,8 +29,6 @@ function limpiarIntentosFallidos() {
     localStorage.removeItem("intentosFallidosLogin");
     localStorage.removeItem("bloqueoLoginHasta");
 }
-
-
 if (formularioLogin) {
     formularioLogin.addEventListener("submit", async function (evento) {
         evento.preventDefault();
@@ -62,15 +60,12 @@ if (formularioLogin) {
             }
             limpiarIntentosFallidos();
             // Guardar sesión
+            sessionStorage.setItem("tokenUsuario", data.token || "");
             sessionStorage.setItem("usuarioAutenticado", "true");
             sessionStorage.setItem("usuarioId",data.id);
             sessionStorage.setItem("correoUsuario", data.correo || correo);
             sessionStorage.setItem("nombreUsuario", data.nombre || "");
             sessionStorage.setItem("nicknameUsuario", data.nickname || "");
-            
-            // sessionStorage.setItem("rolUsuario", data.rol || "");
-
-
             // Redirigir según rol
             const rol = (data.rol || "").toLowerCase();
             sessionStorage.setItem("rolUsuario", rol);
