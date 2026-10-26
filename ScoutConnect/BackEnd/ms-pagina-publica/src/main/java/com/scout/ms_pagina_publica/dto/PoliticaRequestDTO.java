@@ -13,6 +13,4 @@ public record PoliticaRequestDTO(
     @NotBlank(message = "El contenido es obligatorio.")
     String contenido,
     Boolean publicada
-) {
-
-}
+) { }

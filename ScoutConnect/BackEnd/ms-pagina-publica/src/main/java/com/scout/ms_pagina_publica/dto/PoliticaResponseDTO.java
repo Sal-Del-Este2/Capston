@@ -13,6 +13,4 @@ public record PoliticaResponseDTO(
     LocalDateTime fechaPublicacion,
     LocalDateTime fechaCreacion,
     LocalDateTime fechaActualizacion
-) {
-
-}
+) { }

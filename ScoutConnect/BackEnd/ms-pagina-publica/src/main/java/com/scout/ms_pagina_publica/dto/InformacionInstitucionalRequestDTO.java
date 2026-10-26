@@ -21,6 +21,4 @@ public record InformacionInstitucionalRequestDTO(
     String sitioWeb,
     @Size(max = 500, message = "La URL del logo no puede superar 500 caracteres.")
     String logoUrl
-) {
-
-}
+) { }

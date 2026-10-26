@@ -16,6 +16,4 @@ public record ContactoReinoRequestDTO(
     String correo,
     @Size(max = 30, message = "El teléfono no puede superar 30 caracteres.")
     String telefono
-) {
-
-}
+) { }

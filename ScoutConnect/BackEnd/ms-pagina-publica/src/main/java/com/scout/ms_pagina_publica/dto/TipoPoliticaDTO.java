@@ -4,6 +4,4 @@ public record TipoPoliticaDTO(
     Long id,
     String nombre,
     String descripcion
-) {
-
-}
+) { }

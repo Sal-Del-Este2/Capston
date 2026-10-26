@@ -8,6 +8,4 @@ public record ReinoDTO(
     Long comunaId,
     String comunaNombre,
     String regionNombre
-) {
-
-}
+) { }

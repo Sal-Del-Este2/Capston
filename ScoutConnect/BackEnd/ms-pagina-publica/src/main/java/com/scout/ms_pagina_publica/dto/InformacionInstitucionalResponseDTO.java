@@ -14,6 +14,4 @@ public record InformacionInstitucionalResponseDTO(
     String sitioWeb,
     String logoUrl,
     LocalDateTime fechaActualizacion
-) {
-
-}
+) { }
