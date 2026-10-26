@@ -5,6 +5,4 @@ public record ComunaDTO(
     String nombre,
     Long regionId,
     String regionNombre
-) {
-
-}
+) { }

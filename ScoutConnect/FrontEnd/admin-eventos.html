@@ -127,6 +127,20 @@
                         <label for="lugar-evento">Lugar</label>
                         <input type="text" id="lugar-evento" maxlength="180" required>
                     </div>
+                    <!-- kkk -->
+                    <div class="campo-admin">
+                        <label for="comuna-evento">Comuna</label>
+                        <select id="comuna-evento" required>
+                            <option value="">Seleccione una comuna</option>
+                        </select>
+                    </div>
+                    <div class="campo-admin">
+                        <label for="grupo-evento">Grupo scout</label>
+                        <select id="grupo-evento" required>
+                            <option value="">Seleccione un grupo scout</option>
+                        </select>
+                    </div>
+                    
                     <div class="campo-admin">
                         <label for="estado-evento">Estado</label>
                         <select id="estado-evento" required>
@@ -177,6 +191,7 @@
     </main>
     <script src="mensajes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="auth.js"></script>
     <script src="sesion-admin.js"></script>
     <script src="admin-eventos.js"></script>
 </body>

@@ -5,6 +5,8 @@ import com.scout.microservicio_actividades.dto.ActualizarNoticiaRequest;
 import com.scout.microservicio_actividades.dto.CrearNoticiaRequest;
 import com.scout.microservicio_actividades.dto.NoticiaResponse;
 import com.scout.microservicio_actividades.service.NoticiaService;
+import io.jsonwebtoken.Claims;
+import org.springframework.security.core.Authentication;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +25,10 @@ public class NoticiaController {
     private final NoticiaService noticiaService;
     public NoticiaController(NoticiaService noticiaService) {this.noticiaService = noticiaService;}
     @PostMapping
-    public ResponseEntity<NoticiaResponse> crear(
-        @Valid
-        @RequestBody
-        CrearNoticiaRequest request) {NoticiaResponse respuesta = noticiaService.crear(request);
+    public ResponseEntity<?> crear(@Valid @RequestBody CrearNoticiaRequest request, Authentication authentication) {
+        Claims claims = (Claims) authentication.getDetails();
+        Long creadorId = claims.get("id", Long.class);
+        NoticiaResponse respuesta = noticiaService.crear(request, creadorId);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
     @GetMapping

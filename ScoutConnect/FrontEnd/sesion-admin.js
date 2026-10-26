@@ -20,19 +20,19 @@ function reiniciarTemporizadorInactividad() {
 }
 function validarSesionAdministrador() {
     if (!esAdministradorActivo()) {window.location.replace("login.html"); return false;}
-    const ultimaActividad = Number(sessionStorage.getItem("ultimaActividadAdmin"));
-    if (ultimaActividad && Date.now() - ultimaActividad > TIEMPO_INACTIVIDAD_ADMIN
-    ) {cerrarSesionPorInactividad(); return false;}
+    const ultimaActividad = Number(sessionStorage.getItem("ultimaActividadAdmin") || 0);
+    if (ultimaActividad && Date.now() - ultimaActividad > TIEMPO_INACTIVIDAD_ADMIN) {cerrarSesionPorInactividad(); return false;}
     reiniciarTemporizadorInactividad();
-    [
-        "click",
-        "keydown",
-        "mousemove",
-        "touchstart",
-        "scroll",
-        "submit",
-        "change"
-    ].forEach(evento => {document.addEventListener(evento, reiniciarTemporizadorInactividad, {passive: true});});
     return true;
 }
+[
+    "click",
+    "keydown",
+    "mousemove",
+    "touchstart",
+    "scroll",
+    "submit",
+    "change"
+].forEach(evento => {document.addEventListener(evento, reiniciarTemporizadorInactividad, {passive: true});});
+return true;
 validarSesionAdministrador();

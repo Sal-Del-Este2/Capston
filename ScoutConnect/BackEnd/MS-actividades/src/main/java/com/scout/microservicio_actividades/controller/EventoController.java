@@ -1,7 +1,8 @@
 package com.scout.microservicio_actividades.controller;
 
 import java.util.List;
-
+import io.jsonwebtoken.Claims;
+import org.springframework.security.core.Authentication;
 import com.scout.microservicio_actividades.dto.ActualizarEventoRequest;
 import com.scout.microservicio_actividades.dto.CrearEventoRequest;
 import com.scout.microservicio_actividades.dto.EventoResponse;
@@ -24,13 +25,12 @@ public class EventoController {
     private final EventoService eventoService;
     public EventoController(EventoService eventoService) {this.eventoService = eventoService;}
     @PostMapping
-    public ResponseEntity<EventoResponse> crear(
-        @Valid
-        @RequestBody
-        CrearEventoRequest request) {
-            EventoResponse respuesta = eventoService.crear(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
-        }
+    public ResponseEntity<?> crear(@Valid @RequestBody CrearEventoRequest request, Authentication authentication) {
+        Claims claims = (Claims) authentication.getDetails();
+        Long creadorId = claims.get("id", Long.class);
+        EventoResponse respuesta = eventoService.crear(request, creadorId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+    }
     @GetMapping
     public ResponseEntity<List<EventoResponse>>
     listarParaAutenticados() {return ResponseEntity.ok(eventoService.listarParaAutenticados());}

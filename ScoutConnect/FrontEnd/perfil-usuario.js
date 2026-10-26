@@ -56,25 +56,51 @@ function validarRut(rut) {
     } else {digitoCalculado = String(resultado);
     }return digitoIngresado === digitoCalculado;
 }
+// async function cargarDatosPerfil() {
+//     if (!correoUsuario) {return;}
+//     await cargarComunas();
+//     const respuesta = await fetchAutenticado(`${API_USUARIOS}/perfil/${encodeURIComponent(correoUsuario)}`, {
+//         method: "GET",
+//         headers: {"Content-Type": "application/json"},
+//         body: JSON.stringify(perfilUsuario)
+//     });
+//     if (!respuesta.ok) {throw new Error("No se pudo cargar el perfil.");}
+//     const usuario = await respuesta.json();
+//     document.getElementById("nombre-perfil").value = usuario.nombre || "";
+//     document.getElementById("rut-perfil").value = usuario.rut || "";
+//     document.getElementById("correo-perfil").value = usuario.correo || "";
+//     document.getElementById("telefono-perfil").value = usuario.telefono || "";
+//     document.getElementById("fecha-nacimiento").value = usuario.nacimiento || "";
+//     document.getElementById("direccion-perfil").value = usuario.direccion || "";
+//     document.getElementById("comuna-perfil").value = usuario.comuna?.id || "";
+//     document.getElementById("grupo-perfil").value = usuario.grupo?.nombre || "";
+//     document.getElementById("nombre-perfil").readOnly = true;
+//     document.getElementById("rut-perfil").readOnly = true;
+//     document.getElementById("correo-perfil").readOnly = true;
+//     document.getElementById("fecha-nacimiento").disabled = true;
+//     document.getElementById("grupo-perfil").disabled = true;
+// }
 async function cargarDatosPerfil() {
     if (!correoUsuario) {return;}
     await cargarComunas();
-    const respuesta = await fetch(`${API_USUARIOS}/perfil/${encodeURIComponent(correoUsuario)}`);
-    if (!respuesta.ok) {throw new Error("No se pudo cargar el perfil.");}
-    const usuario = await respuesta.json();
-    document.getElementById("nombre-perfil").value = usuario.nombre || "";
-    document.getElementById("rut-perfil").value = usuario.rut || "";
-    document.getElementById("correo-perfil").value = usuario.correo || "";
-    document.getElementById("telefono-perfil").value = usuario.telefono || "";
-    document.getElementById("fecha-nacimiento").value = usuario.nacimiento || "";
-    document.getElementById("direccion-perfil").value = usuario.direccion || "";
-    document.getElementById("comuna-perfil").value = usuario.comuna?.id || "";
-    document.getElementById("grupo-perfil").value = usuario.grupo?.nombre || "";
-    document.getElementById("nombre-perfil").readOnly = true;
-    document.getElementById("rut-perfil").readOnly = true;
-    document.getElementById("correo-perfil").readOnly = true;
-    document.getElementById("fecha-nacimiento").disabled = true;
-    document.getElementById("grupo-perfil").disabled = true;
+    try {
+        const respuesta = await fetchAutenticado(`${API_USUARIOS}/perfil/${encodeURIComponent(correoUsuario)}`);
+        if (!respuesta.ok) {const data = await leerRespuesta(respuesta); throw new Error(data.error || "No se pudo cargar el perfil.");}
+        const usuario = await respuesta.json();
+        document.getElementById("nombre-perfil").value = usuario.nombre || "";
+        document.getElementById("rut-perfil").value = usuario.rut || "";
+        document.getElementById("correo-perfil").value = usuario.correo || "";
+        document.getElementById("telefono-perfil").value = usuario.telefono || "";
+        document.getElementById("fecha-nacimiento").value = usuario.nacimiento || "";
+        document.getElementById("direccion-perfil").value = usuario.direccion || "";
+        document.getElementById("comuna-perfil").value = usuario.comuna?.id || "";
+        document.getElementById("grupo-perfil").value = usuario.grupo?.nombre || "";
+        document.getElementById("nombre-perfil").readOnly = true;
+        document.getElementById("rut-perfil").readOnly = true;
+        document.getElementById("correo-perfil").readOnly = true;
+        document.getElementById("fecha-nacimiento").disabled = true;
+        document.getElementById("grupo-perfil").disabled = true;
+    } catch (error) {console.error("Error al cargar perfil:", error); alert(error.message || "No se pudo cargar el perfil.");}
 }
 if (formularioPerfil) {
     formularioPerfil.addEventListener("submit", async function (evento) {
@@ -84,10 +110,10 @@ if (formularioPerfil) {
             direccion: document.getElementById("direccion-perfil").value.trim(),
             comuna: {id: Number(document.getElementById("comuna-perfil").value)}
         };
-        try {const respuesta = await fetch(`${API_USUARIOS}/perfil/${
-            encodeURIComponent(correoUsuario)}`,{
+        try {
+            const respuesta = await fetchAutenticado(`${API_USUARIOS}/perfil/${encodeURIComponent(correoUsuario)}`,{
                 method: "PUT",
-                headers: {"Content-Type": "application/json"},
+                // headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(perfilUsuario)
             });
             const data =await leerRespuesta(respuesta);
@@ -108,7 +134,7 @@ async function cargarPdfPerfil() {
     const urlPdf =`${API_USUARIOS}/perfil/${encodeURIComponent(correoUsuario)}/pdf`;
     try {
         console.log("Solicitando PDF:", urlPdf);
-        const respuesta = await fetch(urlPdf);
+        const respuesta = await fetchAutenticado(urlPdf);
         console.log("Estado de respuesta:",respuesta.status);
         console.log("Tipo de contenido:", respuesta.headers.get("content-type"));
         if (respuesta.status === 404) {mensajePdf.textContent = "No tienes un documento PDF cargado.";return;}
@@ -124,7 +150,7 @@ async function cargarPdfPerfil() {
         visorPdf.hidden = false;
         enlaceDescargarPdf.href = urlTemporal;
         enlaceDescargarPdf.download = "acuerdo.pdf";
-        enlaceDescargarPdf.target = "_blank"; // ++
+        enlaceDescargarPdf.target = "_blank";
         enlaceDescargarPdf.hidden = false;
         mensajePdf.textContent = "Documento PDF cargado correctamente.";
     } catch (error) {console.error("Error al cargar el PDF:", error); mensajePdf.textContent = "No se pudo cargar el documento PDF.";}

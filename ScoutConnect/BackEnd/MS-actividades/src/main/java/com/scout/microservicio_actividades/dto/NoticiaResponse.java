@@ -13,6 +13,12 @@ public class NoticiaResponse {
     private Long creadorId;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
+    
+    private Long comunaId;
+    private String comunaNombre;
+    private Long grupoId;
+    private String grupoNombre;
+
     public NoticiaResponse() { }
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -32,5 +38,13 @@ public class NoticiaResponse {
     public void setFechaCreacion(LocalDateTime fechaCreacion) {this.fechaCreacion = fechaCreacion;}
     public LocalDateTime getFechaActualizacion() {return fechaActualizacion;}
     public void setFechaActualizacion(LocalDateTime fechaActualizacion) {this.fechaActualizacion = fechaActualizacion;}
-    
+
+    public Long getComunaId() { return comunaId; }
+    public void setComunaId(Long comunaId) { this.comunaId = comunaId; }
+    public String getComunaNombre() { return comunaNombre; }
+    public void setComunaNombre(String comunaNombre) { this.comunaNombre = comunaNombre; }
+    public Long getGrupoId() { return grupoId; }
+    public void setGrupoId(Long grupoId) { this.grupoId = grupoId; }
+    public String getGrupoNombre() { return grupoNombre; }
+    public void setGrupoNombre(String grupoNombre) { this.grupoNombre = grupoNombre; }
 }

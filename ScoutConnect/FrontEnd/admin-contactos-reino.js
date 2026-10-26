@@ -62,7 +62,7 @@ async function cargarReinos() {
 }
 async function cargarUsuarios() {
     try {
-        const respuesta = await fetch(API_USUARIOS);
+        const respuesta = await fetchAutenticado(API_USUARIOS);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudieron cargar los usuarios.");}
         usuarios = Array.isArray(data) ? data : [];
@@ -113,11 +113,13 @@ function mostrarContactos() {listaContactos.innerHTML = "";
                 ${
                     contacto
                         ? `
+                        <div class="acciones-tabla-admin">
                             <button type="button" class="boton-editar-admin" data-contacto-id="${contacto.id}">Editar</button>
-                            <button type="button" class="boton-eliminar-admin" data-contacto-id="${contacto.id}"><img src="img/iconos/cerrar.svg" width="30px" alt="cerrar"></button>
+                            <button type="button" class="boton-eliminar-admin" data-contacto-id="${contacto.id}"><img src="img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
                         `
                         : `
-                            <button type="button" class="boton-editar-admin" data-reino-id="${reino.id}">Asignar</button>
+                            <button type="button" class="boton-asignar-admin" data-reino-id="${reino.id}">Asignar</button>
+                        </div>
                         `
                 }
             </td>
@@ -180,9 +182,9 @@ async function guardarContacto(evento) {evento.preventDefault();
     const url = idContacto ? `${URL_CONTACTOS}/${idContacto}` : URL_CONTACTOS;
     const metodo = idContacto ? "PUT" : "POST";
     try {
-        const respuesta = await fetch(url, {
+        const respuesta = await fetchAutenticado(url, {
             method: metodo,
-            headers: {"Content-Type": "application/json"},
+            // headers: {"Content-Type": "application/json"},
             body: JSON.stringify(datos)
         });
         const data = await leerRespuesta(respuesta);
@@ -190,7 +192,7 @@ async function guardarContacto(evento) {evento.preventDefault();
         alert(idContacto ? "Representante actualizado correctamente." : "Representante asignado correctamente.");
         cerrarFormularioContacto();
         await cargarContactos();
-    } catch (error) {console.error("Error al guardar contacto:", error); alert("No se pudo conectar con el servidor.");}
+    } catch (error) {console.error("Error al guardar contacto:", error); alert(error.message || "No se pudo conectar con el servidor.");}
 }
 async function quitarRepresentante(idContacto) {
     const contacto = contactos.find(item => item.id === idContacto);
@@ -198,9 +200,8 @@ async function quitarRepresentante(idContacto) {
     const confirmacion = confirm(`¿Deseas quitar al representante del reino "${contacto.reinoNombre}"?`);
     if (!confirmacion) {return;}
     try {
-        const respuesta = await fetch(`${URL_CONTACTOS}/${idContacto}`, {method: "DELETE"});
-        const data = await leerRespuesta(respuesta);
-        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo quitar el representante.");return;}
+        const respuesta = await fetchAutenticado(`${URL_CONTACTOS}/${idContacto}`, {method: "DELETE"});
+        if (!respuesta.ok) {const data = await leerRespuesta(respuesta); alert(data.error || data.message || "No se pudo quitar el representante."); return;}
         alert("Representante quitado correctamente.");
         await cargarContactos();
     } catch (error) {console.error("Error al quitar representante:", error); alert("No se pudo conectar con el servidor.");}
@@ -209,8 +210,7 @@ botonNuevoContacto.addEventListener("click", () => abrirFormularioNuevo());
 botonCerrarFormulario.addEventListener("click", cerrarFormularioContacto);
 botonCancelarFormulario.addEventListener("click", cerrarFormularioContacto);
 formularioContacto.addEventListener("submit", guardarContacto);
-if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});
-}
+if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});}
 validarAccesoAdministrador();
 async function iniciarPagina() {
     await cargarReinos();

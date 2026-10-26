@@ -76,6 +76,12 @@
                     <input type="search" id="buscar-usuario" placeholder="Nombre, nickname o correo">
                 </div>
                 <div class="campo-filtro-admin">
+                    <label for="filtro-grupo">Grupo</label>
+                    <select id="filtro-grupo">
+                        <option value="todos">Todos</option>
+                    </select>
+                </div>
+                <div class="campo-filtro-admin">
                     <label for="filtro-rol">Rol</label>
                     <select id="filtro-rol">
                         <option value="todos">Todos</option>
@@ -100,7 +106,8 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Nickname</th>
+                            <!-- <th>Nickname</th> -->
+                             <th>Grupo</th>
                             <th>Correo</th>
                             <th>Rol</th>
                             <th>Estado</th>

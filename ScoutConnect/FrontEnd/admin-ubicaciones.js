@@ -24,6 +24,8 @@ const campoEstado = document.getElementById("estado-ubicacion");
 const campoLatitud = document.getElementById("latitud-ubicacion");
 const campoLongitud = document.getElementById("longitud-ubicacion");
 const campoDescripcion = document.getElementById("descripcion-ubicacion");
+const botonCerrarSesion = document.getElementById("cerrar-sesion-admin");
+
 function validarAccesoAdministrador() {
     const autenticado = sessionStorage.getItem("usuarioAutenticado");
     const rol = (
@@ -48,6 +50,7 @@ async function leerRespuesta(respuesta) {
 async function cargarComunas() {
     try {
         const respuesta = await fetch(URL_COMUNAS);
+        // const respuesta = await fetchAutenticado(URL_COMUNAS);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudieron cargar las comunas.");}
         comunas = Array.isArray(data) ? data : [];
@@ -58,16 +61,16 @@ async function cargarComunas() {
             opcion.textContent = `${comuna.nombre} - ${comuna.regionNombre}`;
             campoComuna.appendChild(opcion);
         });
-    } catch (error) {console.error("Error al cargar comunas:", error);alert("No se pudieron cargar las comunas.");}
+    } catch (error) {console.error("Error al cargar comunas:", error); alert(error.message || "No se pudieron cargar las comunas.");}
 }
 async function cargarUbicaciones() {
     try {
-        const respuesta = await fetch(URL_UBICACIONES);
+        const respuesta = await fetchAutenticado(URL_UBICACIONES);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudieron cargar las ubicaciones.");}
         ubicaciones = Array.isArray(data) ? data : [];
         mostrarUbicaciones();
-    } catch (error) {console.error("Error al cargar ubicaciones:", error); alert("No se pudieron cargar las ubicaciones.");}
+    } catch (error) {console.error("Error al cargar ubicaciones:", error); alert(error.message || "No se pudieron cargar las ubicaciones.");}
 }
 function actualizarIndicadores() {
     const activas = ubicaciones.filter(ubicacion => ubicacion.activo === true);
@@ -110,7 +113,7 @@ function mostrarUbicaciones() {
             <td>${ubicacion.activo ? "Activa" : "Inactiva"}</td>
             <td>
                 <button type="button" class="boton-editar-admin" data-id="${ubicacion.id}">Editar</button>
-                <button type="button" class="boton-eliminar-admin" data-id="${ubicacion.id}"><img src="img/iconos/cerrar.svg" width="30px" alt="cerrar"></button>
+                <button type="button" class="boton-eliminar-admin" data-id="${ubicacion.id}"><img src="img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
             </td>
         `;
         listaUbicaciones.appendChild(fila);
@@ -174,12 +177,13 @@ async function guardarUbicacion(evento) {
     const url = idUbicacion ? `${URL_UBICACIONES}/${idUbicacion}` : URL_UBICACIONES;
     const metodo = idUbicacion ? "PUT" : "POST";
     try {
-        const respuesta = await fetch(url, {method: metodo, headers: {"Content-Type": "application/json"},body: JSON.stringify(datos)});
+        // const respuesta = await fetchAutenticado(url, {method: metodo, headers: {"Content-Type": "application/json"},body: JSON.stringify(datos)});
+        const respuesta = await fetchAutenticado(url, {method: metodo, body: JSON.stringify(datos)});
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {alert(data.error || data.message || "No se pudo guardar la ubicación.");return;}
         alert(idUbicacion ? "Ubicación actualizada correctamente." : "Ubicación creada correctamente.");
         cerrarFormularioUbicacion(); await cargarUbicaciones();
-    } catch (error) {console.error("Error al guardar ubicación:", error);alert("No se pudo conectar con el servidor.");}
+    } catch (error) {console.error("Error al guardar ubicación:", error); alert(error.message || "No se pudo conectar con el servidor.");}
 }
 async function eliminarUbicacion(idUbicacion) {
     const ubicacion = ubicaciones.find(item => item.id === idUbicacion);
@@ -187,13 +191,12 @@ async function eliminarUbicacion(idUbicacion) {
     const confirmacion = confirm(`¿Deseas eliminar la ubicación "${ubicacion.nombre}"?`);
     if (!confirmacion) {return;}
     try {
-        const respuesta = await fetch(`${URL_UBICACIONES}/${idUbicacion}`, {method: "DELETE"});
-        const data = await leerRespuesta(respuesta);
-        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo eliminar la ubicación.");return;}
+        const respuesta = await fetchAutenticado(`${URL_UBICACIONES}/${idUbicacion}`, {method: "DELETE"});
+        if (!respuesta.ok) {
+            const data = await leerRespuesta(respuesta); alert(data.error || data.message || "No se pudo eliminar la ubicación."); return;}        
         alert("Ubicación eliminada correctamente."); await cargarUbicaciones();
-    } catch (error) {console.error("Error al eliminar ubicación:", error);alert("No se pudo conectar con el servidor.");}
+    } catch (error) {console.error("Error al eliminar ubicación:", error); alert(error.message || "No se pudo conectar con el servidor.");}
 }
-const botonCerrarSesion = document.getElementById("cerrar-sesion-admin");
 if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {
     evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});
 }

@@ -8,7 +8,6 @@ import com.scout.backend_scout.model.Mensaje;
 import com.scout.backend_scout.model.Region;
 import com.scout.backend_scout.model.Rol;
 import com.scout.backend_scout.model.Usuario;
-
 import com.scout.backend_scout.repository.ComunaRepository;
 import com.scout.backend_scout.repository.EstadoRepository;
 import com.scout.backend_scout.repository.GrupoRepository;
@@ -19,14 +18,12 @@ import com.scout.backend_scout.repository.UsuarioRepository;
 import com.scout.backend_scout.security.JwtService;
 import org.springframework.security.core.Authentication;
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +37,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @CrossOrigin (origins = {"http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:5501", "http://localhost:5501"})
@@ -66,7 +62,6 @@ public class UsuarioController {
     UsuarioController(MensajeRepository mensajeRepository) {this.mensajeRepository = mensajeRepository;}
     // Cargar perfil
     @GetMapping("/perfil/{correo}")
-    // public Usuario obtenerPerfil(@PathVariable String correo) {return usuarioRepository.findByCorreo(correo).orElse(null);}
     public ResponseEntity<?> obtenerPerfil(@PathVariable String correo, Authentication authentication) {
         String correoAutenticado = authentication.getName();
         boolean esAdministrador = authentication.getAuthorities().stream().anyMatch(rol -> rol.getAuthority().equals("ROLE_ADMINISTRADOR"));
@@ -93,32 +88,12 @@ public class UsuarioController {
         }usuarioRepository.save(usuario);
         return ResponseEntity.ok(Map.of("mensaje", "Perfil actualizado correctamente."));
     }
-    // public Map<String, String> actualizarPerfil(
-    //     @PathVariable String correo,
-    //     @RequestBody Usuario datosPerfil) {
-    //         Map<String, String> respuesta = new HashMap<>();
-    //         Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo);
-    //         if (usuarioExistente.isEmpty()) {respuesta.put("error", "Usuario no encontrado."); return respuesta;}
-    //         Usuario usuario = usuarioExistente.get();
-    //         usuario.setTelefono(datosPerfil.getTelefono());
-    //         usuario.setDireccion(datosPerfil.getDireccion());
-    //         if (datosPerfil.getComuna() != null && datosPerfil.getComuna().getId() != null) {Optional<Comuna> comuna = comunaRepository.findById(datosPerfil.getComuna().getId());
-    //             if (comuna.isPresent()) {usuario.setComuna(comuna.get());
-    //             } else {respuesta.put("error", "Comuna no válida."); return respuesta;}
-    //         }
-    //         usuarioRepository.save(usuario);
-    //         respuesta.put("mensaje", "Perfil actualizado correctamente.");
-    //         return respuesta;
-    //     }
     // Registrar nuevos usuarios.
     @PostMapping(value = "/registro", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String, String> registrar(
         @RequestPart("usuario") Usuario usuario,
         @RequestPart(value = "archivo", required = false) MultipartFile archivo) {
-        // @RequestBody Usuario usuario,
-        // @RequestParam String rolSolicitante) {
             Map<String, String> respuesta = new HashMap<>();
-            // if (!rolSolicitante.equalsIgnoreCase("administrador")) {respuesta.put("error", "Solo un administrador puede crear usuarios."); return respuesta;}
             if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {respuesta.put("error", "Debe ingresar el nombre."); return respuesta;}
             if (usuario.getRut() == null || usuario.getRut().trim().isEmpty()) {respuesta.put("error", "Debe ingresar el RUT."); return respuesta;}
             if (usuario.getTelefono() == null || usuario.getTelefono().trim().isEmpty()) {respuesta.put("error", "Debe ingresar el teléfono."); return respuesta;}
@@ -170,7 +145,6 @@ public class UsuarioController {
         if (usuarioEncontrado.isEmpty()) {respuesta.put("error", "Correo no registrado."); return respuesta;}
         Usuario u = usuarioEncontrado.get();
         if (!passwordEncoder.matches(usuario.getPassword(), u.getPassword())) {respuesta.put("error", "Contraseña incorrecta."); return respuesta;}
-        // String estado = (u.getEstado() != null) ? u.getEstado().getNombre().trim().toLowerCase(): "";
         String estado = u.getEstado() != null ? u.getEstado().getNombre().trim().toLowerCase(): "";
         if (estado.equals("inactivo")) {respuesta.put("error", "Tu cuenta está inactiva. Contacta al administrador."); return respuesta;}
         respuesta.put("token", jwtService.generarToken(u));
@@ -304,29 +278,19 @@ public class UsuarioController {
     public List<Usuario> listarPorRol(@PathVariable String rolNombre) {return usuarioRepository.findAll().stream()
         .filter(u -> u.getRol() != null && rolNombre.equalsIgnoreCase(u.getRol().getNombre())).toList();
     }
-    // Subir pdf a base de datos
-    // @PostMapping("/perfil/{correo}/pdf")
-    // public Map<String, String> subirPdf(@PathVariable String correo, @RequestParam("archivo") MultipartFile archivo) {
-    //     String correoAutenticado = authentication.getName();
-    //     boolean esAdministrador = authentication.getAuthorities().stream().anyMatch(rol -> rol.getAuthority().equals("ROLE_ADMINISTRADOR"));
-    //     if (!esAdministrador && !correoAutenticado.equalsIgnoreCase(correo)) {return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "No tienes permisos sobre este documento."));}
-    //     Map<String, String> respuesta = new HashMap<>();
-    //     if (archivo.isEmpty()) {respuesta.put("error", "No se ha seleccionado ningún archivo."); return respuesta;}
-    //     if (archivo.getSize() > 5 * 1024 * 1024) {respuesta.put("error", "El PDF no puede superar los 5 MB."); return respuesta;}
-    //     // if (!archivo.getContentType().equals("application/pdf")) {
-    //     if (!"application/pdf".equals(archivo.getContentType())) {respuesta.put("error", "Solo se permiten archivos PDF."); return respuesta;}
-    //     Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo);
-    //     if (usuarioExistente.isEmpty()) {respuesta.put("error", "Usuario no encontrado."); return respuesta;}
-    //     try {
-    //         Usuario usuario = usuarioExistente.get();
-    //         usuario.setPdfDato(archivo.getBytes());
-    //         usuario.setPdfNombre(archivo.getOriginalFilename());
-    //         usuarioRepository.save(usuario);
-    //         respuesta.put("mensaje", "PDF guardado correctamente en la base de datos.");
-    //         respuesta.put("nombre", archivo.getOriginalFilename());
-    //         return respuesta;
-    //     } catch (IOException e) {respuesta.put("error", "Error al guardar el archivo: " + e.getMessage()); return respuesta;}
-    // }
+    @GetMapping("/destinatarios")
+    public ResponseEntity<?> listarDestinatarios(Authentication authentication) {
+    String correoAutenticado = authentication.getName();
+    List<Map<String, Object>> destinatarios = usuarioRepository.findAll().stream()
+        .filter(u -> u.getEstado() != null && "activo".equalsIgnoreCase(u.getEstado().getNombre()) && !u.getCorreo().equalsIgnoreCase(correoAutenticado))
+        .map(u -> Map.<String, Object>of(
+            "id", u.getId(),
+            "nombre", u.getNombre() != null ? u.getNombre() : "",
+            "nickname", u.getNickname() != null ? u.getNickname() : ""
+        )).toList();
+    return ResponseEntity.ok(destinatarios);
+    }
+    
     @PostMapping("/perfil/{correo}/pdf")
     public ResponseEntity<?> subirPdf(@PathVariable String correo, @RequestParam("archivo") MultipartFile archivo, Authentication authentication) {
         String correoAutenticado = authentication.getName();
@@ -373,7 +337,6 @@ public class UsuarioController {
         boolean esAdministrador = authentication.getAuthorities().stream().anyMatch(rol -> rol.getAuthority().equals("ROLE_ADMINISTRADOR"));
         if (!esAdministrador && !correoAutenticado.equalsIgnoreCase(correo)) {return ResponseEntity.status(HttpStatus.FORBIDDEN)
             .body(Map.of("error", "No tienes permisos sobre este documento."));}
-        // Map<String, String> respuesta = new HashMap<>();
         Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo);
         if (usuarioExistente.isEmpty()) {return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Usuario no encontrado."));}
         Usuario usuario = usuarioExistente.get();
@@ -404,7 +367,6 @@ public class UsuarioController {
             " (" + usuario.getNickname() + ")" +
             " solicitó restablecer su contraseña.\n\n" +
             "Correo: " + usuario.getCorreo() + ". \n" +
-            // "ID de usuario: " + usuario.getId() + "\n\n" +
             "Por favor, establezca una nueva contraseña para el usuario afectado."
         );
         mensaje.setEstado("NO_LEIDO");
@@ -419,10 +381,8 @@ public class UsuarioController {
         String correo = authentication.getName();
         String passwordActual = body.get("passwordActual");
         String passwordNueva = body.get("passwordNueva");
-        // if (correo == null || correo.trim().isEmpty()) {respuesta.put("error", "Debe indicar el correo del usuario."); return respuesta;}
         if (passwordActual == null || passwordActual.trim().isEmpty()) {respuesta.put("error", "Debe ingresar la contraseña temporal."); return respuesta;}
         if (passwordNueva == null || passwordNueva.trim().length() < 6) {respuesta.put("error", "La nueva contraseña debe tener al menos 6 caracteres."); return respuesta;}
-        // Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo.trim());
         Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreo(correo);
         if (usuarioExistente.isEmpty()) {respuesta.put("error", "Usuario no encontrado."); return respuesta;}
         Usuario usuario = usuarioExistente.get();

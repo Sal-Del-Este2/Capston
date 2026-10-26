@@ -13,6 +13,4 @@ public record ContactoReinoResponseDTO(
     Boolean activo,
     LocalDateTime fechaAsignacion,
     LocalDateTime fechaDesactivacion
-) {
-
-}
+) { }

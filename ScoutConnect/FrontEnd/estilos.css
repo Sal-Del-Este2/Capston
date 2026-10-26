@@ -1824,21 +1824,25 @@
     gap: 10px;
 }
 .boton-leer-mensaje,
-.boton-eliminar-mensaje {
+.boton-eliminar-mensaje,
+.boton-responder-mensaje {
     background-color: transparent;
-    border-radius: 8px;
-    padding: 7px 13px;
-    font-weight: 700;
+    border-radius: 5px;
+    padding: 4px 6px;
+    font-weight: 500;
     cursor: pointer;
+    white-space: nowrap;
     transition: all 0.2s ease;
 }
-.boton-leer-mensaje {
-    color: #244d34;
-    border: 2px solid #244d34;
+.boton-leer-mensaje,
+.boton-responder-mensaje {
+    color: #286944;
+    border: 2px solid #286944;
 }
-.boton-leer-mensaje:hover {
-    background-color: #244d34;
+.boton-leer-mensaje:hover,
+.boton-responder-mensaje:hover {
     color: #ffffff;
+    background-color: #286944;
 }
 .boton-eliminar-mensaje {
     color: #a63232;
@@ -2347,7 +2351,7 @@
 }
 .filtros-admin {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
     gap: 18px;
     background-color: #edf3ee;
     border-radius: 13px;
@@ -2374,7 +2378,7 @@
     color: #334039;
     border: 1px solid #cfd8d1;
     border-radius: 8px;
-    padding: 10px 11px;
+    padding: 8px 9px;
     font: inherit;
 }
 .campo-filtro-admin input:focus,
@@ -2431,7 +2435,6 @@
     flex-wrap: wrap;
     gap: 8px;
 }
-.boton-editar-admin,
 .boton-estado-admin {
     background-color: transparent;
     border-radius: 7px;
@@ -2441,27 +2444,73 @@
     white-space: nowrap;
     transition: all 0.2s ease;
 }
+
+.boton-galeria-evento,
+.boton-asignar-admin,
+.boton-publicar-admin,
+.boton-despublicar-admin,
+.boton-responder-admin,
+.boton-ver-mensaje-admin,
+.boton-descargar-adjunto,
+.boton-ver-adjunto,
 .boton-editar-admin {
-    color: #286944;
-    border: 2px solid #286944;
-}
-.boton-editar-admin:hover {
-    color: #ffffff;
-    background-color: #286944;
-}
-.boton-eliminar-admin{
-    background-color:  transparent;
-    border-radius: 7px;
-    padding: 7px 11px;
-    font-weight: 700;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 4px 6px;
+    font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s ease;
 }
+.boton-galeria-evento,
+.boton-asignar-admin,
+.boton-publicar-admin,
+.boton-despublicar-admin,
+.boton-responder-admin,
+.boton-ver-mensaje-admin,
+.boton-descargar-adjunto,
+.boton-ver-adjunto,
+.boton-editar-admin {
+    color: #286944;
+    border: 2px solid #286944;
+}
+.boton-galeria-evento:hover,
+.boton-asignar-admin:hover,
+.boton-publicar-admin:hover,
+.boton-despublicar-admin:hover,
+.boton-responder-admin:hover,
+.boton-ver-mensaje-admin:hover,
+.boton-descargar-adjunto:hover,
+.boton-ver-adjunto:hover,
+.boton-editar-admin:hover {
+    color: #ffffff;
+    background-color: #286944;
+}
+.acciones-tabla-admin {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: nowrap;
+}
+
+
+
+.boton-eliminar-mensaje-admin,
+.boton-eliminar-admin{
+    background-color:  transparent;
+    border-radius: 5px;
+    padding: 4px 6px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+.boton-eliminar-mensaje-admin,
 .boton-eliminar-admin {
     color: #ffffff;
     border: 2px solid #ffffff;
 }
+.boton-eliminar-mensaje-admin:hover,
 .boton-eliminar-admin:hover {
     color: #ffffff;
     border: 2px solid #E04F5F;
@@ -2474,6 +2523,13 @@
 .boton-estado-admin:hover {
     color: #ffffff;
     background-color: #9d3030;
+}
+.fila-adjunto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
 }
 .mensaje-sin-resultados {
     color: #68756c;

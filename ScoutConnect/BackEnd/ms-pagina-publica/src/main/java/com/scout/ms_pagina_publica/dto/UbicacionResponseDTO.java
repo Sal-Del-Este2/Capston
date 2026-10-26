@@ -16,6 +16,4 @@ public record UbicacionResponseDTO(
     Boolean activo,
     LocalDateTime fechaCreacion,
     LocalDateTime fechaActualizacion
-) {
-
-}
+) { }

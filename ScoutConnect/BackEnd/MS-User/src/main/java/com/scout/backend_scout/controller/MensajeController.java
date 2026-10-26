@@ -7,14 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,14 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.scout.backend_scout.model.AdjuntoMensaje;
 import com.scout.backend_scout.model.Mensaje;
 import com.scout.backend_scout.model.Usuario;
 import com.scout.backend_scout.repository.AdjuntoMensajeRepository;
 import com.scout.backend_scout.repository.MensajeRepository;
 import com.scout.backend_scout.repository.UsuarioRepository;
-
 import tools.jackson.databind.ObjectMapper;
 
 @CrossOrigin (origins = {"http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:5501", "http://localhost:5501"})
@@ -138,18 +134,23 @@ public class MensajeController {
         Usuario usuario = obtenerUsuarioAutenticado(authentication);
         if (usuario == null) {return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();}
         Optional<AdjuntoMensaje> adjuntoOpcional = adjuntoMensajeRepository.findById(id);
-        // Optional<AdjuntoMensaje> adjuntoOpcional = mensajeRepository.findAll().stream().flatMap(mensaje -> mensaje.getAdjuntos().stream()).filter(adjunto -> adjunto.getId().equals(id)).findFirst();
         if (adjuntoOpcional.isEmpty()) {return ResponseEntity.notFound().build();}
         AdjuntoMensaje adjunto = adjuntoOpcional.get();
         Mensaje mensaje = adjunto.getMensaje();
-        boolean autorizado = mensaje.getRemitente().getId().equals(usuario.getId()) || mensaje.getDestinatario().getId().equals(usuario.getId());
+        boolean esAdministrador = esAdministrador(usuario);
+        boolean esRemitente = mensaje.getRemitente().getId().equals(usuario.getId());
+        boolean esDestinatario = mensaje.getDestinatario().getId().equals(usuario.getId());
+         boolean autorizado = esAdministrador || esRemitente || esDestinatario;
         if (!autorizado) {return ResponseEntity.status(HttpStatus.FORBIDDEN).build();}
         ByteArrayResource recurso = new ByteArrayResource(adjunto.getDatos());
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(adjunto.getTipoArchivo()))
             .contentLength(adjunto.getTamanioBytes())
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + adjunto.getNombreArchivo() + "\"")
+            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + adjunto.getNombreArchivo() + "\"")
             .body(recurso);
+    }
+    private boolean esAdministrador(Usuario usuario) {
+        return usuario.getRol() != null && "ADMINISTRADOR".equalsIgnoreCase(usuario.getRol().getNombre());
     }
     private Usuario obtenerUsuarioAutenticado(Authentication authentication) {
         if (authentication == null || authentication.getName() == null) {return null;}
@@ -248,49 +249,4 @@ public class MensajeController {
         public String getContenido() {return contenido;}
         public void setContenido(String contenido) {this.contenido = contenido;}
     }
-    // @PutMapping("/{id}/leer")
-    // public ResponseEntity<?> marcarLeido(@PathVariable Long id, Authentication authentication) {
-    //     String correo = authentication.getName();
-    //     Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
-    //     if (usuario == null) {return respuestaError(HttpStatus.UNAUTHORIZED, "Usuario no válido.");}
-    //     Optional<Mensaje> mensajeOpcional = mensajeRepository.findById(id);
-    //     if (mensajeOpcional.isEmpty()) {return respuestaError(HttpStatus.NOT_FOUND, "Mensaje no encontrado.");}
-    //     Mensaje mensaje = mensajeOpcional.get();
-    //     if (!mensaje.getDestinatario().getId().equals(usuario.getId())) {return respuestaError(HttpStatus.FORBIDDEN, "No puedes modificar este mensaje.");}
-    //     mensaje.setEstado("LEIDO");
-    //     mensaje.setFechaLectura(LocalDateTime.now());
-    //     mensajeRepository.save(mensaje);
-    //     return ResponseEntity.ok(Map.of("mensaje", "Mensaje marcado como leído."));
-    // }
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<?> eliminarMensaje(@PathVariable Long id, Authentication authentication) {
-    //     String correo = authentication.getName();
-    //     Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
-    //     if (usuario == null) {return respuestaError(HttpStatus.UNAUTHORIZED, "Usuario no válido.");}
-    //     Optional<Mensaje> mensajeOpcional = mensajeRepository.findWithRelationsById(id);
-    //     if (mensajeOpcional.isEmpty()) {return respuestaError(HttpStatus.NOT_FOUND, "Mensaje no encontrado.");}
-    //     Mensaje mensaje = mensajeOpcional.get();
-    //     boolean autorizado = mensaje.getRemitente().getId().equals(usuario.getId()) || mensaje.getDestinatario().getId().equals(usuario.getId());
-    //     if (!autorizado) {return respuestaError(HttpStatus.FORBIDDEN, "No puedes eliminar este mensaje.");}
-    //     mensajeRepository.delete(mensaje);
-    //     return ResponseEntity.ok(Map.of("mensaje", "Mensaje eliminado correctamente."));
-    // }
-    // @GetMapping("/adjuntos/{id}")
-    // public ResponseEntity<?> descargarAdjunto(@PathVariable Long id, Authentication authentication) {
-    //     String correo = authentication.getName();
-    //     Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
-    //     if (usuario == null) {return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();}
-    //     Optional<AdjuntoMensaje> adjuntoOpcional = adjuntoMensajeRepository.findById(id);
-    //     if (adjuntoOpcional.isEmpty()) {return ResponseEntity.notFound().build();}
-    //     AdjuntoMensaje adjunto = adjuntoOpcional.get();
-    //     Mensaje mensaje = adjunto.getMensaje();
-    //     boolean autorizado = mensaje.getRemitente().getId().equals(usuario.getId()) || mensaje.getDestinatario().getId().equals(usuario.getId());
-    //     if (!autorizado) {return ResponseEntity.status(HttpStatus.FORBIDDEN).build();}
-    //     ByteArrayResource recurso = new ByteArrayResource(adjunto.getDatos());
-    //     return ResponseEntity.ok()
-    //             .contentType(MediaType.parseMediaType(adjunto.getTipoArchivo()))
-    //             .contentLength(adjunto.getTamanioBytes())
-    //             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + adjunto.getNombreArchivo() + "\"")
-    //             .body(recurso);
-    // }
 }

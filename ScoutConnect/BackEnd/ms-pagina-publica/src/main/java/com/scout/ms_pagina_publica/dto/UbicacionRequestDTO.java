@@ -25,6 +25,4 @@ public record UbicacionRequestDTO(
     @DecimalMax(value = "180.0", message = "La longitud debe estar entre -180 y 180.")
     BigDecimal longitud,
     Boolean activo
-) {
-
-}
+) { }

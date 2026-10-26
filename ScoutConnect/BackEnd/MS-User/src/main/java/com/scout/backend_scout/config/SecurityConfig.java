@@ -11,7 +11,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 @Configuration
@@ -24,24 +23,25 @@ public class SecurityConfig {
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
-        // Públicos
-        .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
-        .requestMatchers(HttpMethod.POST, "/usuarios/olvidar-password").permitAll()
-        // Catálogos públicos
-        .requestMatchers("/comunas/**", "/regiones/**", "/roles/**", "/estados/**", "/grupos/**").permitAll()
-        // Solo administrador
-        .requestMatchers(HttpMethod.GET, "/usuarios/listar").hasRole("ADMINISTRADOR")
-        .requestMatchers(HttpMethod.POST, "/usuarios/registro").hasRole("ADMINISTRADOR")
-        .requestMatchers(HttpMethod.PUT, "/usuarios/editar/**").hasRole("ADMINISTRADOR")
-        .requestMatchers(HttpMethod.PUT, "/usuarios/estado/**").hasRole("ADMINISTRADOR")
-        .requestMatchers(HttpMethod.PUT, "/usuarios/password/**").hasRole("ADMINISTRADOR")
-        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMINISTRADOR")
-        .requestMatchers(HttpMethod.GET, "/usuarios/rol/**").hasRole("ADMINISTRADOR")
-        .requestMatchers(HttpMethod.GET, "/usuarios/{id}").hasRole("ADMINISTRADOR")
-        .requestMatchers("/mensajes/admin/**").hasRole("ADMINISTRADOR")
-        // Todo lo demás requiere JWT
-        .anyRequest().authenticated()
-        )
+            // Públicos
+            .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
+            .requestMatchers(HttpMethod.POST, "/usuarios/olvidar-password").permitAll()
+            // Catálogos públicos
+            .requestMatchers("/comunas/**", "/regiones/**", "/roles/**", "/estados/**", "/grupos/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/usuarios/destinatarios").authenticated()
+            // Solo administrador
+            .requestMatchers(HttpMethod.GET, "/usuarios/listar").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.POST, "/usuarios/registro").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.PUT, "/usuarios/editar/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.PUT, "/usuarios/estado/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.PUT, "/usuarios/password/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.GET, "/usuarios/rol/**").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.GET, "/usuarios/{id:\\d+}").hasRole("ADMINISTRADOR")
+            .requestMatchers("/mensajes/admin/**").hasRole("ADMINISTRADOR")
+            // Todo lo demás requiere JWT
+            .anyRequest().authenticated()
+            )
         .exceptionHandling(excepciones -> excepciones
         .authenticationEntryPoint((request, response, excepcion) -> {
         response.setStatus(401);
@@ -72,14 +72,4 @@ public class SecurityConfig {
         origen.registerCorsConfiguration("/**", configuracion);
         return origen;
     }
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    //     http
-    //         .csrf(csrf -> csrf.disable()) // Desactiva CSRF para peticiones desde el frontend
-    //         .authorizeHttpRequests(auth -> auth
-    //             .requestMatchers("/usuarios/**").permitAll() // Permite acceso libre a tus endpoints
-    //             .anyRequest().permitAll()
-    //         );
-    //     return http.build();
-    // }
 }
