@@ -12,31 +12,35 @@ import com.scout.microservicio_actividades.repository.EventoRepository;
 import com.scout.microservicio_actividades.repository.FotoEventoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.scout.microservicio_actividades.model.Comuna;
+import com.scout.microservicio_actividades.model.Grupo;
+import com.scout.microservicio_actividades.repository.ComunaRepository;
+import com.scout.microservicio_actividades.repository.GrupoRepository;
 import java.util.List;
 import java.util.Locale;
 
 @Service
 @Transactional
 public class EventoService {
-    private static final String ESTADO_FINALIZADA =
-        "FINALIZADA";
-
+    private static final String ESTADO_FINALIZADA = "FINALIZADA";
     private final EventoRepository eventoRepository;
-
-    private final EstadoContenidoRepository
-        estadoContenidoRepository;
-
-    private final FotoEventoRepository
-        fotoEventoRepository;
-
-    public EventoService(EventoRepository eventoRepository, EstadoContenidoRepository estadoContenidoRepository, FotoEventoRepository fotoEventoRepository) {
-        this.eventoRepository = eventoRepository;
-        this.estadoContenidoRepository = estadoContenidoRepository;
-        this.fotoEventoRepository = fotoEventoRepository;
-    }
-    public EventoResponse crear(CrearEventoRequest request
-    ) {
+    private final EstadoContenidoRepository estadoContenidoRepository;
+    private final FotoEventoRepository fotoEventoRepository;
+    private final ComunaRepository comunaRepository;
+    private final GrupoRepository grupoRepository;
+    public EventoService(
+        EventoRepository eventoRepository,
+        EstadoContenidoRepository estadoContenidoRepository,
+        FotoEventoRepository fotoEventoRepository,
+        ComunaRepository comunaRepository,
+        GrupoRepository grupoRepository) {
+            this.eventoRepository = eventoRepository;
+            this.estadoContenidoRepository = estadoContenidoRepository;
+            this.fotoEventoRepository = fotoEventoRepository;
+            this.comunaRepository = comunaRepository; // marcado con rojo comunaRepository
+            this.grupoRepository = grupoRepository;  // marcado con rojo grupoRepository
+        }
+    public EventoResponse crear(CrearEventoRequest request, Long creadorId) {
         EstadoContenido estado = buscarEstado(request.getEstado());
         Evento evento = new Evento();
         evento.setTitulo(request.getTitulo().trim());
@@ -44,7 +48,11 @@ public class EventoService {
         evento.setLugar(request.getLugar().trim());
         evento.setEstado(estado);
         evento.setDetalle(request.getDetalle().trim());
-        evento.setCreadorId(request.getCreadorId());
+        evento.setCreadorId(creadorId);
+        Comuna comuna = buscarComuna(request.getComunaId());
+        Grupo grupo = buscarGrupo(request.getGrupoId());
+        evento.setComuna(comuna);
+        evento.setGrupo(grupo);
         Evento eventoGuardado = eventoRepository.save(evento);
         return convertirAResponse(eventoGuardado, false);
     }
@@ -68,8 +76,7 @@ public class EventoService {
     obtenerPublicoPorId(Long eventoId) {Evento evento = buscarEvento(eventoId);
         if (!ESTADO_FINALIZADA.equals(evento.getEstado().getNombre()
             )) {throw new IllegalArgumentException("El evento no está disponible " + "para visitantes externos.");
-        }
-        return convertirAResponse(evento, true);
+        }return convertirAResponse(evento, true);
     }
     public EventoResponse actualizar(Long eventoId, ActualizarEventoRequest request
     ) {
@@ -80,8 +87,18 @@ public class EventoService {
         evento.setLugar(request.getLugar().trim());
         evento.setEstado(estado);
         evento.setDetalle(request.getDetalle().trim());
+        Comuna comuna = buscarComuna(request.getComunaId());
+        Grupo grupo = buscarGrupo(request.getGrupoId());
+        evento.setComuna(comuna);
+        evento.setGrupo(grupo);
         Evento eventoActualizado = eventoRepository.save(evento);
         return convertirAResponse(eventoActualizado, false);
+    }
+    private Comuna buscarComuna(Long comunaId) {return comunaRepository.findById(comunaId)   // marcado con rojo comunaRepository
+        .orElseThrow(() -> new IllegalArgumentException("No existe una comuna con ID " + comunaId + "."));
+    }
+    private Grupo buscarGrupo(Long grupoId) {return grupoRepository.findById(grupoId)   // marcado con rojo grupoRepository
+        .orElseThrow(() -> new IllegalArgumentException("No existe un grupo scout con ID " + grupoId + "."));
     }
     public void eliminar(Long eventoId) {Evento evento = buscarEvento(eventoId); eventoRepository.delete(evento);}
     private Evento buscarEvento(Long eventoId) {return eventoRepository.findById(eventoId).orElseThrow(() ->
@@ -100,6 +117,14 @@ public class EventoService {
         response.setEstado(evento.getEstado().getNombre());
         response.setDetalle(evento.getDetalle());
         response.setCreadorId(evento.getCreadorId());
+        if (evento.getComuna() != null) {
+            response.setComunaId(evento.getComuna().getId());
+            response.setComunaNombre(evento.getComuna().getNombre());
+        }
+        if (evento.getGrupo() != null) {
+            response.setGrupoId(evento.getGrupo().getId());
+            response.setGrupoNombre(evento.getGrupo().getNombre());
+        }
         response.setFechaCreacion(evento.getFechaCreacion());
         response.setFechaActualizacion(evento.getFechaActualizacion());
         List<FotoEventoResponse> fotos = vistaPublica
@@ -124,5 +149,4 @@ public class EventoService {
         response.setUrl("/api/eventos/" + foto.getEvento().getId() + "/fotos/" + foto.getId());
         return response;
     }
-    
 }

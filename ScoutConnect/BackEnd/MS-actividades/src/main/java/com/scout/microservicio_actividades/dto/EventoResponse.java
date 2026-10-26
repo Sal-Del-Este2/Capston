@@ -16,6 +16,12 @@ public class EventoResponse {
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
     private List<FotoEventoResponse> fotos = new ArrayList<>();
+
+    private Long comunaId;
+    private String comunaNombre;
+    private Long grupoId;
+    private String grupoNombre;
+
     public EventoResponse() { }
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -38,4 +44,12 @@ public class EventoResponse {
     public List<FotoEventoResponse> getFotos() {return fotos;}
     public void setFotos(List<FotoEventoResponse> fotos) {this.fotos = fotos;}
 
+    public Long getComunaId() { return comunaId; }
+    public void setComunaId(Long comunaId) { this.comunaId = comunaId; }
+    public String getComunaNombre() { return comunaNombre; }
+    public void setComunaNombre(String comunaNombre) { this.comunaNombre = comunaNombre; }
+    public Long getGrupoId() { return grupoId; }
+    public void setGrupoId(Long grupoId) { this.grupoId = grupoId; }
+    public String getGrupoNombre() { return grupoNombre; }
+    public void setGrupoNombre(String grupoNombre) { this.grupoNombre = grupoNombre; }
 }

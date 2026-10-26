@@ -1,7 +1,6 @@
 package com.scout.microservicio_actividades.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,6 +22,12 @@ public class ActualizarNoticiaRequest {
     @NotBlank(message = "El detalle de la noticia es obligatorio.")
     @Size(max = 500, message = "El detalle no puede superar los 500 caracteres.")
     private String detalle;
+
+    @NotNull(message = "Debe seleccionar una comuna.")
+    private Long comunaId;
+    @NotNull(message = "Debe seleccionar un grupo scout.")
+    private Long grupoId;
+
     public ActualizarNoticiaRequest() {}
     public String getTitulo() {return titulo;}
     public void setTitulo(String titulo) {this.titulo = titulo;}
@@ -34,4 +39,9 @@ public class ActualizarNoticiaRequest {
     public void setEstado(String estado) {this.estado = estado;}
     public String getDetalle() {return detalle;}
     public void setDetalle(String detalle) {this.detalle = detalle;}
+
+    public Long getComunaId() { return comunaId; }
+    public void setComunaId(Long comunaId) { this.comunaId = comunaId; }
+    public Long getGrupoId() { return grupoId; }
+    public void setGrupoId(Long grupoId) { this.grupoId = grupoId; }
 }

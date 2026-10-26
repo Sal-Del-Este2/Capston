@@ -4,7 +4,6 @@ package com.scout.microservicio_actividades.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -24,9 +23,13 @@ public class CrearEventoRequest {
     @NotBlank(message = "El detalle del evento es obligatorio.")
     @Size(max = 500, message = "El detalle no puede superar los 500 caracteres.")
     private String detalle;
-    @NotNull(message = "El identificador del creador es obligatorio.")
-    @Positive(message = "El identificador del creador debe ser mayor a cero.")
     private Long creadorId;
+    
+    @NotNull(message = "Debe seleccionar una comuna.")
+    private Long comunaId;
+    @NotNull(message = "Debe seleccionar un grupo scout.")
+    private Long grupoId;
+
     public CrearEventoRequest() { }
     public String getTitulo() {return titulo;}
     public void setTitulo(String titulo) {this.titulo = titulo;}
@@ -40,5 +43,9 @@ public class CrearEventoRequest {
     public void setDetalle(String detalle) {this.detalle = detalle;}
     public Long getCreadorId() {return creadorId;}
     public void setCreadorId(Long creadorId) {this.creadorId = creadorId;}
-
+    
+    public Long getComunaId() { return comunaId; }
+    public void setComunaId(Long comunaId) { this.comunaId = comunaId; }
+    public Long getGrupoId() { return grupoId; }
+    public void setGrupoId(Long grupoId) { this.grupoId = grupoId; }
 }

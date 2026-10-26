@@ -8,5 +8,4 @@ import java.util.List;
 public interface NoticiaRepository extends JpaRepository<Noticia, Long> {
     List<Noticia>findAllByOrderByFechaRealizacionDesc();
     List<Noticia>findByEstado_NombreOrderByFechaRealizacionDesc(String nombreEstado);
-
 }

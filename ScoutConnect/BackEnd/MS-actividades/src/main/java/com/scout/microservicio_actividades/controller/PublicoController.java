@@ -41,5 +41,4 @@ public class PublicoController {
         @PathVariable Long eventoId) {
             return ResponseEntity.ok(eventoService.obtenerPublicoPorId(eventoId));
         }
-    
 }

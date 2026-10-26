@@ -11,10 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,6 +46,14 @@ public class Evento {
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<FotoEvento> fotos = new ArrayList<>();
     public Evento() { }
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comuna_id")
+    private Comuna comuna;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "grupo_id")
+    private Grupo grupo;
+
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
     public String getTitulo() {return titulo;}
@@ -70,5 +76,9 @@ public class Evento {
     public void setFotos(List<FotoEvento> fotos) {this.fotos = fotos;}
     public void agregarFoto(FotoEvento foto) {fotos.add(foto); foto.setEvento(this);}
     public void quitarFoto(FotoEvento foto) {fotos.remove(foto); foto.setEvento(null);}
-    
+
+    public Comuna getComuna() { return comuna; }
+    public void setComuna(Comuna comuna) { this.comuna = comuna; }
+    public Grupo getGrupo() { return grupo; }
+    public void setGrupo(Grupo grupo) { this.grupo = grupo; }
 }
