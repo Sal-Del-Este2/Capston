@@ -1,6 +1,6 @@
 const API_MENSAJES = "http://localhost:8080/mensajes";
 const API_USUARIOS = "http://localhost:8080/usuarios";
-const usuarioActualId = Number(sessionStorage.getItem("usuarioId"));
+const usuarioActualId = Number(sessionStorage.getItem("usuarioId") || sessionStorage.getItem("id"));
 let mensajes = [];
 const listaMensajes = document.getElementById("lista-mensajes");
 const seleccionarTodos = document.getElementById("seleccionar-todos");
@@ -51,8 +51,8 @@ async function cargarMensajes() {
     if (!usuarioActualId) {alert("No se encontró la sesión del usuario.");return;}
     try {
         const [respuestaRecibidos, respuestaEnviados] = await Promise.all([
-            fetch(`${API_MENSAJES}/recibidos/` + `${usuarioActualId}`),
-            fetch(`${API_MENSAJES}/enviados/` + `${usuarioActualId}`)
+            fetchAutenticado(`${API_MENSAJES}/recibidos`),
+            fetchAutenticado(`${API_MENSAJES}/enviados`)
         ]);
         const datosRecibidos = await leerRespuesta(respuestaRecibidos);
         const datosEnviados = await leerRespuesta(respuestaEnviados);
@@ -67,24 +67,18 @@ async function cargarMensajes() {
 }
 async function cargarDestinatarios() {
     try {
-        const respuesta = await fetch(`${API_USUARIOS}/listar`);
+        const respuesta = await fetchAutenticado(`${API_USUARIOS}/destinatarios`);
         const usuarios = await leerRespuesta(respuesta);
-        if (!respuesta.ok) {throw new Error(usuarios.error || "No se pudieron cargar los usuarios.");}
-        selectorDestinatario.innerHTML = ` <option value="">Selecciona un destinatario</option> `;
+        if (!respuesta.ok) {throw new Error(usuarios.error || "No se pudieron cargar los destinatarios.");}
+        selectorDestinatario.innerHTML = '<option value="">Selecciona un destinatario</option>';
         if (!Array.isArray(usuarios)) {return;}
-        usuarios
-            .filter(function (usuario) {
-                const usuarioId = Number(usuario.id);
-                const estado = typeof usuario.estado === "string" ? usuario.estado : usuario.estado?.nombre;
-                const activo = estado?.toLowerCase() === "activo";
-                return activo && usuarioId !== usuarioActualId;})
-            .forEach(function (usuario) {
-                const opcion = document.createElement("option");
-                opcion.value = usuario.id;
-                opcion.textContent = nombreParticipante(usuario.nickname, usuario.nombre);
-                selectorDestinatario.appendChild(opcion);
-            });
-    } catch (error) {console.error("Error al cargar destinatarios:",error);alert("No se pudieron cargar los destinatarios.");}
+        usuarios.forEach(function (usuario) {
+            const opcion = document.createElement("option");
+            opcion.value = usuario.id;
+            opcion.textContent = nombreParticipante(usuario.nickname, usuario.nombre);
+            selectorDestinatario.appendChild(opcion);
+        });
+    } catch (error) {console.error("Error al cargar destinatarios:", error); alert(error.message || "No se pudieron cargar los destinatarios.");}
 }
 function mostrarMensajes() {listaMensajes.innerHTML = "";
     if (!mensajes.length) {
@@ -126,10 +120,76 @@ function mostrarMensajes() {listaMensajes.innerHTML = "";
                 </div>
             </div>
         `;
+        if (Array.isArray(mensaje.adjuntos) && mensaje.adjuntos.length > 0) {
+            const contenedorAdjuntos = document.createElement("div");
+            contenedorAdjuntos.classList.add("adjuntos-mensaje");
+            const tituloAdjuntos = document.createElement("p");
+            tituloAdjuntos.textContent = "Adjuntos:";
+            contenedorAdjuntos.appendChild(tituloAdjuntos);
+            mensaje.adjuntos.forEach(function (adjunto) {
+                const filaAdjunto = document.createElement("div");
+                filaAdjunto.classList.add("fila-adjunto");
+                const nombreAdjunto = document.createElement("span");
+                nombreAdjunto.classList.add("nombre-adjunto");
+                nombreAdjunto.textContent = `${adjunto.nombre} (${Math.ceil(adjunto.tamanio / 1024)} KB)`;
+                filaAdjunto.appendChild(nombreAdjunto);
+                const botonVer = document.createElement("button");
+                botonVer.type = "button";
+                botonVer.classList.add("boton-ver-adjunto");
+                botonVer.textContent = "Ver";
+                botonVer.addEventListener("click", async function () {
+                    await verAdjunto(adjunto.id, adjunto.nombre);
+                });
+                filaAdjunto.appendChild(botonVer);
+                const botonDescargar = document.createElement("button");
+                botonDescargar.type = "button";
+                botonDescargar.classList.add("boton-descargar-adjunto");
+                botonDescargar.textContent = "Descargar";
+                botonDescargar.addEventListener("click", async function () {
+                    await descargarAdjunto(adjunto.id, adjunto.nombre);
+                });
+                filaAdjunto.appendChild(botonDescargar);
+                contenedorAdjuntos.appendChild(filaAdjunto);
+            });
+            tarjeta.querySelector(".contenido-mensaje").appendChild(contenedorAdjuntos);
+        }
         listaMensajes.appendChild(tarjeta);
     });
     activarEventosMensajes();
     actualizarSeleccionados();
+}
+async function verAdjunto(idAdjunto, nombreArchivo) {
+    try {
+        const respuesta = await fetchAutenticado(`${API_MENSAJES}/adjuntos/${idAdjunto}`);
+        if (!respuesta.ok) {const data = await leerRespuesta(respuesta);
+            alert(data.error || "No se pudo abrir el adjunto.");
+            return;
+        }
+        const archivo = await respuesta.blob();
+        const urlTemporal = URL.createObjectURL(archivo);
+        const ventana = window.open(urlTemporal, "_blank");
+        if (!ventana) {alert("El navegador bloqueó la ventana emergente. Habilita las ventanas emergentes para este sitio.");}
+        setTimeout(() => URL.revokeObjectURL(urlTemporal), 60000);
+    } catch (error) {console.error("Error al abrir adjunto:", error); alert(error.message || "No se pudo abrir el adjunto.");}
+}
+async function descargarAdjunto(idAdjunto, nombreArchivo) {
+    try {
+        const respuesta = await fetchAutenticado(`${API_MENSAJES}/adjuntos/${idAdjunto}`);
+        if (!respuesta.ok) {
+            const data = await leerRespuesta(respuesta);
+            alert(data.error || "No se pudo descargar el adjunto.");
+            return;
+        }
+        const archivo = await respuesta.blob();
+        const urlTemporal = URL.createObjectURL(archivo);
+        const enlaceDescarga = document.createElement("a");
+        enlaceDescarga.href = urlTemporal;
+        enlaceDescarga.download = nombreArchivo || "adjunto";
+        document.body.appendChild(enlaceDescarga);
+        enlaceDescarga.click();
+        enlaceDescarga.remove();
+        URL.revokeObjectURL(urlTemporal);
+    } catch (error) {console.error("Error al descargar adjunto:", error); alert(error.message || "No se pudo descargar el adjunto.");}
 }
 function activarEventosMensajes() {
     document
@@ -204,13 +264,13 @@ async function enviarMensaje() {
     archivos.forEach(function (archivo) {formData.append("archivos", archivo);});
     const mensajePadreId = Number(campoMensajePadre.value);
     const url = mensajePadreId ? `${API_MENSAJES}/` + `${mensajePadreId}/respuesta` : API_MENSAJES;
-    const respuesta = await fetch(url, {method: "POST", body: formData});
+    const respuesta = await fetchAutenticado(url, {method: "POST", body: formData});
     const data = await leerRespuesta(respuesta);
     if (!respuesta.ok) {alert(data.error || "No se pudo enviar el mensaje."); return false;
     }return true;
 }
 async function marcarComoLeido(idMensaje) {
-    const respuesta =await fetch(`${API_MENSAJES}/${idMensaje}/leer` + `?usuarioId=${usuarioActualId}`, {method: "PUT"});
+    const respuesta =await fetchAutenticado(`${API_MENSAJES}/${idMensaje}/leer`, {method: "PUT"});
     if (!respuesta.ok) {
         const data = await leerRespuesta(respuesta);
         console.error(data.error || "No se pudo marcar el mensaje como leído.");
@@ -258,7 +318,7 @@ async function eliminarMensaje(idMensaje) {
     if (!mensaje) {return;}
     const confirmar = confirm(`¿Deseas eliminar el mensaje ` + `"${mensaje.asunto}"?`);
     if (!confirmar) {return;}
-    const respuesta = await fetch(`${API_MENSAJES}/${idMensaje}` + `?usuarioId=${usuarioActualId}`, {method: "DELETE"});
+    const respuesta = await fetchAutenticado(`${API_MENSAJES}/${idMensaje}`, {method: "DELETE"});
     const data = await leerRespuesta(respuesta);
     if (!respuesta.ok) {alert(data.error || "No se pudo eliminar el mensaje."); return;}
     await cargarMensajes();
@@ -279,7 +339,8 @@ botonEliminarSeleccionados.addEventListener("click",
         if (!confirmar) {return;}
         try {
             for (const id of ids) {
-                const respuesta = await fetch(`${API_MENSAJES}/${id}` + `?usuarioId=${usuarioActualId}`, {method: "DELETE"});
+                // const respuesta = await fetchAutenticado(`${API_MENSAJES}/${id}` + `?usuarioId=${usuarioActualId}`, {method: "DELETE"});
+                const respuesta = await fetchAutenticado(`${API_MENSAJES}/${id}`, {method: "DELETE"});
                 if (!respuesta.ok) {console.error(`No se pudo eliminar ` + `el mensaje ${id}.`);}
             }
             await cargarMensajes();
@@ -289,8 +350,7 @@ botonEliminarSeleccionados.addEventListener("click",
 botonNuevoMensaje.addEventListener("click", abrirFormularioMensaje);
 cerrarFormularioMensaje.addEventListener("click", cerrarFormulario);
 cancelarFormularioMensaje.addEventListener("click", cerrarFormulario);
-campoArchivos.addEventListener(
-    "change",
+campoArchivos.addEventListener("change",
     function () { const archivos = Array.from(campoArchivos.files);
         if (!validarArchivos(archivos)) {campoArchivos.value = ""; listaAdjuntos.innerHTML = ""; return;}
         mostrarArchivosSeleccionados();

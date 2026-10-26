@@ -27,6 +27,8 @@ const campoArchivos = document.getElementById("archivos-mensaje-admin");
 const campoMensajePadre = document.getElementById("mensaje-padre-admin");
 const cerrarFormulario = document.getElementById("cerrar-formulario-mensaje-admin");
 const cancelarFormulario = document.getElementById("cancelar-formulario-mensaje-admin");
+const botonCerrarSesion = document.getElementById("cerrar-sesion-admin");
+
 function escaparHTML(texto) {const elemento = document.createElement("div");elemento.textContent = String(texto ?? "");return elemento.innerHTML;}
 async function leerRespuesta(respuesta) {
     const texto = await respuesta.text();
@@ -42,9 +44,7 @@ function obtenerNombreEstado(estado) {
 }
 function obtenerTipoBandeja(mensaje) {
     const esRecibido = mensaje.destinatarioId === usuarioAdministradorId;
-    return esRecibido
-        ? "recibido"
-        : "enviado";
+    return esRecibido ? "recibido" : "enviado";
 }
 function mapearMensaje(mensaje) {
     return {...mensaje,
@@ -56,7 +56,6 @@ function mapearMensaje(mensaje) {
     };
 }
 async function cargarMensajes() {
-    // if (!usuarioAdministradorId) {alert("No se encontró el usuario administrador.");return;}
     try {const [respuestaRecibidos, respuestaEnviados] = await Promise.all([
         fetchAutenticado(`${API_MENSAJES}/recibidos`),
         fetchAutenticado(`${API_MENSAJES}/enviados`)
@@ -113,7 +112,32 @@ function obtenerMensajesFiltrados() {
 function formatearFecha(fecha) {if (!fecha) {return "";}
     return new Date(fecha).toLocaleString("es-CL");
 }
-
+async function verAdjuntoAdmin(idAdjunto, nombreArchivo) {
+    try {
+        const respuesta = await fetchAutenticado(`${API_MENSAJES}/adjuntos/${idAdjunto}`);
+        if (!respuesta.ok) {const data = await leerRespuesta(respuesta); alert(data.error || "No se pudo abrir el adjunto."); return;}
+        const archivo = await respuesta.blob();
+        const urlTemporal = URL.createObjectURL(archivo);
+        const ventana = window.open(urlTemporal, "_blank");
+        if (!ventana) {alert("El navegador bloqueó la ventana emergente. Habilita las ventanas emergentes para este sitio.");}
+        setTimeout(() => URL.revokeObjectURL(urlTemporal), 60000);
+    } catch (error) {console.error("Error al abrir adjunto:", error); alert(error.message || "No se pudo abrir el adjunto.");}
+}
+async function descargarAdjuntoAdmin(idAdjunto, nombreArchivo) {
+    try {
+        const respuesta = await fetchAutenticado(`${API_MENSAJES}/adjuntos/${idAdjunto}`);
+        if (!respuesta.ok) {const data = await leerRespuesta(respuesta); alert(data.error || "No se pudo descargar el adjunto."); return;}
+        const archivo = await respuesta.blob();
+        const urlTemporal = URL.createObjectURL(archivo);
+        const enlaceDescarga = document.createElement("a");
+        enlaceDescarga.href = urlTemporal;
+        enlaceDescarga.download = nombreArchivo || "adjunto";
+        document.body.appendChild(enlaceDescarga);
+        enlaceDescarga.click();
+        enlaceDescarga.remove();
+        URL.revokeObjectURL(urlTemporal);
+    } catch (error) {console.error("Error al descargar adjunto:", error); alert(error.message || "No se pudo descargar el adjunto.");}
+}
 function mostrarMensajes() {
     const mensajesFiltrados = obtenerMensajesFiltrados();
     listaMensajes.innerHTML = "";
@@ -124,8 +148,9 @@ function mostrarMensajes() {
         const claseEstado = mensaje.estado === "NO_LEIDO" ? "mensaje-no-leido" : "mensaje-leido";
         const botonResponder = mensaje.tipo === "recibido" ? ` <button type="button" class="boton-responder-admin" data-id="${mensaje.id}">Responder</button>` : "";
         tarjeta.innerHTML = `
+            <hr>
             <div class="selector-mensaje-admin">
-                <input type="checkbox" class="seleccionar-mensaje-admin" data-id="${mensaje.id}">
+                <input type="checkbox" class="seleccionar-mensaje-admin" data-id="${mensaje.id}"> Seleccionar
             </div>
             <div class="contenido-mensaje-admin">
                 <div class="encabezado-mensaje-admin">
@@ -147,10 +172,39 @@ function mostrarMensajes() {
                 <div class="acciones-tabla-admin">
                     <button type="button" class="boton-ver-mensaje-admin" data-id="${mensaje.id}">Ver mensaje</button>
                     ${botonResponder}
-                    <button type="button" class="boton-eliminar-mensaje-admin" data-id="${mensaje.id}">Eliminar</button>
+                    <button type="button" class="boton-eliminar-mensaje-admin" data-id="${mensaje.id}"><img src="img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
                 </div>
             </div>
         `;
+        if (Array.isArray(mensaje.adjuntos) && mensaje.adjuntos.length > 0) {
+            const contenedorAdjuntos = document.createElement("div");
+            contenedorAdjuntos.classList.add("adjuntos-mensaje");
+            const tituloAdjuntos = document.createElement("p");
+            tituloAdjuntos.textContent = "Adjuntos:";
+            contenedorAdjuntos.appendChild(tituloAdjuntos);
+            mensaje.adjuntos.forEach(function (adjunto) {
+                const filaAdjunto = document.createElement("div");
+                filaAdjunto.classList.add("fila-adjunto");
+                const nombreAdjunto = document.createElement("span");
+                nombreAdjunto.classList.add("nombre-adjunto");
+                nombreAdjunto.textContent = `${adjunto.nombre} (${Math.ceil(adjunto.tamanio / 1024)} KB)`;
+                filaAdjunto.appendChild(nombreAdjunto);
+                const botonVer = document.createElement("button");
+                botonVer.type = "button";
+                botonVer.classList.add("boton-ver-adjunto");
+                botonVer.textContent = "Ver";
+                botonVer.addEventListener("click", async function () {await verAdjuntoAdmin(adjunto.id, adjunto.nombre);});
+                filaAdjunto.appendChild(botonVer);
+                const botonDescargar = document.createElement("button");
+                botonDescargar.type = "button";
+                botonDescargar.classList.add("boton-descargar-adjunto");
+                botonDescargar.textContent = "Descargar";
+                botonDescargar.addEventListener("click", async function () {await descargarAdjuntoAdmin(adjunto.id, adjunto.nombre);});
+                filaAdjunto.appendChild(botonDescargar);
+                contenedorAdjuntos.appendChild(filaAdjunto);
+            });
+            tarjeta.querySelector(".contenido-mensaje-admin").appendChild(contenedorAdjuntos);
+        }
         listaMensajes.appendChild(tarjeta);
     });
     activarEventosMensajes();
@@ -225,7 +279,7 @@ formularioMensaje.addEventListener("submit",
     }
 );
 async function marcarComoLeido(idMensaje) {
-    const respuesta = await fetchAutenticado(`${API_MENSAJES}/${idMensaje}/leer` + `?usuarioId=${usuarioAdministradorId}`, {method: "PUT"});
+    const respuesta = await fetchAutenticado(`${API_MENSAJES}/${idMensaje}/leer`, {method: "PUT"});
     if (!respuesta.ok) {return;}
     await cargarMensajes();
 }
@@ -258,7 +312,7 @@ async function responderMensaje(idMensaje) {
 }
 async function eliminarMensaje(idMensaje) {
     if (!confirm("¿Deseas eliminar este mensaje?")) {return;}
-    const respuesta =await fetchAutenticado(`${API_MENSAJES}/${idMensaje}` + `?usuarioId=${usuarioAdministradorId}`, {method: "DELETE"});
+    const respuesta =await fetchAutenticado(`${API_MENSAJES}/${idMensaje}`, {method: "DELETE"});
     const data =await leerRespuesta(respuesta);
     if (!respuesta.ok) {alert(data.error || "No se pudo eliminar el mensaje.");return;}
     await cargarMensajes();
@@ -271,7 +325,7 @@ botonEliminarSeleccionados.addEventListener("click",
         const ids = Array.from(seleccionadas).map(function (casilla) {return Number(casilla.dataset.id);});
         if (!ids.length) {return;}
         if (!confirm(`¿Deseas eliminar ${ids.length} mensajes?`)) {return;}
-        for (const id of ids) {await fetchAutenticado(`${API_MENSAJES}/${id}` + `?usuarioId=${usuarioAdministradorId}`, {method: "DELETE"});}
+        for (const id of ids) {await fetchAutenticado(`${API_MENSAJES}/${id}`, {method: "DELETE"});}
         await cargarMensajes();
     }
 );
@@ -301,6 +355,7 @@ filtroEstado.addEventListener("change", mostrarMensajes);
 botonNuevoMensaje.addEventListener("click", abrirFormularioMensaje);
 cerrarFormulario.addEventListener("click", cerrarFormularioMensaje);
 cancelarFormulario.addEventListener("click", cerrarFormularioMensaje);
+if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});}
 cargarDestinatarios();
 cargarMensajes();
 mostrarMensajes();

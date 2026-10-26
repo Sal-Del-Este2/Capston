@@ -65,7 +65,10 @@ function configurarNavegacion() {
 }
 async function cargarContenido() {
     try {
-        const [respuestaNoticias, respuestaEventos] = await Promise.all([fetch(URL_NOTICIAS), fetch(URL_EVENTOS)]);
+        const usarToken = usuarioAutenticado && obtenerToken();
+        const [respuestaNoticias, respuestaEventos] = await Promise.all([
+            usarToken ? fetchAutenticado (URL_NOTICIAS) : fetch(URL_NOTICIAS),
+            usarToken ? fetchAutenticado (URL_EVENTOS) : fetch(URL_EVENTOS)]);
         const datosNoticias = await leerRespuesta(respuestaNoticias);
         const datosEventos = await leerRespuesta(respuestaEventos);
         if (!respuestaNoticias.ok) {throw new Error(datosNoticias.error || "No se pudieron cargar las noticias.");}
@@ -153,7 +156,9 @@ function mostrarEventos() {
 }
 async function abrirDetalleEvento(idEvento) {
     try {
-        const respuesta = await fetch(`${URL_EVENTOS}/${idEvento}`);
+        const usarToken = usuarioAutenticado && obtenerToken();
+        // const respuesta = await fetch(`${URL_EVENTOS}/${idEvento}`);
+        const respuesta = usarToken ? await fetchAutenticado(`${URL_EVENTOS}/${idEvento}`) : await fetch(`${URL_EVENTOS}/${idEvento}`);
         const evento = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(evento.error || "No se pudo cargar el evento.");}
         tituloDetalle.textContent = evento.titulo;

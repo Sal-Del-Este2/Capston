@@ -8,7 +8,9 @@ const totalAdministradores =document.getElementById("total-administradores");
 const buscadorUsuario =document.getElementById("buscar-usuario");
 const filtroRol =document.getElementById("filtro-rol");
 const filtroEstado =document.getElementById("filtro-estado");
+const filtroGrupo =document.getElementById("filtro-grupo");
 const sinResultados =document.getElementById("sin-resultados-usuarios");
+const botonCerrarSesion = document.getElementById("cerrar-sesion-admin");
 
 const botonNuevoUsuario =document.getElementById("boton-nuevo-usuario");
 const contenedorFormulario =document.getElementById("contenedor-formulario-usuario");
@@ -49,11 +51,11 @@ async function leerRespuesta(respuesta) {
 async function cargarCatalogos() {
     try {
         const [respuestaRoles, respuestaEstados, respuestaRegiones, respuestaComunas, respuestaGrupos] = await Promise.all([
-            fetch("http://localhost:8080/roles/listar"),
-            fetch("http://localhost:8080/estados/listar"),
-            fetch("http://localhost:8080/regiones/listar"),
-            fetch("http://localhost:8080/comunas/listar"),
-            fetch("http://localhost:8080/grupos/listar")
+            fetchAutenticado("http://localhost:8080/roles/listar"),
+            fetchAutenticado("http://localhost:8080/estados/listar"),
+            fetchAutenticado("http://localhost:8080/regiones/listar"),
+            fetchAutenticado("http://localhost:8080/comunas/listar"),
+            fetchAutenticado("http://localhost:8080/grupos/listar")
         ]);
         const [roles, estados, regiones, comunas, grupos] = await Promise.all([
             respuestaRoles.json(),
@@ -67,6 +69,7 @@ async function cargarCatalogos() {
         cargarOpciones(campoRegion, regiones, "Seleccione una región");
         cargarOpciones(campoComuna, comunas, "Seleccione una comuna");
         cargarOpciones(campoGrupo, grupos, "Seleccione un grupo");
+        cargarFiltroGrupos(grupos);
     } catch (error) {console.error("Error al cargar catálogos:", error);
         alert("No se pudieron cargar los datos del formulario.");
     }
@@ -90,10 +93,23 @@ async function cargarUsuarios() {
         if (!respuesta.ok) {throw new Error("No se pudo obtener la lista de usuarios.");}
         usuarios = await respuesta.json();
         mostrarUsuarios();
-        // usuarios = data; // ahora la lista viene desde PostgreSQL
     } catch (error) {console.error("Error al cargar usuarios:", error);
         alert("No se pudo cargar la lista de usuarios desde el servidor.");
     }
+}
+// cargar grupos
+function cargarFiltroGrupos(grupos) {
+    filtroGrupo.innerHTML = "";
+    const opcionTodos = document.createElement("option");
+    opcionTodos.value = "todos";
+    opcionTodos.textContent = "Todos";
+    filtroGrupo.appendChild(opcionTodos);
+    grupos.forEach(function (grupo) {
+        const opcion = document.createElement("option");
+        opcion.value = grupo.id;
+        opcion.textContent = grupo.nombre;
+        filtroGrupo.appendChild(opcion);
+    });
 }
 // Actualiza los contadores del panel administrativo
 function actualizarIndicadores() {
@@ -110,16 +126,22 @@ function obtenerUsuariosFiltrados() {
     const textoBusqueda = buscadorUsuario.value.trim().toLowerCase();
     const rolSeleccionado = filtroRol.value.toLowerCase();
     const estadoSeleccionado = filtroEstado.value.toLowerCase();
+    const grupoSeleccionado = filtroGrupo.value;
     return usuarios.filter(function (usuario) {
         const coincideTexto =
         usuario.nombre?.toLowerCase().includes(textoBusqueda) ||
+        usuario.grupo?.toLowerCase().includes(textoBusqueda) ||
         usuario.nickname?.toLowerCase().includes(textoBusqueda) ||
         usuario.correo?.toLowerCase().includes(textoBusqueda);
         const nombreRol = usuario.rol?.nombre?.trim().toLowerCase();
+        const coincideRol = rolSeleccionado === "todos" || nombreRol === rolSeleccionado;
         const nombreEstado = usuario.estado?.nombre?.trim().toLowerCase();
         const coincideEstado = estadoSeleccionado === "todos" || nombreEstado === estadoSeleccionado;
-        const coincideRol = rolSeleccionado === "todos" || nombreRol === rolSeleccionado;
-        return coincideTexto && coincideRol && coincideEstado;
+        
+        // const nombreGrupo = usuario.grupo?.nombre?.trim().toLowerCase();
+        const coincideGrupo = grupoSeleccionado === "todos" || String(usuario.grupo?.id ?? "") === grupoSeleccionado;
+        // const coincideGrupo = grupoSeleccionado === "todos" || nombreGrupo === grupoSeleccionado;
+        return coincideTexto && coincideRol && coincideEstado && coincideGrupo;
     });
 }
 // filtrar usuarios
@@ -132,11 +154,12 @@ function mostrarUsuarios() {
         const esUsuarioActual = usuario.id === usuarioActualId;
         const botonEliminar = esUsuarioActual
                 ? `<button type="button" class="boton-eliminar-admin" data-id="${usuario.id}" disabled> No disponible </button>`
-                : `<button type="button" class="boton-eliminar-admin" data-id="${usuario.id}"><img src="img/iconos/cerrar.svg" width="30px" alt="cerrar"></button>`;
+                : `<button type="button" class="boton-eliminar-admin" data-id="${usuario.id}"><img src="img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>`;
         const fila = document.createElement("tr");
         fila.innerHTML = `
             <td>${escaparHTML(usuario.nombre)}</td>
-            <td>@${escaparHTML(usuario.nickname)}</td>
+            
+            <td>${escaparHTML(usuario.grupo?.nombre || "Sin grupo")}</td>
             <td>${escaparHTML(usuario.correo)}</td>
             <td>${escaparHTML(usuario.rol?.nombre)}</td>
             <td>${escaparHTML(usuario.estado?.nombre)}</td>
@@ -145,6 +168,7 @@ function mostrarUsuarios() {
                 ${botonEliminar}
             </td>
         `;
+        // <td>@${escaparHTML(usuario.nickname)}</td>
         listaUsuarios.appendChild(fila);
     });
     activarBotonesEditar();
@@ -164,31 +188,19 @@ function activarBotonesEditar() {
 // eliminar usuarios
 async function eliminarUsuario(idUsuario) {
     const usuarioActualId = Number(sessionStorage.getItem("usuarioId"));
-    if (idUsuario === usuarioActualId) {alert("No puedes eliminar tu propia cuenta administrativa.");
-        return;
-    }
+    if (idUsuario === usuarioActualId) {alert("No puedes eliminar tu propia cuenta administrativa.");return;}
     const usuario = usuarios.find(function (elemento) {return elemento.id === idUsuario;});
-    if (!usuario) {
-        return;
-    }
+    if (!usuario) {return;}
     const confirmarEliminacion = confirm(`¿Deseas eliminar al usuario "${usuario.nickname}"?`);
-    if (!confirmarEliminacion) {
-        return;
-    }
+    if (!confirmarEliminacion) {return;}
     try {
         const respuesta = await fetchAutenticado(`http://localhost:8080/usuarios/${idUsuario}`,{method: "DELETE"});
         const data = await leerRespuesta(respuesta);
-        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo eliminar el usuario.");
-            return;
-        }
-        if (data.error) {alert(data.error);
-            return;
-        }
+        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo eliminar el usuario.");return;}
+        if (data.error) {alert(data.error); return;}
         alert(data.mensaje);
         await cargarUsuarios();
-    } catch (error) {console.error("Error al eliminar usuario:",error);
-        alert("No se pudo conectar con el servidor.");
-    }
+    } catch (error) {console.error("Error al eliminar usuario:",error); alert("No se pudo conectar con el servidor.");}
 }
 // abrir formulario
 function abrirFormularioNuevo() {
@@ -210,9 +222,7 @@ function cerrarFormularioUsuario() {formularioUsuario.reset();
 // abre la edicion del formulario
 function abrirEdicionUsuario(idUsuario) {
     const usuario = usuarios.find(function (elemento) {return elemento.id === idUsuario;});
-    if (!usuario) {
-        return;
-    }
+    if (!usuario) {return;}
     tituloFormulario.textContent = "Editar usuario";
     document.getElementById("usuario-id").value = usuario.id;
     campoNombre.value = usuario.nombre ?? "";
@@ -275,19 +285,15 @@ async function crearUsuario() {
     const formularioMultipart = new FormData();
     formularioMultipart.append("usuario", new Blob([JSON.stringify(datosUsuario)],{type: "application/json"}));
     if (campoPdf.files.length > 0) {formularioMultipart.append("archivo", campoPdf.files[0]);}
-    const respuesta = await fetchAutenticado("http://localhost:8080/usuarios/registro?rolSolicitante=administrador",{
+    // const respuesta = await fetchAutenticado("http://localhost:8080/usuarios/registro?rolSolicitante=administrador", {
+    const respuesta = await fetchAutenticado("http://localhost:8080/usuarios/registro", {
             method: "POST",
             body: formularioMultipart
         }
     );
     const data = await leerRespuesta(respuesta);
-    if (!respuesta.ok) {console.error("Error del backend:", data);
-        alert(data.error || data.message || "El servidor rechazó la creación del usuario.");
-        return false;
-    }
-    if (data.error) {alert(data.error);
-        return false;
-    }
+    if (!respuesta.ok) {console.error("Error del backend:", data); alert(data.error || data.message || "El servidor rechazó la creación del usuario."); return false;}
+    if (data.error) {alert(data.error); return false;}
     alert(data.mensaje);
     return true;
 }
@@ -295,11 +301,8 @@ async function crearUsuario() {
 async function editarUsuario(idUsuario) {
     const datosUsuario = obtenerDatosUsuario(false);
     const formularioMultipart = new FormData();
-    formularioMultipart.append("usuario",new Blob(
-        [JSON.stringify(datosUsuario)],{type: "application/json"})
-    );
-    if (campoPdf.files.length > 0) {formularioMultipart.append("archivo",campoPdf.files[0]);
-    }
+    formularioMultipart.append("usuario",new Blob([JSON.stringify(datosUsuario)],{type: "application/json"}));
+    if (campoPdf.files.length > 0) {formularioMultipart.append("archivo",campoPdf.files[0]);}
     const respuesta = await fetchAutenticado(`http://localhost:8080/usuarios/editar/${idUsuario}`,{
         method: "PUT",
         body: formularioMultipart
@@ -309,9 +312,7 @@ async function editarUsuario(idUsuario) {
         alert(data.error || data.message || "El servidor rechazó la edición del usuario.");
         return false;
     }
-    if (data.error) {alert(data.error);
-        return false;
-    }
+    if (data.error) {alert(data.error); return false;}
     alert(data.mensaje);
     return true;
 }
@@ -351,8 +352,10 @@ if (botonAsignarPassword) {botonAsignarPassword.addEventListener("click", async 
 buscadorUsuario.addEventListener("input", mostrarUsuarios);
 filtroRol.addEventListener("change", mostrarUsuarios);
 filtroEstado.addEventListener("change", mostrarUsuarios);
+filtroGrupo.addEventListener("change", mostrarUsuarios);
 botonNuevoUsuario.addEventListener("click",abrirFormularioNuevo);
 cerrarFormulario.addEventListener("click",cerrarFormularioUsuario);
 cancelarFormulario.addEventListener("click",cerrarFormularioUsuario);
+if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});}
 async function iniciarPagina() {await cargarCatalogos(); await cargarUsuarios();}
 iniciarPagina();

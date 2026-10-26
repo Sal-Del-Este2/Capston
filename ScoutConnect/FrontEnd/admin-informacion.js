@@ -33,6 +33,7 @@ async function leerRespuesta(respuesta) {
 async function cargarInformacion() {
     try {
         const respuesta = await fetch(URL_INFORMACION);
+        // const respuesta = await fetchAutenticado(URL_INFORMACION);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || data.message || "No se pudo cargar la información institucional.");}
         informacionActual = data;
@@ -73,9 +74,9 @@ async function guardarInformacion(evento) {evento.preventDefault();
     const confirmacion = confirm("¿Deseas guardar los cambios en la información institucional?");
     if (!confirmacion) {return;}
     try {
-        const respuesta = await fetch(`${URL_INFORMACION}/${informacionActual.id}`, {
+        const respuesta = await fetchAutenticado(`${URL_INFORMACION}/${informacionActual.id}`, {
             method: "PUT",
-            headers: {"Content-Type": "application/json"},
+            // headers: {"Content-Type": "application/json"},
             body: JSON.stringify(obtenerDatosInformacion())
         });
         const data = await leerRespuesta(respuesta);
@@ -83,7 +84,7 @@ async function guardarInformacion(evento) {evento.preventDefault();
         informacionActual = data;
         llenarFormulario(data);
         alert("Información institucional actualizada correctamente.");
-    } catch (error) {console.error("Error al guardar información institucional:", error); alert("No se pudo conectar con el servidor.");}
+    } catch (error) {console.error("Error al guardar información institucional:", error); alert(error.message || "No se pudo conectar con el servidor.");}
 }
 if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});}
 botonCancelar.addEventListener("click", function () {if (informacionActual) {llenarFormulario(informacionActual);}});

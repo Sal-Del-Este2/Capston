@@ -4,6 +4,12 @@ const usuarioAdministradorId = Number(sessionStorage.getItem("usuarioId"));
 let eventos = [];
 let eventoGaleriaActual = null;
 let urlsPrevias = [];
+const API_USUARIOS = "http://localhost:8080";
+const URL_COMUNAS = `${API_USUARIOS}/comunas/listar`;
+const URL_GRUPOS = `${API_USUARIOS}/grupos/listar`;
+const campoComuna = document.getElementById("comuna-evento");
+const campoGrupo = document.getElementById("grupo-evento");
+
 const listaEventos = document.getElementById("lista-eventos-admin");
 const totalEventos = document.getElementById("total-eventos-admin");
 const eventosPendientes = document.getElementById("eventos-pendientes-admin");
@@ -33,6 +39,8 @@ const campoArchivos = document.getElementById("archivos-evento");
 const vistaPrevia = document.getElementById("vista-previa-nuevas-fotos");
 const listaFotos = document.getElementById("lista-fotos-evento");
 const sinFotos = document.getElementById("sin-fotos-evento");
+const botonCerrarSesion = document.getElementById("cerrar-sesion-admin");
+
 function escaparHTML(texto) {const elemento = document.createElement("div");elemento.textContent = String(texto ?? "");return elemento.innerHTML;}
 async function leerRespuesta(respuesta) {
     const texto = await respuesta.text();
@@ -65,7 +73,7 @@ function obtenerUrlFoto(foto) {
 }
 async function cargarEventos() {
     try {
-        const respuesta = await fetch(URL_EVENTOS);
+        const respuesta = await fetchAutenticado(URL_EVENTOS);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudieron cargar los eventos.");}
         eventos = Array.isArray(data) ? data : [];
@@ -74,6 +82,39 @@ async function cargarEventos() {
         console.error("Error al cargar eventos:", error);
         alert("No se pudieron cargar los eventos.");
     }
+}
+async function cargarComunas() {
+    const respuesta = await fetchAutenticado(URL_COMUNAS);
+    const comunas = await leerRespuesta(respuesta);
+
+    if (!respuesta.ok || !Array.isArray(comunas)) {
+        throw new Error("No se pudieron cargar las comunas.");
+    }
+
+    campoComuna.innerHTML = '<option value="">Seleccione una comuna</option>';
+
+    comunas.forEach(function (comuna) {
+        const opcion = document.createElement("option");
+        opcion.value = comuna.id;
+        opcion.textContent = comuna.nombre;
+        campoComuna.appendChild(opcion);
+    });
+}
+
+async function cargarGrupos() {
+    const respuesta = await fetchAutenticado(URL_GRUPOS);
+    const grupos = await leerRespuesta(respuesta);
+    if (!respuesta.ok || !Array.isArray(grupos)) {throw new Error("No se pudieron cargar los grupos scout.");}
+    campoGrupo.innerHTML = '<option value="">Seleccione un grupo scout</option>';
+    grupos.forEach(function (grupo) {const opcion = document.createElement("option");
+        opcion.value = grupo.id;
+        opcion.textContent = grupo.nombre;
+        campoGrupo.appendChild(opcion);
+    });
+}
+async function cargarCatalogosEvento() {
+    try {await Promise.all([cargarComunas(), cargarGrupos()]);
+    } catch (error) {console.error("Error al cargar catálogos:", error); alert(error.message || "No se pudieron cargar comuna y grupo scout.");}
 }
 function actualizarIndicadores() {
     const pendientes = eventos.filter(function (evento) {return evento.estado === "PENDIENTE";});
@@ -111,13 +152,13 @@ function mostrarEventos() {
             <td>${escaparHTML(formatearFecha(evento.fechaRealizacion))}
             </td>
             <td>${escaparHTML(evento.lugar)}</td>
-            <td><spanclass="estado-usuario-admin ${obtenerClaseEstado(evento.estado)}">${escaparHTML(obtenerNombreEstado(evento.estado))}</span></td>
+            <td><span class="estado-usuario-admin ${obtenerClaseEstado(evento.estado)}">${escaparHTML(obtenerNombreEstado(evento.estado))}</span></td>
             <td>${cantidadFotos}/20</td>
             <td>
                 <div class="acciones-tabla-admin">
                     <button type="button" class="boton-editar-admin" data-id="${evento.id}">Editar</button>
                     <button type="button" class="boton-galeria-evento" data-id="${evento.id}">Galería</button>
-                    <button type="button" class="boton-eliminar-evento" data-id="${evento.id}">Eliminar</button>
+                    <button type="button" class="boton-eliminar-admin" data-id="${evento.id}"><img src="img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
                 </div>
             </td>
         `;
@@ -127,15 +168,9 @@ function mostrarEventos() {
     actualizarIndicadores();
 }
 function activarBotonesTabla() {
-    document.querySelectorAll(".boton-editar-admin").forEach(function (boton) {
-        boton.addEventListener("click", function () {abrirEdicionEvento(Number(boton.dataset.id));});
-    });
-    document.querySelectorAll(".boton-galeria-evento").forEach(function (boton) {
-        boton.addEventListener("click", function () {abrirGaleriaEvento(Number(boton.dataset.id));});
-    });
-    document.querySelectorAll(".boton-eliminar-evento").forEach(function (boton) {boton.addEventListener("click", function () {eliminarEvento(Number(
-        boton.dataset.id));});
-    });
+    document.querySelectorAll(".boton-editar-admin").forEach(function (boton) {boton.addEventListener("click", function () {abrirEdicionEvento(Number(boton.dataset.id));});});
+    document.querySelectorAll(".boton-galeria-evento").forEach(function (boton) {boton.addEventListener("click", function () {abrirGaleriaEvento(Number(boton.dataset.id));});});
+    document.querySelectorAll(".boton-eliminar-evento").forEach(function (boton) {boton.addEventListener("click", function () {eliminarEvento(Number(boton.dataset.id));});});
 }
 function abrirNuevoEvento() {
     formularioEvento.reset();
@@ -155,6 +190,8 @@ function abrirEdicionEvento(idEvento) {
     campoLugar.value = evento.lugar;
     campoEstado.value = evento.estado;
     campoDetalle.value = evento.detalle;
+    campoComuna.value = evento.comunaId ?? "";
+    campoGrupo.value = evento.grupoId ?? "";
     tituloFormulario.textContent = "Editar evento";
     contenedorFormulario.hidden = false;
     contenedorFormulario.scrollIntoView({behavior: "smooth"});
@@ -172,7 +209,9 @@ async function guardarEvento(eventoFormulario) {
         fechaRealizacion: campoFecha.value,
         lugar: campoLugar.value.trim(),
         estado: campoEstado.value,
-        detalle: campoDetalle.value.trim()
+        detalle: campoDetalle.value.trim(),
+        comunaId: Number(campoComuna.value),
+        grupoId: Number(campoGrupo.value)
     };
     if (
         !datos.titulo ||
@@ -183,15 +222,14 @@ async function guardarEvento(eventoFormulario) {
     ) {alert("Completa todos los campos obligatorios.");
         return;
     }
-    if (!idEvento && !usuarioAdministradorId) {alert("No se encontró el identificador " + "del administrador en la sesión.");
-        return;
-    }
-    if (!idEvento) {datos.creadorId = usuarioAdministradorId;}
+    if (!campoComuna.value) {alert("Selecciona una comuna."); return;}
+    if (!campoGrupo.value) {alert("Selecciona un grupo scout."); return;}
     const url = idEvento ? `${URL_EVENTOS}/${idEvento}` : URL_EVENTOS;
     const metodo = idEvento ? "PUT" : "POST";
     try {
-        const respuesta = await fetch(url, {
-            method: metodo, headers: {"Content-Type": "application/json"},
+        const respuesta = await fetchAutenticado(url, {
+            method: metodo,
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(datos)
         });
         const data = await leerRespuesta(respuesta);
@@ -203,7 +241,7 @@ async function guardarEvento(eventoFormulario) {
 }
 async function abrirGaleriaEvento(idEvento) {
     try {
-        const respuesta = await fetch(`${URL_EVENTOS}/${idEvento}`);
+        const respuesta = await fetchAutenticado(`${URL_EVENTOS}/${idEvento}`);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudo cargar el evento.");}
         eventoGaleriaActual = data;
@@ -253,24 +291,12 @@ function validarArchivos(archivos, cantidadActual) {
 		"image/heif",
 		"image/heif-sequence"
     ];
-    if (!archivos.length) {
-        alert("Selecciona al menos una fotografía.");
-        return false;
-    }
-    if (cantidadActual + archivos.length > 20) {
-        alert("El evento no puede superar " + "las 20 fotografías.");
-        return false;
-    }
+    if (!archivos.length) {alert("Selecciona al menos una fotografía."); return false;}
+    if (cantidadActual + archivos.length > 20) {alert("El evento no puede superar " + "las 20 fotografías."); return false;}
     for (const archivo of archivos) {
-        if (!tiposPermitidos.includes(archivo.type)) {
-            alert(`"${archivo.name}" no es JPG ni PNG.`);
-            return false;
-        }
-        if (archivo.size > 10 * 1024 * 1024) {alert(`"${archivo.name}" supera los 10 MB.`);
-            return false;
-        }
-    }
-    return true;
+        if (!tiposPermitidos.includes(archivo.type)) {alert(`"${archivo.name}" no es JPG ni PNG.`); return false;}
+        if (archivo.size > 10 * 1024 * 1024) {alert(`"${archivo.name}" supera los 10 MB.`); return false;}
+    }return true;
 }
 async function subirFotos(eventoFormulario) {
     eventoFormulario.preventDefault();
@@ -282,7 +308,7 @@ async function subirFotos(eventoFormulario) {
     const formData = new FormData();
     archivos.forEach(function (archivo) {formData.append("archivos", archivo);});
     try {
-        const respuesta = await fetch(`${URL_EVENTOS}/${eventoId}/fotos`,{method: "POST", body: formData});
+        const respuesta = await fetchAutenticado(`${URL_EVENTOS}/${eventoId}/fotos`,{method: "POST", body: formData}); // subir fotos
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudieron subir las fotografías.");}
         campoArchivos.value = "";
@@ -325,18 +351,17 @@ function mostrarFotosGaleria(fotos) {
         `;
         listaFotos.appendChild(tarjeta);
     });
-    document
-        .querySelectorAll("#lista-fotos-evento .boton-editar-admin")
+    document.querySelectorAll("#lista-fotos-evento .boton-editar-admin")
         .forEach(function (boton) {boton.addEventListener("click", function () {marcarFotoPrincipal(Number(boton.dataset.id));});});
-    document
-        .querySelectorAll("#lista-fotos-evento .boton-eliminar-evento")
+    document.querySelectorAll("#lista-fotos-evento .boton-eliminar-evento")
         .forEach(function (boton) {boton.addEventListener("click", function () {eliminarFoto(Number(boton.dataset.id));});});
 }
 async function marcarFotoPrincipal(fotoId) {
     const eventoId = Number(campoEventoGaleriaId.value);
     if (!eventoId) {return;}
     try {
-        const respuesta = await fetch(`${URL_EVENTOS}/${eventoId}/fotos/` + `${fotoId}/principal`, {method: "PUT"});
+        // const respuesta = await fetchAutenticado(`${URL_EVENTOS}/${eventoId}/fotos/` + `${fotoId}/principal`, {method: "PUT"});
+        const respuesta = await fetchAutenticado(`${URL_EVENTOS}/${eventoId}/fotos/${fotoId}/principal`, {method: "PUT"}); // foto principal
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudo definir la foto principal.");}
         await abrirGaleriaEvento(eventoId);
@@ -349,7 +374,8 @@ async function eliminarFoto(fotoId) {
     const confirmar = confirm("¿Deseas eliminar esta fotografía?");
     if (!confirmar) {return;}
     try {
-        const respuesta = await fetch(`${URL_EVENTOS}/${eventoId}/fotos/` + `${fotoId}`, {method: "DELETE"});
+        // const respuesta = await fetchAutenticado(`${URL_EVENTOS}/${eventoId}/fotos/` + `${fotoId}`, {method: "DELETE"});
+        const respuesta = await fetchAutenticado(`${URL_EVENTOS}/${eventoId}/fotos/${fotoId}`, {method: "DELETE"}); // eliminar fotos
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudo eliminar la fotografía.");}
         await abrirGaleriaEvento(eventoId);
@@ -362,7 +388,7 @@ async function eliminarEvento(idEvento) {
     const confirmar = confirm(`¿Deseas eliminar el evento ` + `"${evento.titulo}"?`);
     if (!confirmar) {return;}
     try {
-        const respuesta = await fetch(`${URL_EVENTOS}/${idEvento}`, {method: "DELETE"});
+        const respuesta = await fetchAutenticado(`${URL_EVENTOS}/${idEvento}`, {method: "DELETE"}); // eliminar evento
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudo eliminar el evento.");}
         await cargarEventos();
@@ -378,4 +404,7 @@ formularioEvento.addEventListener("submit", guardarEvento);
 cerrarGaleria.addEventListener("click", cerrarGaleriaEvento);
 campoArchivos.addEventListener("change", mostrarVistaPreviaArchivos);
 formularioFotos.addEventListener("submit", subirFotos);
-cargarEventos();
+if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});}
+// cargarEventos();
+async function iniciarPaginaEventos() {await cargarCatalogosEvento(); await cargarEventos();}
+iniciarPaginaEventos();

@@ -2,6 +2,12 @@ const API_ACTIVIDADES = "http://localhost:8081/api";
 const URL_NOTICIAS = `${API_ACTIVIDADES}/noticias`;
 const usuarioAdministradorId = Number(sessionStorage.getItem("usuarioId"));
 let noticias = [];
+const API_USUARIOS = "http://localhost:8080";
+const URL_COMUNAS = `${API_USUARIOS}/comunas/listar`;
+const URL_GRUPOS = `${API_USUARIOS}/grupos/listar`;
+const campoComuna = document.getElementById("comuna-noticia");
+const campoGrupo = document.getElementById("grupo-noticia");
+
 const listaNoticias = document.getElementById("lista-noticias-admin");
 const totalNoticias = document.getElementById("total-noticias-admin");
 const noticiasPendientes = document.getElementById("noticias-pendientes-admin");
@@ -22,20 +28,19 @@ const campoFecha = document.getElementById("fecha-noticia");
 const campoLugar = document.getElementById("lugar-noticia");
 const campoEstado = document.getElementById("estado-noticia");
 const campoDetalle = document.getElementById("detalle-noticia");
+const botonCerrarSesion = document.getElementById("cerrar-sesion-admin");
+
 function escaparHTML(texto) {const elemento = document.createElement("div"); elemento.textContent = String(texto ?? ""); return elemento.innerHTML}
 async function leerRespuesta(respuesta) {const texto = await respuesta.text();
     if (!texto) {return {};}
     try {return JSON.parse(texto);
-    } catch (error) {
-        return {error: texto};
-    }
+    } catch (error) {return {error: texto};}
 }
 function obtenerNombreEstado(estado) {const estados = {
     PENDIENTE: "Pendiente",
     EN_CURSO: "En curso",
     FINALIZADA: "Finalizada"
-    };return estados[estado] || estado;
-}
+};return estados[estado] || estado;}
 function obtenerClaseEstado(estado) {
     if (estado === "FINALIZADA") {return "estado-finalizada-admin";}
     if (estado === "EN_CURSO") {return "estado-activo-admin";}
@@ -49,12 +54,17 @@ function formatearFecha(fecha) {
 }
 async function cargarNoticias() {
     try {
-        const respuesta = await fetch(URL_NOTICIAS);
+        const respuesta = await fetchAutenticado(URL_NOTICIAS);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudieron cargar las noticias.");}
         noticias = Array.isArray(data) ? data : [];
         mostrarNoticias();
     } catch (error) {console.error("Error al cargar noticias:", error); alert("No se pudieron cargar las noticias.");}
+}
+async function cargarCatalogosNoticia() {
+    try {
+        await Promise.all([cargarComunas(), cargarGrupos()]);
+    } catch (error) {console.error("Error al cargar catálogos:", error); alert(error.message || "No se pudieron cargar comuna y grupo scout.");}
 }
 function actualizarIndicadores() {
     const pendientes = noticias.filter(function (noticia) {return noticia.estado === "PENDIENTE";});
@@ -95,7 +105,8 @@ function mostrarNoticias() {
             <td>
                 <div class="acciones-tabla-admin">
                     <button type="button" class="boton-editar-admin" data-id="${noticia.id}">Editar</button>
-                    <button type="button" class="boton-eliminar-noticia" data-id="${noticia.id}">Eliminar</button>
+                    <button type="button" class="boton-eliminar-admin" data-id="${noticia.id}"><img src="img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
+                    
                 </div>
             </td>
         `;
@@ -125,6 +136,8 @@ function abrirEdicionNoticia(idNoticia) {
     campoFecha.value = noticia.fechaRealizacion;
     campoLugar.value = noticia.lugar;
     campoEstado.value = noticia.estado;
+    campoComuna.value = noticia.comunaId ?? "";
+    campoGrupo.value = noticia.grupoId ?? "";
     campoDetalle.value = noticia.detalle;
     tituloFormulario.textContent = "Editar noticia";
     contenedorFormulario.hidden = false;
@@ -141,8 +154,12 @@ async function guardarNoticia(evento) {
         fechaRealizacion: campoFecha.value,
         lugar: campoLugar.value.trim(),
         estado: campoEstado.value,
-        detalle: campoDetalle.value.trim()
+        detalle: campoDetalle.value.trim(),
+        comunaId: Number(campoComuna.value),
+        grupoId: Number(campoGrupo.value)
     };
+    if (!campoComuna.value) {alert("Selecciona una comuna."); return;}
+    if (!campoGrupo.value) {alert("Selecciona un grupo scout.");return;}
     if (
         !datos.titulo ||
         !datos.fechaRealizacion ||
@@ -150,14 +167,10 @@ async function guardarNoticia(evento) {
         !datos.estado ||
         !datos.detalle
     ) {alert("Completa todos los campos obligatorios."); return;}
-    if (!idNoticia && !usuarioAdministradorId) {alert("No se encontró el identificador " + "del administrador en la sesión.");
-        return;
-    }
-    if (!idNoticia) {datos.creadorId = usuarioAdministradorId;}
     const url = idNoticia ? `${URL_NOTICIAS}/${idNoticia}` : URL_NOTICIAS;
     const metodo = idNoticia ? "PUT" : "POST";
     try {
-        const respuesta = await fetch(url, {
+        const respuesta = await fetchAutenticado(url, {
             method: metodo,
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(datos)});
@@ -171,15 +184,37 @@ async function guardarNoticia(evento) {
 async function eliminarNoticia(idNoticia) {
     const noticia = noticias.find(function (elemento) {return elemento.id === idNoticia;});
     if (!noticia) {return;}
-    const confirmar = confirm(`¿Deseas eliminar la noticia ` + `"${noticia.titulo}"?`);
+    const confirmar = confirm(`¿Deseas eliminar la noticia "${noticia.titulo}"?`);
     if (!confirmar) {return;}
     try {
-        const respuesta = await fetch(`${URL_NOTICIAS}/${idNoticia}`, {method: "DELETE"});
+        const respuesta = await fetchAutenticado(`${URL_NOTICIAS}/${idNoticia}`, { method: "DELETE" });
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudo eliminar la noticia.");}
         await cargarNoticias();
         alert("Noticia eliminada correctamente.");
     } catch (error) {console.error("Error al eliminar noticia:", error); alert(error.message);}
+}
+async function cargarComunas() {
+    const respuesta = await fetchAutenticado(URL_COMUNAS);
+    const comunas = await leerRespuesta(respuesta);
+    if (!respuesta.ok || !Array.isArray(comunas)) {throw new Error("No se pudieron cargar las comunas.");}
+    campoComuna.innerHTML = '<option value="">Seleccione una comuna</option>';
+    comunas.forEach(function (comuna) {const opcion = document.createElement("option");
+        opcion.value = comuna.id;
+        opcion.textContent = comuna.nombre;
+        campoComuna.appendChild(opcion);
+    });
+}
+async function cargarGrupos() {
+    const respuesta = await fetchAutenticado(URL_GRUPOS);
+    const grupos = await leerRespuesta(respuesta);
+    if (!respuesta.ok || !Array.isArray(grupos)) {throw new Error("No se pudieron cargar los grupos scout.");}
+    campoGrupo.innerHTML = '<option value="">Seleccione un grupo scout</option>';
+    grupos.forEach(function (grupo) {const opcion = document.createElement("option");
+        opcion.value = grupo.id;
+        opcion.textContent = grupo.nombre;
+        campoGrupo.appendChild(opcion);
+    });
 }
 buscarNoticia.addEventListener("input", mostrarNoticias);
 filtroEstado.addEventListener("change", mostrarNoticias);
@@ -187,4 +222,9 @@ botonNuevaNoticia.addEventListener("click", abrirNuevaNoticia);
 cerrarFormulario.addEventListener("click", cerrarFormularioNoticia);
 cancelarFormulario.addEventListener("click", cerrarFormularioNoticia);
 formularioNoticia.addEventListener("submit", guardarNoticia);
-cargarNoticias();
+if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {evento.preventDefault(); sessionStorage.clear(); window.location.replace("login.html");});}
+// cargarNoticias();
+async function iniciarPaginaNoticias() {
+    await cargarCatalogosNoticia();
+    await cargarNoticias();}
+iniciarPaginaNoticias();

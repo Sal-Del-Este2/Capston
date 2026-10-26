@@ -57,12 +57,12 @@ async function cargarTiposPolitica() {
 }
 async function cargarPoliticas() {
     try {
-        const respuesta = await fetch(URL_POLITICAS);
+        const respuesta = await fetchAutenticado(URL_POLITICAS);
         const data = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(data.error || "No se pudieron cargar las políticas.");}
         politicas = Array.isArray(data) ? data : [];
         mostrarPoliticas();
-    } catch (error) {console.error("Error al cargar políticas:", error); alert(error.message);}
+    } catch (error) {console.error("Error al cargar políticas:", error); alert(error.message || "No se pudieron cargar las políticas.");}
 }
 function actualizarIndicadores() {
     const publicadas = politicas.filter(politica => politica.publicada === true);
@@ -100,7 +100,7 @@ function mostrarPoliticas() {
             <td>${escaparHTML(formatearFecha(politica.fechaActualizacion))}</td>
             <td>
                 <button type="button" class="boton-editar-admin" data-id="${politica.id}">Editar</button>
-                <button type="button" class="boton-editar-admin" data-id="${politica.id}"> ${politica.publicada ? "Despublicar" : "Publicar"}</button>
+                <button type="button" class="boton-despublicar-admin" data-id="${politica.id}"> ${politica.publicada ? "Despublicar" : "Publicar"}</button>
             </td>
         `;
         listaPoliticas.appendChild(fila);
@@ -110,7 +110,7 @@ function mostrarPoliticas() {
 }
 function activarBotones() {
     document.querySelectorAll(".boton-editar-admin").forEach(boton => {boton.addEventListener("click", () => {abrirEdicionPolitica(Number(boton.dataset.id));});});
-    document.querySelectorAll(".boton-publicar-admin").forEach(boton => {boton.addEventListener("click", () => {cambiarPublicacion(Number(boton.dataset.id));});});
+    document.querySelectorAll(".boton-despublicar-admin").forEach(boton => {boton.addEventListener("click", () => {cambiarPublicacion(Number(boton.dataset.id));});});
 }
 function abrirFormularioNuevo() {
     formularioPolitica.reset();
@@ -159,31 +159,40 @@ async function guardarPolitica(evento) {
     const url = idPolitica ? `${URL_POLITICAS}/${idPolitica}` : URL_POLITICAS;
     const metodo = idPolitica ? "PUT" : "POST";
     try {
-        const respuesta = await fetch(url, {
+        const respuesta = await fetchAutenticado(url, {
             method: metodo,
-            headers: {"Content-Type": "application/json"},
+            // headers: {"Content-Type": "application/json"},
             body: JSON.stringify(datos)
         });
         const data = await leerRespuesta(respuesta);
-        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo guardar la política."); return;}
+        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo guardar la política.");
+            return;
+        }
         alert(idPolitica ? "Política actualizada correctamente." : "Política creada correctamente.");
         cerrarFormularioPolitica();
         await cargarPoliticas();
-    } catch (error) {console.error("Error al guardar política:", error);alert("No se pudo conectar con el servidor.");}
+    } catch (error) {console.error("Error al guardar política:", error); alert(error.message || "No se pudo conectar con el servidor.");}
 }
 async function cambiarPublicacion(idPolitica) {
     const politica = politicas.find(item => item.id === idPolitica);
     if (!politica) {return;}
     const nuevaPublicacion = !politica.publicada;
-    const confirmacion = confirm(nuevaPublicacion ? `¿Deseas publicar la política "${politica.titulo}"?` : `¿Deseas despublicar la política "${politica.titulo}"?`);
+    const confirmacion = confirm(nuevaPublicacion
+        ? `¿Deseas publicar la política "${politica.titulo}"?`
+        : `¿Deseas despublicar la política "${politica.titulo}"?`
+    );
     if (!confirmacion) {return;}
     try {
-        const respuesta = await fetch(`${URL_POLITICAS}/${idPolitica}/publicar?publicada=${nuevaPublicacion}`, {method: "PATCH"});
-        const data = await leerRespuesta(respuesta);
-        if (!respuesta.ok) {alert(data.error || data.message || "No se pudo cambiar el estado de la política."); return;}
+        const respuesta = await fetchAutenticado(`${URL_POLITICAS}/${idPolitica}/publicar?publicada=${nuevaPublicacion}`,
+            { method: "PATCH" }
+        );
+        if (!respuesta.ok) {const data = await leerRespuesta(respuesta);
+            alert(data.error || data.message || "No se pudo cambiar el estado de la política.");
+            return;
+        }
         alert(nuevaPublicacion ? "Política publicada correctamente." : "Política despublicada correctamente.");
         await cargarPoliticas();
-    } catch (error) {console.error("Error al cambiar publicación:", error); alert("No se pudo conectar con el servidor.");}
+    } catch (error) {console.error("Error al cambiar publicación:", error); alert(error.message || "No se pudo conectar con el servidor.");}
 }
 buscadorPolitica.addEventListener("input", mostrarPoliticas);
 filtroEstado.addEventListener("change", mostrarPoliticas);
