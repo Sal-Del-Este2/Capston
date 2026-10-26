@@ -7,6 +7,4 @@ public record SolicitudPasswordDTO(
     @NotBlank (message = "El correo es obligatorio.")
     @Email (message = "El correo no tiene un formato válido.")
     String correo
-) {
-
-}
+) { }

@@ -2,17 +2,14 @@ package com.scout.backend_scout.model;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-// import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-// import jakarta.persistence.*;
 
 @Entity
 @Table (name = "usuarios")
@@ -42,12 +39,10 @@ public class Usuario {
     @Column(name = "debe_cambiar_password", nullable = false)
     private Boolean debeCambiarPassword = false;
     // Métodos para el pdf
-    // @Lob 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "pdf_dato", columnDefinition = "BYTEA")private byte[] pdfDato; // guarda el archivo
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "pdf_nombre")private String pdfNombre; // guardar el nombre del archivo
-
     // --- Getters y setters ---
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -77,12 +72,10 @@ public class Usuario {
     public void setGrupo(Grupo grupo) {this.grupo = grupo;}
     public Rol getRol() {return rol;}
     public void setRol(Rol rol) {this.rol = rol;}
-    // Getters y Setters
     public byte[] getPdfDato() { return pdfDato; }
     public void setPdfDato(byte[] pdfDato) {this.pdfDato = pdfDato; }
     public String getPdfNombre() { return pdfNombre; }
     public void setPdfNombre(String pdfNombre) {this.pdfNombre = pdfNombre; }
-
     public Boolean getDebeCambiarPassword() {return debeCambiarPassword;}
     public void setDebeCambiarPassword(Boolean debeCambiarPassword) {this.debeCambiarPassword = debeCambiarPassword;}
 }

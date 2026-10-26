@@ -2,7 +2,6 @@ package com.scout.backend_scout.repository;
 
 import com.scout.backend_scout.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
 
