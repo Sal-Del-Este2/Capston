@@ -1,2 +1,5 @@
 /target/
 .env
+
+### VS Code ###
+.vscode/
