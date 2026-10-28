@@ -1,0 +1,4 @@
+"¿Por qué separó pagos, cuotas y donaciones?"
+
+
+Se diseñó la base de datos siguiendo los principios de la Tercera Forma Normal. La tabla pagos almacena únicamente la información transaccional común a cualquier operación financiera. Las entidades cuotas, donaciones y órdenes de compra fueron separadas porque representan procesos de negocio distintos. De esta forma se evita la redundancia de datos, se mantiene la integridad referencial y se facilita la escalabilidad del sistema.

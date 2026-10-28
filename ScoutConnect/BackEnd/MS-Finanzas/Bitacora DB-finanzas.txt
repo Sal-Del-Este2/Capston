@@ -1,0 +1,131 @@
+18/10/2026
+
+FASE 1 - Normalización DB-Finanzas
+
+Objetivo:
+Rediseñar la base de datos financiera siguiendo la Tercera Forma Normal (3FN).
+
+Acciones:
+- Respaldo tabla pagos.
+- Diseño entidad pagos.
+- Diseño entidad cuotas.
+- Diseño entidad donaciones.
+- Diseño entidad ordenes_compra.
+- Diseño entidad detalle_compra.
+
+Resultado esperado:
+Eliminación de redundancia y separación de responsabilidades de negocio
+
+****************Creación de tablas en 3FN**************************
+
+CREATE TABLE pagos (
+    id BIGSERIAL PRIMARY KEY,
+
+    usuario_id BIGINT NOT NULL,
+
+    tipo_pago VARCHAR(20) NOT NULL,
+
+    descripcion VARCHAR(255),
+
+    monto NUMERIC(10,2) NOT NULL,
+
+    estado VARCHAR(20) NOT NULL,
+
+    commerce_order VARCHAR(100) UNIQUE,
+
+    token_flow VARCHAR(255),
+
+    flow_order VARCHAR(100),
+
+    flow_status VARCHAR(50),
+
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    fecha_pago TIMESTAMP
+);
+
+
+CREATE TABLE cuotas (
+    id BIGSERIAL PRIMARY KEY,
+
+    usuario_id BIGINT NOT NULL,
+
+    anio INTEGER NOT NULL,
+
+    mes INTEGER NOT NULL,
+
+    monto NUMERIC(10,2) NOT NULL,
+
+    fecha_vencimiento DATE NOT NULL,
+
+    estado VARCHAR(20) NOT NULL,
+
+    pago_id BIGINT
+);
+
+
+CREATE TABLE donaciones (
+    id BIGSERIAL PRIMARY KEY,
+
+    usuario_id BIGINT NOT NULL,
+
+    tipo_donacion VARCHAR(100) NOT NULL,
+
+    monto NUMERIC(10,2) NOT NULL,
+
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    pago_id BIGINT
+);
+
+
+
+CREATE TABLE ordenes_compra (
+    id BIGSERIAL PRIMARY KEY,
+
+    usuario_id BIGINT NOT NULL,
+
+    total NUMERIC(10,2) NOT NULL,
+
+    estado VARCHAR(20) NOT NULL,
+
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    pago_id BIGINT
+);
+
+
+
+CREATE TABLE detalle_compra (
+    id BIGSERIAL PRIMARY KEY,
+
+    orden_id BIGINT NOT NULL,
+
+    producto_id BIGINT NOT NULL,
+
+    cantidad INTEGER NOT NULL,
+
+    precio_unitario NUMERIC(10,2) NOT NULL
+);
+
+
+FASE 2 FINALIZADA
+
+Se implementó el modelo de entidades del microservicio MS-Finanzas siguiendo la estructura definida en la base de datos normalizada.
+
+Entidades creadas:
+- Pago
+- Cuota
+- Donacion
+- OrdenCompra
+- DetalleCompra
+
+Repositorios creados:
+- PagoRepository
+- CuotaRepository
+- DonacionRepository
+- OrdenCompraRepository
+- DetalleCompraRepository
+
+Resultado:
+El modelo de persistencia quedó alineado con PostgreSQL y preparado para la integración con la pasarela de pagos Flow.

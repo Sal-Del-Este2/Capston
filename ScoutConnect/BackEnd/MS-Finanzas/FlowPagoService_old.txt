@@ -1,0 +1,96 @@
+package com.scout.backend_scout_finanzas.service;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+@Service
+public class FlowPagoService {
+
+    @Value("${flow.api.key}")
+    private String apiKey;
+
+    @Value("${flow.secret.key}")
+    private String secretKey;
+
+    @Value("${flow.base.url}")
+    private String baseUrl;
+
+    @Value("${flow.confirmation.url}")
+    private String confirmationUrl;
+
+    @Value("${flow.return.url}")
+    private String returnUrl;
+
+    public String crearPago(
+            String subject,
+            String descripcion,
+            Double amount
+    ) throws Exception {
+
+        String commerceOrder =
+                "SCOUT-" + UUID.randomUUID().toString().substring(0, 8);
+
+        Map<String, String> params = new TreeMap<>();
+
+        params.put("amount", String.valueOf(amount.intValue()));
+        params.put("apiKey", apiKey);
+        params.put("commerceOrder", commerceOrder);
+        params.put("currency", "CLP");
+        params.put("email", "prueba@scoutconnect.cl");
+        params.put("subject", subject);
+        params.put("urlConfirmation", confirmationUrl);
+        params.put("urlReturn", returnUrl);
+
+        String firma = generarFirma(params);
+
+        System.out.println("============== FLOW ==============");
+        System.out.println("CommerceOrder : " + commerceOrder);
+        System.out.println("Firma         : " + firma);
+        System.out.println("Base URL      : " + baseUrl);
+        System.out.println("==================================");
+
+        return commerceOrder;
+    }
+
+    private String generarFirma(Map<String, String> params)
+            throws Exception {
+
+        StringBuilder toSign = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            toSign.append(entry.getKey());
+            toSign.append(entry.getValue());
+        }
+
+        Mac sha256Hmac = Mac.getInstance("HmacSHA256");
+
+        SecretKeySpec secretKeySpec =
+                new SecretKeySpec(
+                        secretKey.getBytes(StandardCharsets.UTF_8),
+                        "HmacSHA256"
+                );
+
+        sha256Hmac.init(secretKeySpec);
+
+        byte[] hash =
+                sha256Hmac.doFinal(
+                        toSign.toString()
+                                .getBytes(StandardCharsets.UTF_8)
+                );
+
+        StringBuilder hexString = new StringBuilder();
+
+        for (byte b : hash) {
+            hexString.append(
+                    String.format("%02x", b)
+            );
+        }
+
+        return hexString.toString();
+    }
+}

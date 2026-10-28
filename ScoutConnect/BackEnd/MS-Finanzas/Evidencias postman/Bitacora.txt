@@ -1,0 +1,40 @@
+CAPSTONE - EVIDENCIAS DE PRUEBAS POSTMAN
+MICROSERVICIO MS-FINANZAS
+
+Prueba N°1: Generación de Orden de Pago
+Endpoint: POST /finanzas/pagar
+Resultado: Se recibió correctamente la solicitud de pago y se generó una orden única (commerceOrder) para la transacción.
+Estado: Exitosa (HTTP 200 OK).
+
+Prueba N°2: Registro de Pago en Base de Datos
+Endpoint: POST /finanzas/registrar
+Resultado: Se registró exitosamente una transacción en la tabla pagos de PostgreSQL.
+Estado: Exitosa (HTTP 200 OK).
+
+Prueba N°3: Consulta de Historial Completo
+Endpoint: GET /finanzas/historial
+Resultado: Se obtuvo correctamente el listado completo de transacciones almacenadas en la base de datos.
+Estado: Exitosa (HTTP 200 OK).
+
+Prueba N°4: Consulta de Historial por Usuario
+Endpoint: GET /finanzas/historial/{usuarioId}
+Resultado: Se recuperó correctamente el historial de pagos asociado a un usuario específico.
+Estado: Exitosa (HTTP 200 OK).
+
+Prueba N°5: Actualización de Estado de Pago
+Endpoint: PUT /finanzas/estado/{id}
+Resultado: Se modificó correctamente el estado de una transacción (PENDIENTE, PAGADO, RECHAZADO, etc.).
+Estado: Exitosa (HTTP 200 OK).
+
+Prueba N°6: Simulación de Confirmación de Pago
+Endpoint: POST /finanzas/confirmacion
+Resultado: El microservicio recibió correctamente una solicitud de confirmación simulada para futuras integraciones con Flow.
+Estado: Exitosa (HTTP 200 OK).
+
+Prueba N°7: Verificación de Persistencia en PostgreSQL
+Herramienta: PostgreSQL / pgAdmin
+Resultado: Se validó la creación automática de la tabla pagos mediante JPA/Hibernate y el almacenamiento correcto de los registros generados por el microservicio.
+Estado: Exitosa.
+
+Conclusión:
+Las pruebas realizadas permitieron validar la correcta comunicación entre Postman, Spring Boot, JPA/Hibernate y PostgreSQL. El microservicio MS-Finanzas quedó preparado para iniciar la integración de la pasarela de pagos Flow Sandbox en las siguientes etapas del proyecto ScoutConnect.

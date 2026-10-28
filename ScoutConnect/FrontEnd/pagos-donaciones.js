@@ -1,7 +1,7 @@
-const MODO_DEMO = true;
+const MODO_DEMO = false;
 
 const API_PAGOS =
-    "http://localhost:8080/api/pagos/crear";
+    "http://localhost:8082/finanzas/pagar";
 
 const cuotasPendientes = [
     {
@@ -451,62 +451,79 @@ botonContinuarPago.addEventListener(
 
 
 async function iniciarPago(datosOperacion) {
+
     botonContinuarPago.disabled = true;
+
     botonContinuarPago.textContent =
-        "Procesando...";
-
-    if (MODO_DEMO) {
-        setTimeout(function () {
-            registrarOperacionSimulada(
-                datosOperacion
-            );
-
-            botonContinuarPago.disabled = false;
-            botonContinuarPago.textContent =
-                "Continuar al pago";
-        }, 700);
-
-        return;
-    }
+        "Redirigiendo a Webpay...";
 
     try {
-        const respuesta = await fetch(API_PAGOS, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(datosOperacion)
-        });
 
-        if (!respuesta.ok) {
-            throw new Error(
-                "No fue posible crear el pago."
-            );
+        const usuarioId = 1;
+
+        let pago = null;
+
+        if (datosOperacion.tipoOperacion === "DONACION") {
+
+            pago = {
+                usuarioId: usuarioId,
+                tipoPago: "DONACION",
+                descripcion: "Donación Scout",
+                monto: datosOperacion.monto
+            };
+
+        } else {
+
+            pago = {
+                usuarioId: usuarioId,
+                tipoPago: "CUOTA",
+                descripcion:
+                    "Pago de cuota " +
+                    datosOperacion.periodo,
+                monto: datosOperacion.monto
+            };
         }
+
+        console.log("Pago enviado:", pago);
+
+        const respuesta =
+            await fetch(API_PAGOS, {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+                body: JSON.stringify(pago)
+            });
 
         const resultado =
             await respuesta.json();
 
-        /*
-         * El microservicio deberá responder:
-         *
-         * {
-         *     "urlPago": "https://pasarela.cl/pago/..."
-         * }
-         */
+        if (!respuesta.ok) {
+            throw new Error(
+                resultado.error ||
+                "Error al generar pago"
+            );
+        }
 
         window.location.href =
             resultado.urlPago;
 
     } catch (error) {
-        alert(error.message);
 
-        botonContinuarPago.disabled = false;
+        console.error(error);
+
+        alert(
+            error.message
+        );
+
+        botonContinuarPago.disabled =
+            false;
+
         botonContinuarPago.textContent =
             "Continuar al pago";
     }
 }
-
 
 function registrarOperacionSimulada(datos) {
     const esMembresia =
