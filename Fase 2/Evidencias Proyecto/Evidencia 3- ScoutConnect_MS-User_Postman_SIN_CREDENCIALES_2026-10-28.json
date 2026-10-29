@@ -1,0 +1,675 @@
+{
+  "info": {
+    "name": "ScoutConnect - MS-User - Pruebas API-U01 a API-U11 (sin credenciales)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Colección anonimizada para el repositorio. Los valores de contraseñas se reemplazaron con variables de entorno de Postman sin valores incluidos. La carga API-U09 con adjunto requiere volver a seleccionar un archivo PNG local. Las respuestas HTTP históricas están en el Plan de Pruebas y no forman parte de esta colección."
+  },
+  "item": [
+    {
+      "name": "MS-User 8080",
+      "item": [
+        {
+          "name": "API-U05 | GET | Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/usuarios/listar",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "listar"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U01 | POST /usuarios/registro | Registro exitoso",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "usuario",
+                  "value": "{\n  \"nombre\": \"QA Usuario Prueba\",\n  \"rut\": \"00.000.000-0\",\n  \"telefono\": \"900000000\",\n  \"nacimiento\": \"2000-01-15\",\n  \"nickname\": \"qa_api_u01\",\n  \"correo\": \"qa_api_u01_20261019@scoutconnect.test\",\n  \"password\": \"{{qa_password_original}}\",\n  \"direccion\": \"Calle QA 123\",\n  \"rol\": {\n    \"id\": 2\n  },\n  \"estado\": {\n    \"id\": 1\n  },\n  \"grupo\": {\n    \"id\": 1\n  },\n  \"region\": {\n    \"id\": 7\n  },\n  \"comuna\": {\n    \"id\": 36\n  }\n}",
+                  "type": "text",
+                  "description": "Datos ficticios para prueba"
+                },
+                {
+                  "key": "rolSolicitante",
+                  "value": "administrador",
+                  "type": "text",
+                  "description": "Rol user admin"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/registro",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "registro"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U02 | POST /usuarios/registro | validación de datos correo duplicado",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "usuario",
+                  "value": "{\n  \"nombre\": \"QA Usuario Prueba 02\",\n  \"rut\": \"99.999.999-9\",\n  \"telefono\": \"900000001\",\n  \"nacimiento\": \"2000-01-15\",\n  \"nickname\": \"qa_api_u02\",\n  \"correo\": \"qa_api_u01_20261019@scoutconnect.test\",\n  \"password\": \"{{qa_password_original}}\",\n  \"direccion\": \"Calle QA 123\",\n  \"rol\": {\n    \"id\": 2\n  },\n  \"estado\": {\n    \"id\": 1\n  },\n  \"grupo\": {\n    \"id\": 1\n  },\n  \"region\": {\n    \"id\": 7\n  },\n  \"comuna\": {\n    \"id\": 36\n  }\n}",
+                  "type": "text"
+                },
+                {
+                  "key": "rolSolicitante",
+                  "value": "administrador",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/registro",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "registro"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U02 | POST /usuarios/registro | validación de datos en blanco",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "usuario",
+                  "value": "{\n  \"nombre\": \"\",\n  \"rut\": \"99.999.999-9\",\n  \"telefono\": \"900000001\",\n  \"nacimiento\": \"2000-01-15\",\n  \"nickname\": \"qa_api_u02\",\n  \"correo\": \"qa_api_u02_20261019@scoutconnect.test\",\n  \"password\": \"{{qa_password_original}}\",\n  \"direccion\": \"Calle QA 123\",\n  \"rol\": {\n    \"id\": 2\n  },\n  \"estado\": {\n    \"id\": 1\n  },\n  \"grupo\": {\n    \"id\": 1\n  },\n  \"region\": {\n    \"id\": 7\n  },\n  \"comuna\": {\n    \"id\": 36\n  }\n}",
+                  "type": "text"
+                },
+                {
+                  "key": "rolSolicitante",
+                  "value": "administrador",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/registro",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "registro"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U03 | POST | Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"correo\": \"qa_api_u01_20261019@scoutconnect.test\",\r\n  \"password\": \"{{qa_password_nueva}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U04 | POST | Login clave antigua",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"correo\": \"qa_api_u01_20261019@scoutconnect.test\",\r\n  \"password\": \"{{qa_password_original}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U06 | GET | Consulta de perfil",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/usuarios/perfil/qa_api_u01_20261019@scoutconnect.test",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "perfil",
+                "qa_api_u01_20261019@scoutconnect.test"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U06 | GET | Acceso no autorizado",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/usuarios/perfil/qa_api_u01_20261019@scoutconnect.test",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "perfil",
+                "qa_api_u01_20261019@scoutconnect.test"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U06 | PUT | Actualización de perfil",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"telefono\": \"911223344\",\r\n  \"direccion\": \"Calle QA 456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/perfil/qa_api_u01_20261019@scoutconnect.test",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "perfil",
+                "qa_api_u01_20261019@scoutconnect.test"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U07 | PUT | Cambio válido",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"correo\": \"qa_api_u01_20261019@scoutconnect.test\",\r\n  \"passwordActual\": \"{{qa_password_original}}\",\r\n  \"passwordNueva\": \"{{qa_password_nueva}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/cambiar-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "cambiar-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U07 | PUT | Clave actual incorrecta",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"correo\": \"qa_api_u01_20261019@scoutconnect.test\",\r\n  \"passwordActual\": \"{{qa_password_incorrecta}}\",\r\n  \"passwordNueva\": \"{{qa_password_nueva_alternativa}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/usuarios/cambiar-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "usuarios",
+                "cambiar-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U08 | GET | Listar roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/roles/listar",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "roles",
+                "listar"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U08 | GET | Listar grupos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/grupos/listar",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "grupos",
+                "listar"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U08 | GET | Listar estados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/estados/listar",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "estados",
+                "listar"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U09 | POST | Mensaje sin adjunto",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "mensaje",
+                  "value": "{\n  \"remitenteId\": 1,\n  \"destinatarioId\": 2,\n  \"asunto\": \"Prueba API-U09 ScoutConnect\",\n  \"contenido\": \"Mensaje de prueba sin archivos adjuntos.\"\n}",
+                  "type": "text",
+                  "contentType": "text/plain"
+                },
+                {
+                  "key": "archivos",
+                  "value": "",
+                  "type": "text",
+                  "contentType": "auto",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/mensajes",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U09 | POST | Mensaje con adjunto",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "mensaje",
+                  "value": "{\n  \"remitenteId\": 1,\n  \"destinatarioId\": 2,\n  \"asunto\": \"Prueba API-U09 con adjunto\",\n  \"contenido\": \"Mensaje de prueba con archivo adjunto para validar la carga.\"\n}",
+                  "type": "text",
+                  "contentType": "text/plain"
+                },
+                {
+                  "key": "archivos",
+                  "type": "file",
+                  "contentType": "image/png",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/mensajes",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U09 | GET | Mensajes enviados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mensajes/enviados/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "enviados",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U09 | GET | Acceso a mensajes ajenos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mensajes/enviados/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "enviados",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U10 | PUT | Marcar mensaje como leído",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mensajes/5/leer?usuarioId=2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "5",
+                "leer"
+              ],
+              "query": [
+                {
+                  "key": "usuarioId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U10 | GET | Verificar mensaje leídos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mensajes/enviados/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "enviados",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U10 | DELETE | Eliminar mensaje",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mensajes/5?usuarioId=2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "5"
+              ],
+              "query": [
+                {
+                  "key": "usuarioId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U11 | POST | Responder mensaje",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "mensaje",
+                  "value": "{\n  \"remitenteId\": 2,\n  \"destinatarioId\": 1,\n  \"asunto\": \"Re: Prueba API-U09 con adjunto\",\n  \"contenido\": \"Respuesta de prueba API-U11. Se confirma la recepción del mensaje original.\"\n}",
+                  "type": "text",
+                  "contentType": "text/plain"
+                },
+                {
+                  "key": "archivos",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/mensajes/6/respuesta",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "6",
+                "respuesta"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U11 | GET | Descargar adjunto sin autenticación (usuarioId=2)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mensajes/adjuntos/2?usuarioId=2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "adjuntos",
+                "2"
+              ],
+              "query": [
+                {
+                  "key": "usuarioId",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API-U11 | GET | Descargar adjunto usuario no autorizado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/mensajes/adjuntos/2?usuarioId=3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "mensajes",
+                "adjuntos",
+                "2"
+              ],
+              "query": [
+                {
+                  "key": "usuarioId",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
