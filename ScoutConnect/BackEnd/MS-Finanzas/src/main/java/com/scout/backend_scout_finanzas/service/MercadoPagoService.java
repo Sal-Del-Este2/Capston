@@ -5,7 +5,6 @@ import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.resources.preference.Preference;
-
 import org.springframework.beans.factory.annotation.Value; // Inyectar el token
 import org.springframework.stereotype.Service; // Marcar la clase como servicio
 import java.math.BigDecimal; // unitPrice
