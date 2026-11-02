@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrdenCompraRepository extends JpaRepository<OrdenCompra, Long> {
-    List<OrdenCompra> findByUsuarioId(Long usuarioId);
-    List<OrdenCompra> findByEstado(String estado);
+    List<OrdenCompra> findByUsuarioIdOrderByFechaDesc(Long usuarioId);
+    List<OrdenCompra> findAllByOrderByFechaDesc();
+    List<OrdenCompra> findByEstado_Nombre(String estado);
 }

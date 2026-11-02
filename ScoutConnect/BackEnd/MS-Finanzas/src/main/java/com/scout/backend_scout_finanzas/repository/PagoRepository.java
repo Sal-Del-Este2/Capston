@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PagoRepository extends JpaRepository<Pago, Long> {
-    List<Pago> findByUsuarioId(Long usuarioId);
-    List<Pago> findByEstado(String estado);
-    List<Pago> findByTipoPago(String tipoPago);
-    Optional<Pago> findByCommerceOrder(String commerceOrder);
+    List<Pago> findByUsuarioIdOrderByFechaCreacionDesc(Long usuarioId);
+    List<Pago> findAllByOrderByFechaCreacionDesc();
     Optional<Pago> findByTokenFlow(String tokenFlow);
 }

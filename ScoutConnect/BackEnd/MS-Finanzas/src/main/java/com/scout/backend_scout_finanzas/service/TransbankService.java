@@ -23,19 +23,19 @@ public class TransbankService {
     @Value("${transbank.return.url}")
     private String tbkReturnUrl;
     public TransbankResponse crearPagoWebpay(Double amount) throws Exception {
+        validarMonto(amount);
         System.out.println("******** WEBPAY ACTIVO ********");
         String buyOrder = "SCOUT-" + UUID.randomUUID().toString().substring(0, 8);
         String sessionId = UUID.randomUUID().toString();
-        String jsonBody =
-                """
-                {
-                  "buy_order":"%s",
-                  "session_id":"%s",
-                  "amount":%d,
-                  "return_url":"%s"
-                }
-                """
-                .formatted(buyOrder, sessionId, amount.intValue(), tbkReturnUrl);
+        String jsonBody = """
+            {
+            "buy_order":"%s",
+            "session_id":"%s",
+            "amount":%d,
+            "return_url":"%s"
+            }
+            """
+            .formatted(buyOrder, sessionId, amount.intValue(), tbkReturnUrl);
         HttpPost post = new HttpPost(tbkBaseUrl + "/rswebpaytransaction/api/webpay/v1.2/transactions");
         post.setHeader("Tbk-Api-Key-Id", tbkApiKeyId);
         post.setHeader("Tbk-Api-Key-Secret", tbkApiKeySecret);
@@ -54,5 +54,9 @@ public class TransbankService {
             response.setUrlPago(json.get("url").asText() + "?token_ws=" + json.get("token").asText());
             return response;
         }
+    }
+    private void validarMonto(Double amount) {
+        if (amount == null || amount <= 0) {throw new IllegalArgumentException("El monto debe ser mayor que cero.");}
+        if (amount % 1 != 0) {throw new IllegalArgumentException("El monto debe ser un valor entero en CLP.");}
     }
 }
