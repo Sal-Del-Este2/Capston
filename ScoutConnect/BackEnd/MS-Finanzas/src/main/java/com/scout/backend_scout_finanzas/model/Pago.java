@@ -17,10 +17,9 @@ public class Pago {
     private String descripcion;
     @Column(name = "monto", nullable = false)
     private Double monto;
-    @Column(name = "cuota_id")
-    private Long cuotaId;
-    @Column(name = "estado", nullable = false)
-    private String estado;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "estado_id", nullable = false)
+    private EstadoPago estado;
     @Column(name = "commerce_order")
     private String commerceOrder;
     @Column(name = "token_flow")
@@ -33,31 +32,32 @@ public class Pago {
     private LocalDateTime fechaCreacion;
     @Column(name = "fecha_pago")
     private LocalDateTime fechaPago;
-    // Getters y Setters
-    public Long getId() {return id;}
-    public void setId(Long id) {this.id = id;}
-    public Long getUsuarioId() {return usuarioId;}
-    public void setUsuarioId(Long usuarioId) {this.usuarioId = usuarioId;}
-    public String getTipoPago() {return tipoPago;}
-    public void setTipoPago(String tipoPago) {this.tipoPago = tipoPago;}
-    public String getDescripcion() {return descripcion;}
-    public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
-    public Double getMonto() {return monto;}
-    public void setMonto(Double monto) {this.monto = monto;}
-    public Long getCuotaId() {return cuotaId;}
-    public void setCuotaId(Long cuotaId) {this.cuotaId = cuotaId;}
-    public String getEstado() {return estado;}
-    public void setEstado(String estado) {this.estado = estado;}
-    public String getCommerceOrder() {return commerceOrder;}
-    public void setCommerceOrder(String commerceOrder) {this.commerceOrder = commerceOrder;}
-    public String getTokenFlow() {return tokenFlow;}
-    public void setTokenFlow(String tokenFlow) {this.tokenFlow = tokenFlow;}
-    public String getFlowOrder() {return flowOrder;}
-    public void setFlowOrder(String flowOrder) {this.flowOrder = flowOrder;}
-    public String getFlowStatus() {return flowStatus;}
-    public void setFlowStatus(String flowStatus) {this.flowStatus = flowStatus;}
-    public LocalDateTime getFechaCreacion() {return fechaCreacion;}
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {this.fechaCreacion = fechaCreacion;}
-    public LocalDateTime getFechaPago() {return fechaPago;}
-    public void setFechaPago(LocalDateTime fechaPago) {this.fechaPago = fechaPago;}
+    @Column(name = "cuota_id")
+    private Long cuotaId;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
+    public String getTipoPago() { return tipoPago; }
+    public void setTipoPago(String tipoPago) { this.tipoPago = tipoPago; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public Double getMonto() { return monto; }
+    public void setMonto(Double monto) { this.monto = monto; }
+    public EstadoPago getEstado() { return estado; }
+    public void setEstado(EstadoPago estado) { this.estado = estado; }
+    public String getCommerceOrder() { return commerceOrder; }
+    public void setCommerceOrder(String commerceOrder) { this.commerceOrder = commerceOrder; }
+    public String getTokenFlow() { return tokenFlow; }
+    public void setTokenFlow(String tokenFlow) { this.tokenFlow = tokenFlow; }
+    public String getFlowOrder() { return flowOrder; }
+    public void setFlowOrder(String flowOrder) { this.flowOrder = flowOrder; }
+    public String getFlowStatus() { return flowStatus; }
+    public void setFlowStatus(String flowStatus) { this.flowStatus = flowStatus; }
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+    public LocalDateTime getFechaPago() { return fechaPago; }
+    public void setFechaPago(LocalDateTime fechaPago) { this.fechaPago = fechaPago; }
+    public Long getCuotaId() { return cuotaId; }
+    public void setCuotaId(Long cuotaId) { this.cuotaId = cuotaId; }
 }

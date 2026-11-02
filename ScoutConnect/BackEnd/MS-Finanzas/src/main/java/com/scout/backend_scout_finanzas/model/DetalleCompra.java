@@ -8,22 +8,24 @@ public class DetalleCompra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "orden_id", nullable = false)
-    private Long ordenId;
-    @Column(name = "producto_id", nullable = false)
-    private Long productoId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orden_id", nullable = false)
+    private OrdenCompra orden;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto_id", nullable = false)
+    private Producto producto;
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
     @Column(name = "precio_unitario", nullable = false)
     private Double precioUnitario;
-    public Long getId() {return id;}
-    public void setId(Long id) {this.id = id;}
-    public Long getOrdenId() {return ordenId;}
-    public void setOrdenId(Long ordenId) {this.ordenId = ordenId;}
-    public Long getProductoId() {return productoId;}
-    public void setProductoId(Long productoId) {this.productoId = productoId;}
-    public Integer getCantidad() {return cantidad;}
-    public void setCantidad(Integer cantidad) {this.cantidad = cantidad;}
-    public Double getPrecioUnitario() {return precioUnitario;}
-    public void setPrecioUnitario(Double precioUnitario) {this.precioUnitario = precioUnitario;}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public OrdenCompra getOrden() { return orden; }
+    public void setOrden(OrdenCompra orden) { this.orden = orden; }
+    public Producto getProducto() { return producto; }
+    public void setProducto(Producto producto) { this.producto = producto; }
+    public Integer getCantidad() { return cantidad; }
+    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+    public Double getPrecioUnitario() { return precioUnitario; }
+    public void setPrecioUnitario(Double precioUnitario) { this.precioUnitario = precioUnitario; }
 }

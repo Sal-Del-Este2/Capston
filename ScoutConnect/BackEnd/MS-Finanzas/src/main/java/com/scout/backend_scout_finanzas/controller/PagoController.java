@@ -3,141 +3,145 @@ package com.scout.backend_scout_finanzas.controller;
 import com.scout.backend_scout_finanzas.dto.TransbankResponse;
 import com.scout.backend_scout_finanzas.model.Cuota;
 import com.scout.backend_scout_finanzas.model.Donacion;
+import com.scout.backend_scout_finanzas.model.EstadoCuota;
+import com.scout.backend_scout_finanzas.model.EstadoPago;
 import com.scout.backend_scout_finanzas.model.Pago;
+import com.scout.backend_scout_finanzas.model.TipoDonacion;
 import com.scout.backend_scout_finanzas.repository.CuotaRepository;
 import com.scout.backend_scout_finanzas.repository.DonacionRepository;
+import com.scout.backend_scout_finanzas.repository.EstadoCuotaRepository;
+import com.scout.backend_scout_finanzas.repository.EstadoPagoRepository;
 import com.scout.backend_scout_finanzas.repository.PagoRepository;
+import com.scout.backend_scout_finanzas.repository.TipoDonacionRepository;
+import com.scout.backend_scout_finanzas.security.UsuarioAutenticado;
 import com.scout.backend_scout_finanzas.service.TransbankService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
 
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:5501", "http://localhost:5501"})
 @RestController
 @RequestMapping("/finanzas")
 public class PagoController {
-    @Autowired
-    private PagoRepository pagoRepository;
-    @Autowired
-    private TransbankService transbankService;
-    @Autowired
-    private DonacionRepository donacionRepository;
-    @Autowired
-    private CuotaRepository cuotaRepository;
-    // Registrar pago local
-    @PostMapping("/registrar")
-    public Map<String, String> registrarPago(@RequestBody Pago pago) {Map<String, String> respuesta = new HashMap<>();
-        if (pago.getEstado() == null || pago.getEstado().isEmpty()) {pago.setEstado("PENDIENTE");}
-        if (pago.getFechaCreacion() == null) {pago.setFechaCreacion(LocalDateTime.now());}
-            try {pagoRepository.save(pago);
-            } catch (Exception ex) {System.out.println("ERROR CREANDO DONACION");
-                ex.printStackTrace();
-            }respuesta.put("mensaje", "Transacción registrada correctamente.");
-        return respuesta;
+    private final PagoRepository pagoRepository;
+    private final CuotaRepository cuotaRepository;
+    private final DonacionRepository donacionRepository;
+    private final EstadoPagoRepository estadoPagoRepository;
+    private final EstadoCuotaRepository estadoCuotaRepository;
+    private final TipoDonacionRepository tipoDonacionRepository;
+    private final TransbankService transbankService;
+    private final UsuarioAutenticado usuarioAutenticado;
+    public PagoController(
+            PagoRepository pagoRepository,
+            CuotaRepository cuotaRepository,
+            DonacionRepository donacionRepository,
+            EstadoPagoRepository estadoPagoRepository,
+            EstadoCuotaRepository estadoCuotaRepository,
+            TipoDonacionRepository tipoDonacionRepository,
+            TransbankService transbankService,
+            UsuarioAutenticado usuarioAutenticado
+    ) {
+        this.pagoRepository = pagoRepository;
+        this.cuotaRepository = cuotaRepository;
+        this.donacionRepository = donacionRepository;
+        this.estadoPagoRepository = estadoPagoRepository;
+        this.estadoCuotaRepository = estadoCuotaRepository;
+        this.tipoDonacionRepository = tipoDonacionRepository;
+        this.transbankService = transbankService;
+        this.usuarioAutenticado = usuarioAutenticado;
     }
-    // Historial completo
-    @GetMapping("/historial")
-    public List<Pago> listarPagos() {return pagoRepository.findAll();}
-    // Historial por usuario
-    @GetMapping("/historial/{usuarioId}")
-    public List<Pago> listarPagosPorUsuario(
-        @PathVariable Long usuarioId) {return pagoRepository.findByUsuarioId(usuarioId);}
-    // Crear pago Webpay
     @PostMapping("/pagar")
-    public ResponseEntity<Map<String, String>> pagar(
-    @RequestBody Pago pago) {
+    public ResponseEntity<Map<String, String>> pagar(@RequestBody Pago pago) {
         try {
+            Long usuarioId = usuarioAutenticado.obtenerUsuarioId();
+            if (pago.getMonto() == null || pago.getMonto() <= 0) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "El monto del pago debe ser mayor que cero."));
+            }
+            if (pago.getTipoPago() == null || pago.getTipoPago().isBlank()) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Debe indicar el tipo de pago."));
+            }
+            String tipoPago = pago.getTipoPago().trim().toUpperCase();
+            if (!tipoPago.equals("CUOTA") && !tipoPago.equals("DONACION")) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Tipo de pago no válido."));
+            }
+            Long cuotaId = null;
+            if (tipoPago.equals("CUOTA")) {
+                if (pago.getCuotaId() == null) {return ResponseEntity.badRequest().body(Map.of("error", "Debe indicar la cuota a pagar."));}
+                Cuota cuota = cuotaRepository.findById(pago.getCuotaId()).orElse(null);
+                if (cuota == null) {return ResponseEntity.badRequest().body(Map.of("error", "No existe la cuota indicada."));}
+                if (!cuota.getUsuarioId().equals(usuarioId)) {return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "No puedes pagar una cuota de otro usuario."));}
+                if (!"PENDIENTE".equals(cuota.getEstado().getNombre())) {return ResponseEntity.badRequest().body(Map.of("error", "La cuota ya está pagada."));}
+                if (!cuota.getMonto().equals(pago.getMonto())) {return ResponseEntity.badRequest().body(Map.of("error", "El monto debe coincidir con la cuota fijada."));}
+                cuotaId = cuota.getId();
+            }
             TransbankResponse transbankResponse = transbankService.crearPagoWebpay(pago.getMonto());
-            System.out.println("******** WEBPAY ACTIVO ********");
+            EstadoPago estadoPendiente = estadoPagoRepository.findByNombre("PENDIENTE").orElseThrow(() -> new IllegalStateException("Estado PENDIENTE no existe."));
             Pago nuevoPago = new Pago();
-            nuevoPago.setUsuarioId(pago.getUsuarioId());
-            nuevoPago.setTipoPago(pago.getTipoPago());
+            nuevoPago.setUsuarioId(usuarioId);
+            nuevoPago.setTipoPago(tipoPago);
             nuevoPago.setDescripcion(pago.getDescripcion());
             nuevoPago.setMonto(pago.getMonto());
-            nuevoPago.setCuotaId(pago.getCuotaId());
-            nuevoPago.setEstado("PENDIENTE");
+            nuevoPago.setCuotaId(cuotaId);
+            nuevoPago.setEstado(estadoPendiente);
             nuevoPago.setCommerceOrder(transbankResponse.getBuyOrder());
             nuevoPago.setTokenFlow(transbankResponse.getToken());
-            nuevoPago.setFlowOrder(null);
             nuevoPago.setFlowStatus("CREADO");
             nuevoPago.setFechaCreacion(LocalDateTime.now());
             pagoRepository.save(nuevoPago);
-            Map<String, String> respuesta = new HashMap<>();
-            respuesta.put("urlPago", transbankResponse.getUrlPago());
-            return ResponseEntity.ok(respuesta);
+            return ResponseEntity.ok(Map.of("urlPago", transbankResponse.getUrlPago(), "pagoId", String.valueOf(nuevoPago.getId())));
         } catch (Exception e) {e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error al generar pago Transbank: " + e.getMessage()));
+            return ResponseEntity.internalServerError().body(Map.of("error", "Error al generar el pago Webpay."));
         }
     }
-    // Cambio manual de estado
-    @PutMapping("/estado/{id}")
-    public Map<String, String> actualizarEstado(
-        @PathVariable Long id,
-        @RequestBody Map<String, String> body) {Map<String, String> respuesta = new HashMap<>();
-        Optional<Pago> pagoOpt = pagoRepository.findById(id);
-        if (pagoOpt.isPresent()) {Pago pago = pagoOpt.get();
-            System.out.println("TIPO PAGO EN RETORNO = " + pago.getTipoPago());
-            pago.setEstado(body.get("estado"));
-            pagoRepository.save(pago);
-            respuesta.put("mensaje", "Estado actualizado correctamente.");
-        } else {respuesta.put("error", "Pago no encontrado.");
-        }return respuesta;
-    }
-    // Retorno Webpay
     @RequestMapping(
         value = "/retorno",
         method = {RequestMethod.GET, RequestMethod.POST}
     )
+    @Transactional
     public void retorno(@RequestParam("token_ws") String token, jakarta.servlet.http.HttpServletResponse response) {
         try {
-            System.out.println("======== RETORNO WEBPAY ========");
-            System.out.println("TOKEN = " + token);
-            System.out.println("===============================");
             Optional<Pago> pagoOpt = pagoRepository.findByTokenFlow(token);
-            if (pagoOpt.isPresent()) {
-                Pago pago = pagoOpt.get();
-                System.out.println("TIPO PAGO EN RETORNO = " + pago.getTipoPago());
-                System.out.println("ID PAGO = " + pago.getId());
-                pago.setEstado("PAGADO");
-                pago.setFlowStatus("PAGADO");
-                pago.setFechaPago(LocalDateTime.now());
-                pagoRepository.save(pago);
-                System.out.println("PAGO ACTUALIZADO");
-                try {
-                    if ("DONACION".equals(pago.getTipoPago())) {
-                        System.out.println("***** CREANDO DONACION *****");
-                        Donacion donacion = new Donacion();
-                        donacion.setUsuarioId(pago.getUsuarioId());
-                        donacion.setTipoDonacion("IDENTIFICADA");
-                        donacion.setMonto(pago.getMonto());
-                        donacion.setFecha(LocalDateTime.now());
-                        donacion.setPagoId(pago.getId());
-                        donacionRepository.save(donacion);
-                        System.out.println("***** DONACION GUARDADA *****");
-                    }
-                } catch (Exception ex) {System.out.println("ERROR AL GUARDAR DONACION");
-                    ex.printStackTrace();
-                }
-                if ("CUOTA".equals(pago.getTipoPago())) {
-                    System.out.println("***** ACTUALIZANDO CUOTA *****");
-                    Optional<Cuota> cuotaOpt = cuotaRepository.findById(pago.getCuotaId());
-                    if (cuotaOpt.isPresent()) {
-                            Cuota cuota = cuotaOpt.get();
-                            cuota.setEstado("PAGADA");
-                            cuota.setPagoId(pago.getId());
-                            cuotaRepository.save(cuota);
-                            System.out.println("***** CUOTA PAGADA *****");
-                    } else {System.out.println("NO SE ENCONTRO LA CUOTA");
-                    }
-                }
-            } else {System.out.println("NO SE ENCONTRO PAGO PARA TOKEN = " + token);
-            }response.sendRedirect("http://127.0.0.1:5501/ScoutConnect/FrontEnd/pago-exitoso.html");
+            if (pagoOpt.isEmpty()) {redirigir(response, "http://127.0.0.1:5501/ScoutConnect/FrontEnd/pago-error.html"); return;}
+            Pago pago = pagoOpt.get();
+            if ("PAGADO".equals(pago.getEstado().getNombre())) {redirigir(response, "http://127.0.0.1:5501/ScoutConnect/FrontEnd/pago-exitoso.html"); return;}
+            EstadoPago estadoPagado = estadoPagoRepository.findByNombre("PAGADO").orElseThrow(() -> new IllegalStateException("Estado PAGADO no existe."));
+            pago.setEstado(estadoPagado);
+            pago.setFlowStatus("PAGADO");
+            pago.setFechaPago(LocalDateTime.now());
+            pagoRepository.save(pago);
+            if ("CUOTA".equals(pago.getTipoPago())) {procesarPagoCuota(pago);}
+            if ("DONACION".equals(pago.getTipoPago())) {procesarPagoDonacion(pago);}
+            redirigir(response, "http://127.0.0.1:5501/ScoutConnect/FrontEnd/pago-exitoso.html");
         } catch (Exception e) {e.printStackTrace();
-            try {response.sendRedirect("http://127.0.0.1:5501/ScoutConnect/FrontEnd/pago-error.html");}
-            catch (Exception ex) {ex.printStackTrace();}
+            redirigir(response, "http://127.0.0.1:5501/ScoutConnect/FrontEnd/pago-error.html");
         }
+    }
+    private void procesarPagoCuota(Pago pago) {
+        if (pago.getCuotaId() == null) {return;}
+        Optional<Cuota> cuotaOpt = cuotaRepository.findById(pago.getCuotaId());
+        if (cuotaOpt.isEmpty()) {return;}
+        Cuota cuota = cuotaOpt.get();
+        EstadoCuota estadoPagada = estadoCuotaRepository.findByNombre("PAGADA").orElseThrow(() -> new IllegalStateException("Estado PAGADA no existe."));
+        cuota.setEstado(estadoPagada);
+        cuota.setPagoId(pago.getId());
+        cuotaRepository.save(cuota);
+    }
+    private void procesarPagoDonacion(Pago pago) {
+        TipoDonacion tipoIdentificada = tipoDonacionRepository.findByNombre("IDENTIFICADA").orElseThrow(() -> new IllegalStateException("Tipo IDENTIFICADA no existe."));
+        Donacion donacion = new Donacion();
+        donacion.setUsuarioId(pago.getUsuarioId());
+        donacion.setTipoDonacion(tipoIdentificada);
+        donacion.setMonto(pago.getMonto());
+        donacion.setFecha(LocalDateTime.now());
+        donacion.setPagoId(pago.getId());
+        donacionRepository.save(donacion);
+    }
+    private void redirigir(jakarta.servlet.http.HttpServletResponse response, String url) {
+        try {response.sendRedirect(url); } catch (Exception e) {e.printStackTrace();}
     }
 }
