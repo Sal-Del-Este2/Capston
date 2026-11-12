@@ -38,6 +38,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMINISTRADOR")
             .requestMatchers(HttpMethod.GET, "/usuarios/rol/**").hasRole("ADMINISTRADOR")
             .requestMatchers(HttpMethod.GET, "/usuarios/{id:\\d+}").hasRole("ADMINISTRADOR")
+            .requestMatchers(HttpMethod.GET, "/usuarios/cuotas/obligados").hasRole("ADMINISTRADOR")
             .requestMatchers("/mensajes/admin/**").hasRole("ADMINISTRADOR")
             // Todo lo demás requiere JWT
             .anyRequest().authenticated()

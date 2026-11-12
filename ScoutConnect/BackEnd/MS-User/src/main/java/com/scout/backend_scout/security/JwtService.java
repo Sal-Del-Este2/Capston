@@ -28,19 +28,17 @@ public class JwtService {
         Date ahora = new Date();
         Date expiracion = new Date(ahora.getTime() + expiracionMinutos * 60 * 1000);
         return Jwts.builder()
-                .claims(claims)
-                .subject(usuario.getCorreo())
-                .issuedAt(ahora)
-                .expiration(expiracion)
-                .signWith(obtenerClave())
-                .compact();
+            .claims(claims)
+            .subject(usuario.getCorreo())
+            .issuedAt(ahora)
+            .expiration(expiracion)
+            .signWith(obtenerClave())
+            .compact();
     }
-    public Claims validarToken(String token) {
-        return Jwts.parser()
-                .verifyWith(obtenerClave())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+    public Claims validarToken(String token) {return Jwts.parser()
+        .verifyWith(obtenerClave())
+        .build()
+        .parseSignedClaims(token)
+        .getPayload();
     }
-
 }
