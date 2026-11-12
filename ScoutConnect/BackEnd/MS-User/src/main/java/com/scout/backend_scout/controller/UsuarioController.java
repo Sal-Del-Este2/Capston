@@ -1,43 +1,20 @@
 package com.scout.backend_scout.controller;
 
 import com.scout.backend_scout.dto.SolicitudPasswordDTO;
-import com.scout.backend_scout.model.Comuna;
-import com.scout.backend_scout.model.Estado;
-import com.scout.backend_scout.model.Grupo;
-import com.scout.backend_scout.model.Mensaje;
-import com.scout.backend_scout.model.Region;
-import com.scout.backend_scout.model.Rol;
-import com.scout.backend_scout.model.Usuario;
-import com.scout.backend_scout.repository.ComunaRepository;
-import com.scout.backend_scout.repository.EstadoRepository;
-import com.scout.backend_scout.repository.GrupoRepository;
-import com.scout.backend_scout.repository.MensajeRepository;
-import com.scout.backend_scout.repository.RegionRepository;
-import com.scout.backend_scout.repository.RolRepository;
-import com.scout.backend_scout.repository.UsuarioRepository;
+import com.scout.backend_scout.model.*;
+import com.scout.backend_scout.repository.*;
 import com.scout.backend_scout.security.JwtService;
 import org.springframework.security.core.Authentication;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
+import com.scout.backend_scout.dto.UsuarioCuotaDTO;
+import java.util.stream.Stream;
 
 @CrossOrigin (origins = {"http://127.0.0.1:5500", "http://localhost:5500", "http://127.0.0.1:5501", "http://localhost:5501"})
 @RestController 
@@ -56,6 +33,8 @@ public class UsuarioController {
     private RegionRepository regionRepository;
     @Autowired
     private GrupoRepository grupoRepository;
+    @Autowired
+    private RamaRepository ramaRepository;
     @Autowired
     private JwtService jwtService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -104,21 +83,32 @@ public class UsuarioController {
             if (usuario.getDireccion() == null || usuario.getDireccion().trim().isEmpty()) {respuesta.put("error", "Debe ingresar la dirección."); return respuesta;}
             if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {respuesta.put("error", "Ya existe una cuenta asociada a este correo."); return respuesta;}
             if (usuarioRepository.findByNickname(usuario.getNickname()).isPresent()) {respuesta.put("error", "Este nickname ya está registrado."); return respuesta;}
+            
             if (usuario.getRol() == null || usuario.getRol().getId() == null) {respuesta.put("error", "Debe seleccionar un rol."); return respuesta;}
             Rol rol = rolRepository.findById(usuario.getRol().getId()).orElse(null);
             if (rol == null) {respuesta.put("error", "Rol no válido."); return respuesta;}
+            
             if (usuario.getEstado() == null || usuario.getEstado().getId() == null) {respuesta.put("error", "Debe seleccionar un estado."); return respuesta;}
             Estado estado = estadoRepository.findById(usuario.getEstado().getId()).orElse(null);
             if (estado == null) {respuesta.put("error", "Estado no válido."); return respuesta;}
+            
             if (usuario.getComuna() == null || usuario.getComuna().getId() == null) {respuesta.put("error", "Debe seleccionar una comuna."); return respuesta;}
             Comuna comuna = comunaRepository.findById(usuario.getComuna().getId()).orElse(null);
             if (comuna == null) {respuesta.put("error", "Comuna no válida."); return respuesta;}
+            
             if (usuario.getRegion() == null || usuario.getRegion().getId() == null) {respuesta.put("error", "Debe seleccionar una region."); return respuesta;}
             Region region = regionRepository.findById(usuario.getRegion().getId()).orElse(null);
             if (region == null) {respuesta.put("error", "Region no válida."); return respuesta;}
+            
             if (usuario.getGrupo() == null || usuario.getGrupo().getId() == null) {respuesta.put("error", "Debe seleccionar un grupo."); return respuesta;}
             Grupo grupo = grupoRepository.findById(usuario.getGrupo().getId()).orElse(null);
             if (grupo == null) {respuesta.put("error", "Grupo no válido."); return respuesta;}
+            
+            if (usuario.getRama() == null || usuario.getRama().getId() == null) {respuesta.put("error", "Debe seleccionar una rama."); return respuesta;}
+            Rama rama = ramaRepository.findById(usuario.getRama().getId()).orElse(null);
+            if (rama == null) {respuesta.put("error", "Rama no válida."); return respuesta;}
+            if (!"ACTIVO".equalsIgnoreCase(rama.getEstadoRama().getNombre())) {respuesta.put("error", "La rama seleccionada no está activa."); return respuesta;}
+            
             if (archivo != null && !archivo.isEmpty()) {
                 if (archivo.getSize() > 5 * 1024 * 1024) {respuesta.put("error", "El PDF no puede superar los 5 MB."); return respuesta;}
                 if (!"application/pdf".equals(archivo.getContentType())) {respuesta.put("error","Solo se permiten archivos PDF."); return respuesta;}
@@ -132,6 +122,7 @@ public class UsuarioController {
             usuario.setComuna(comuna);
             usuario.setRegion(region);
             usuario.setGrupo(grupo);
+            usuario.setRama(rama);
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             usuarioRepository.save(usuario);
             respuesta.put("mensaje", "Usuario @" + usuario.getNickname() + " creado correctamente.");
@@ -187,6 +178,7 @@ public class UsuarioController {
             if (usuarioActualizado.getRegion() == null || usuarioActualizado.getRegion().getId() == null) {respuesta.put("error", "Debe seleccionar una región."); return respuesta;}
             if (usuarioActualizado.getComuna() == null || usuarioActualizado.getComuna().getId() == null) {respuesta.put("error", "Debe seleccionar una comuna."); return respuesta;}
             if (usuarioActualizado.getGrupo() == null || usuarioActualizado.getGrupo().getId() == null) {respuesta.put("error", "Debe seleccionar un grupo."); return respuesta;}
+            if (usuarioActualizado.getRama() == null || usuarioActualizado.getRama().getId() == null) {respuesta.put("error", "Debe seleccionar una rama."); return respuesta;}
             Rol rol = rolRepository.findById(usuarioActualizado.getRol().getId()).orElse(null);
             if (rol == null) {respuesta.put("error", "Rol no válido."); return respuesta;}
             Estado estado = estadoRepository.findById(usuarioActualizado.getEstado().getId()).orElse(null);
@@ -197,6 +189,9 @@ public class UsuarioController {
             if (comuna == null) {respuesta.put("error", "Comuna no válida."); return respuesta;}
             Grupo grupo = grupoRepository.findById(usuarioActualizado.getGrupo().getId()).orElse(null);
             if (grupo == null) {respuesta.put("error", "Grupo no válido."); return respuesta;}
+            Rama rama = ramaRepository.findById(usuarioActualizado.getRama().getId()).orElse(null);
+            if (rama == null) {respuesta.put("error", "Rama no válida."); return respuesta;}
+            if (!"ACTIVO".equalsIgnoreCase(rama.getEstadoRama().getNombre())) {respuesta.put("error", "La rama seleccionada no está activa.");return respuesta;}
             Usuario usuario = usuarioExistente.get();
             usuario.setNombre(usuarioActualizado.getNombre());
             usuario.setRut(usuarioActualizado.getRut());
@@ -210,6 +205,7 @@ public class UsuarioController {
             usuario.setRegion(region);
             usuario.setComuna(comuna);
             usuario.setGrupo(grupo);
+            usuario.setRama(rama);
             if (archivo != null && !archivo.isEmpty()) {
                 if (archivo.getSize() > 5 * 1024 * 1024) {respuesta.put("error", "El PDF no puede superar los 5 MB."); return respuesta;}
                 if (!"application/pdf".equals(archivo.getContentType())) {respuesta.put("error", "Solo se permiten archivos PDF."); return respuesta;}
@@ -290,7 +286,7 @@ public class UsuarioController {
         )).toList();
     return ResponseEntity.ok(destinatarios);
     }
-    
+
     @PostMapping("/perfil/{correo}/pdf")
     public ResponseEntity<?> subirPdf(@PathVariable String correo, @RequestParam("archivo") MultipartFile archivo, Authentication authentication) {
         String correoAutenticado = authentication.getName();
@@ -393,5 +389,15 @@ public class UsuarioController {
         usuarioRepository.save(usuario);
         respuesta.put("mensaje", "Contraseña actualizada correctamente.");
         return respuesta;
+    }
+    @GetMapping("/cuotas/obligados")
+    public ResponseEntity<List<UsuarioCuotaDTO>> listarUsuariosObligadosCuotas() {
+        List<Usuario> scouts = usuarioRepository.findByRolNombreIgnoreCaseAndEstadoNombreIgnoreCase("Scout", "Activo");
+        List<Usuario> apoderados = usuarioRepository.findByRolNombreIgnoreCaseAndEstadoNombreIgnoreCase("Apoderado", "Activo");
+        List<UsuarioCuotaDTO> usuarios = Stream
+            .concat(scouts.stream(), apoderados.stream())
+            .map(usuario -> new UsuarioCuotaDTO(usuario.getId(), usuario.getNombre(), usuario.getCorreo(), usuario.getRol().getNombre(), usuario.getGrupo() != null ? usuario.getGrupo().getId() : null, usuario.getRama().getId()))
+            .toList();
+        return ResponseEntity.ok(usuarios);
     }
 }
