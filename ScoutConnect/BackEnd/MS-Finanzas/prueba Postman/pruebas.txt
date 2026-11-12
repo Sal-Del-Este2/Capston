@@ -1,0 +1,10 @@
+pruebas con:
+JUnit 5: para automatizar pruebas para comprobar si se comportaba como esperaba
+Mockito: para simular pruebas de integración del controlador, para simular envíos de correo y comprobantes de PDF. Así no se envían correos reales ni se generan comprobantes reales.
+
+pago:
+• Número de tarjeta: 4051 8856 0044 6623
+• CVV: 123
+• Fecha de expiración: Cualquier fecha futura
+• RUT: 11.111.111-1
+• Clave: 123
