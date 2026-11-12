@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda | Comunidad Scout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/comprobante.css">
+</head>
+<body class="pagina-tienda">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="../index.html">
+                    <img src="../img/ScoutConnet_2026.svg" width="80" alt="Flor de lis">
+                    Comunidad Scout
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuTienda" aria-controls="menuTienda"
+                    aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuTienda">
+                    <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                        <a class="nav-link" href="panel-usuario.html">Inicio</a>
+                        <span class="nav-link" id="titulo-bienvenida"></span>
+                        <a class="nav-link" href="../index.html" id="cerrar-sesion">Cerrar sesión</a>
+                    </div>
+                    <button class="carrito ms-lg-3" id="abrir-carrito" type="button"
+                        aria-label="Abrir carrito">
+                        <img src="../img/iconos/carrito.svg" width="30" alt="">
+                        <span id="cantidad-carrito">0</span>
+                    </button>
+                    <button id="vaciar-carrito-navbar" type="button"
+                        aria-label="Vaciar carrito" title="Vaciar carrito">
+                        <img src="../img/iconos/papelera.svg" width="30" alt="">
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="tienda" class="seccion-tienda">
+            <div class="encabezado-tienda">
+                <p class="subtitulo-seccion">Equipamiento y comunidad</p>
+                <h1>Tienda Scout</h1>
+                <p>Conoce los productos disponibles para la comunidad scout.</p>
+            </div>
+            <div>
+                <a href="mis-compras.html" class="boton-volver-panel"><img src="../img/iconos/atras.svg" width="30" alt="Volver">Mis compras</a>
+            </div>
+        </section>
+        <section class="contenedor-productos" id="contenedor-productos" aria-label="Productos disponibles">
+            <p class="mensaje-carga-productos">Cargando productos...</p>
+        </section>
+        <p id="mensaje-tienda" class="mensaje-bandeja-vacia" role="status" aria-live="polite"></p>
+    </main>
+    <!-- Modal de información del producto -->
+    <div id="modal-producto" class="modal" role="dialog" aria-modal="true"
+        aria-labelledby="nombre-producto-modal">
+        <div class="contenido-modal">
+            <button class="cerrar-producto boton-cerrar-modal" type="button" aria-label="Cerrar"><img src="../img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
+            <div id="galeria-producto-modal" class="galeria-producto-modal"></div>
+            <h2 id="nombre-producto-modal"></h2>
+            <p id="descripcion-producto-modal"></p>
+            <strong id="precio-producto-modal"></strong>
+            <p id="stock-producto-modal"></p>
+            <button id="agregar-carrito" type="button">Agregar al carrito</button>
+        </div>
+    </div>
+    <!-- Modal del carrito -->
+    <div id="modal-carrito" class="modal" role="dialog" aria-modal="true"
+        aria-labelledby="titulo-modal-carrito">
+        <div class="contenido-modal">
+            <button class="cerrar-carrito boton-cerrar-modal" type="button"
+                aria-label="Cerrar"><img src="../img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
+            <h2 id="titulo-modal-carrito">
+                <img src="../img/iconos/carrito.svg" width="40" alt="">
+                Mi carrito
+            </h2>
+            <div id="lista-carrito">
+                <p>Tu carrito está vacío.</p>
+            </div>
+            <hr>
+            <h3>Total: <span id="total-carrito">$0</span></h3>
+            <p id="mensaje-carrito" role="status" aria-live="polite"></p>
+            <button id="vaciar-carrito" type="button">Vaciar carrito</button>
+            <button id="confirmar-pago" type="button" class="btn btn-success">
+                Continuar a Webpay
+            </button>
+        </div>
+    </div>
+    <!-- Modal de resultado y comprobante de compra -->
+    <div id="modal-comprobante" class="modal" role="dialog"
+        aria-modal="true" aria-labelledby="titulo-comprobante">
+        <div class="contenido-modal comprobante-modal">
+            <button id="cerrar-comprobante" class="boton-cerrar-modal" type="button" aria-label="Cerrar">
+                <img src="../img/iconos/cerrar.svg" width="20" alt="Cerrar">
+            </button>
+            <!-- Encabezado del resultado -->
+            <div id="resultado-pago" class="resultado-pago">
+                <div class="resultado-logo">
+                    <img id="logo-comprobante" src="../img/ScoutConnet_2026.png" width="200" alt="Logo Comunidad Scout">
+                </div>
+                <div class="resultado-texto">
+                    <h2 id="titulo-comprobante">Resultado de tu compra</h2>
+                    <p id="mensaje-resultado-pago" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+            <!-- Datos del comprobante -->
+            <section id="detalle-comprobante" hidden>
+                <h3>Comprobante de compra</h3>
+                <div class="comprobante-datos">
+                    <p><strong>Orden:</strong><span id="comprobante-orden"></span></p>
+                    <p><strong>Estado:</strong><span id="comprobante-estado"></span></p>
+                    <p class="comprobante-fecha"><strong>Fecha:</strong><span id="comprobante-fecha"></span></p>
+                </div>
+                <div class="comprobante-separador"></div>
+                <!-- Productos -->
+                <h4>Productos</h4>
+                <div id="comprobante-productos" class="comprobante-productos"></div>
+                <!-- Resumen -->
+                <div class="comprobante-resumen">
+                    <div class="fila-resumen">
+                        <span>Neto total:</span>
+                        <strong id="comprobante-neto"></strong>
+                    </div>
+                    <div class="fila-resumen">
+                        <span>IVA:</span>
+                        <strong id="comprobante-iva"></strong>
+                    </div>
+                    <div class="fila-resumen fila-total">
+                        <span>Total:</span>
+                        <strong id="comprobante-total"></strong>
+                    </div>
+                </div>
+                <hr>
+                <!-- Envío del comprobante -->
+                <div class="comprobante-envio">
+                    <label for="correo-comprobante">Correo electrónico para enviar el comprobante</label>
+                    <input type="email" id="correo-comprobante" class="form-control" placeholder="ejemplo: correo@ejemplo.cl" autocomplete="email" required>
+                    <div class="acciones-comprobante">
+                        <button id="enviar-comprobante" type="button" class="btn btn-success" disabled> Enviar por correo</button>
+                        <button id="descargar-comprobante" type="button" class="btn btn-primary" disabled>Descargar en PDF</button>
+                    </div>
+                    <p id="mensaje-comprobante" role="status" aria-live="polite"></p>
+                    <!-- <p class="comprobante-ayuda">Puedes descargar tu comprobante en PDF o enviarlo a una dirección de correo electrónico.</p> -->
+                </div>
+            </section>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="contenido-footer">
+            <div class="footer-marca">
+                <h3><img src="../img/iconos/flor-de-lis.svg" width="50" alt="Flor de lis"> Comunidad Scout</h3>
+                <p>Aventura, servicio y comunidad <br> para construir un mundo mejor.</p>
+            </div>
+            <div class="footer-enlaces"></div>
+            <div class="footer-contacto">
+                <h4>Contacto</h4>
+                <p><img src="../img/iconos/alfiler.svg" width="20" alt=""> Santiago, Chile</p>
+                <p><img src="../img/iconos/email.svg" width="20" alt=""> contacto@comunidadscout.cl</p>
+            </div>
+        </div>
+        <div class="footer-inferior">
+            <p>&copy; 2026 Comunidad Scout</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/js_user/panel-usuario.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="../js/js_user/tienda.js"></script>
+</body>
+</html>

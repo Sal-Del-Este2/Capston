@@ -1,0 +1,239 @@
+.comprobante-modal {
+    position: relative;
+    max-width: 650px;
+    width: 95%;
+    padding: 20px;
+}
+
+.comprobante-modal #cerrar-comprobante {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+}
+
+.resultado-pago {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 5px 0 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.resultado-logo {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+}
+
+.resultado-logo img {
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+}
+
+.resultado-texto {
+    min-width: 0;
+}
+
+.resultado-texto h2 {
+    margin: 0 0 5px;
+    font-size: 1.8rem;
+    font-weight: 400;
+}
+
+.resultado-texto p {
+    margin: 0;
+}
+
+.comprobante-modal h3 {
+    margin: 8px 0 2px;
+    font-size: 1.65rem;
+    font-weight: 400;
+}
+
+.comprobante-modal h4 {
+    margin: 12px 0 8px;
+    font-size: 1.35rem;
+}
+
+.comprobante-datos {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 10px;
+}
+
+.comprobante-datos p {
+    margin: 0;
+}
+
+.comprobante-datos p:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.comprobante-datos .comprobante-fecha {
+    grid-column: 1 / -1;
+    grid-row: 2;
+}
+
+.comprobante-separador {
+    height: 1px;
+    background: #ccc;
+    margin: 12px 0;
+}
+
+.comprobante-productos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detalle-comprobante-producto {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.comprobante-imagen-producto {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #f1f1f1;
+    color: #666;
+    font-size: 10px;
+    text-align: center;
+}
+
+.comprobante-imagen-producto img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.comprobante-producto-informacion {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 5px 10px;
+}
+
+.comprobante-producto-nombre {
+    grid-column: 1 / -1;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.comprobante-producto-cantidad,
+.comprobante-producto-precio {
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.comprobante-producto-subtotal {
+    grid-column: 1 / -1;
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.comprobante-resumen {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 8px 0;
+}
+
+.fila-resumen {
+    width: 165px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 2px 0;
+}
+
+.fila-total {
+    width: auto;
+    min-width: 165px;
+    font-size: 1.4rem;
+}
+
+.comprobante-envio label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.comprobante-envio input {
+    margin-bottom: 10px;
+}
+
+.acciones-comprobante {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+}
+
+.acciones-comprobante button {
+    min-height: 40px;
+    white-space: nowrap;
+}
+
+.comprobante-ayuda {
+    margin: 8px 0 0;
+}
+
+#mensaje-comprobante {
+    margin: 8px 0 0;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 480px) {
+    .comprobante-modal {
+        padding: 16px;
+    }
+
+    .resultado-logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    .resultado-texto h2 {
+        font-size: 1.45rem;
+    }
+
+    .resultado-pago {
+        gap: 12px;
+    }
+
+    .comprobante-producto-informacion {
+        grid-template-columns: 1fr auto;
+    }
+
+    .comprobante-producto-precio {
+        grid-column: 1 / -1;
+    }
+
+    .acciones-comprobante {
+        gap: 8px;
+    }
+
+    .acciones-comprobante button {
+        flex: 1;
+        padding: 8px 6px;
+        font-size: 0.82rem;
+    }
+}
