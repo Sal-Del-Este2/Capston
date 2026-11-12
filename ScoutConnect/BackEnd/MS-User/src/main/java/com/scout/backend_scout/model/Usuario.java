@@ -2,14 +2,7 @@ package com.scout.backend_scout.model;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table (name = "usuarios")
@@ -32,6 +25,8 @@ public class Usuario {
     @JoinColumn(name = "comuna_id") private Comuna comuna;
     @ManyToOne
     @JoinColumn(name = "region_id") private Region region;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rama_id", nullable = false) private Rama rama;
     @ManyToOne
     @JoinColumn(name = "grupo_id") private Grupo grupo;
     @ManyToOne
@@ -68,6 +63,8 @@ public class Usuario {
     public void setEstado(Estado estado) {this.estado = estado;}
     public Region getRegion() {return region;}
     public void setRegion(Region region) {this.region = region;}
+    public Rama getRama() {return rama;} 
+    public void setRama(Rama rama) {this.rama = rama;}
     public Grupo getGrupo() {return grupo;}
     public void setGrupo(Grupo grupo) {this.grupo = grupo;}
     public Rol getRol() {return rol;}
