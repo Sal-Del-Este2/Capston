@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba Webpay</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"] { width: 100%; max-width: 500px; padding: 8px; font-family: monospace; }
+        button { padding: 10px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <form id="webpay"
+          action="https://webpay3gint.transbank.cl/webpayserver/initTransaction"
+          method="POST">
+
+        <div class="form-group">
+            <label for="token_ws">Ingresa el token_ws:</label>
+            <!-- Se cambió de 'hidden' a 'text' y se agregó 'required' -->
+            <input type="text"
+                   id="token_ws"
+                   name="token_ws"
+                   placeholder="Pega el token sin comillas y espacio que entrego Postman"
+                   required>
+        </div>
+
+        <button type="submit">Continuar a Webpay</button>
+    </form>
+
+</body>
+</html>
