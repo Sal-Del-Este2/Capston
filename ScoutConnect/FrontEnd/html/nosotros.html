@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros | Comunidad Scout</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body class="pagina-nosotros">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#inicio">
+                    <span class="simbolo-logo">
+                        <img src="../img/ScoutConnet_2026.svg" width="80px" alt="flor-de-lis"> Comunidad Scout
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuScout"
+                    aria-controls="menuScout" aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuScout">
+                    <div class="navbar-nav mx-auto">
+                        <a class="nav-link" href="../index.html">Inicio</a>
+                        <a class="nav-link" href="nosotros.html">Nosotros</a>
+                        <a class="nav-link" href="actividades.html">noticias y Eventos</a>
+                        <a class="nav-link" href="login.html">Iniciar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    </header>
+    <main class="pagina-informacion-nosotros">
+        <section class="encabezado-nosotros">
+            <p class="subtitulo-panel">Comunidad Scout</p>
+            <h1>¿Quiénes somos?</h1>
+            <p>Conoce nuestra identidad, los principios que nos guían y la historia que forma parte de nuestra comunidad.</p>
+        </section>
+        <section class="contenedor-informacion-nosotros">
+            <div class="introduccion-nosotros">
+                <h2>Nuestra identidad</h2>
+                <p>
+                    Somos una comunidad que comparte experiencias,
+                    aprendizajes y valores a través del movimiento scout.
+                    Te invitamos a conocer nuestra misión, visión,
+                    historia y valores.
+                </p>
+            </div>
+            <div class="tarjetas-informacion-nosotros">
+                <article class="tarjeta-informacion-nosotros">
+                    <div class="icono-informacion-nosotros"><img src="../img/iconos/objetivo.png" width="80px" alt="objetivo"></div>
+                    <h3>Misión</h3>
+                    <p>Conoce nuestro propósito y el compromiso que guía nuestro trabajo.</p>
+                    <button type="button" class="boton-informacion-nosotros" data-seccion="mision">Leer misión</button>
+                </article>
+                <article class="tarjeta-informacion-nosotros">
+                    <div class="icono-informacion-nosotros"><img src="../img/iconos/telescopio.png" width="80px" alt="telescopio"></div>
+                    <h3>Visión</h3>
+                    <p>Descubre lo que buscamos construir y alcanzar como comunidad.</p>
+                    <button type="button" class="boton-informacion-nosotros" data-seccion="vision">Leer visión</button>
+                </article>
+                <article class="tarjeta-informacion-nosotros">
+                    <div class="icono-informacion-nosotros"><img src="../img/iconos/libro.png" width="80px" alt="libro"></div>
+                    <h3>Historia</h3>
+                    <p>Conoce nuestros orígenes y el camino recorrido por nuestra comunidad.</p>
+                    <button type="button" class="boton-informacion-nosotros" data-seccion="historia">Leer historia</button>
+                </article>
+                <article class="tarjeta-informacion-nosotros">
+                    <div class="icono-informacion-nosotros"><img src="../img/iconos/amistad.png" width="80px" alt="amistad"></div>
+                    <h3>Valores</h3>
+                    <p>Descubre los principios que orientan nuestras acciones y convivencia.</p>
+                    <button type="button" class="boton-informacion-nosotros" data-seccion="valores">Leer valores</button>
+                </article>
+            </div>
+            <p id="estado-informacion-nosotros" class="estado-informacion-nosotros" role="status">Cargando información institucional...</p>
+        </section>
+        <!-- Ventana de información -->
+        <section id="modal-informacion-nosotros" class="nosotros-modal-overlay" hidden aria-hidden="true">
+            <div class="nosotros-modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-nosotros">
+                <div class="encabezado-modal-nosotros">
+                    <div>
+                        <p class="subtitulo-panel">Comunidad Scout</p>
+                        <h2 id="titulo-modal-nosotros">Información</h2>
+                    </div>
+                    <button type="button" id="cerrar-modal-nosotros" class="boton-cerrar-modal-nosotros" aria-label="Cerrar ventana">&times;</button>
+                </div>
+                <div id="contenido-modal-nosotros" class="contenido-modal-nosotros">
+                </div>
+                <div class="pie-modal-nosotros">
+                    <button type="button" id="boton-cerrar-informacion" class="boton-informacion-nosotros">Cerrar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+        <footer class="footer">
+        <div class="contenido-footer">
+            <div class="footer-marca">
+                <h3><img src="../img/iconos/flor-de-lis.svg" width="50px" alt="flor-de-lis"> Comunidad Scout</h3>
+                <p>Aventura, servicio y comunidad <br> para construir un mundo mejor.</p>
+            </div>
+            <div class="footer-enlaces">
+                <h4>Explora</h4>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#ramas">Ramas</a>
+                <a href="#eventos">Eventos</a>
+                <a href="#grupos">Grupos</a>
+            </div>
+            <div class="footer-contacto">
+                <h4>Contacto</h4>
+                <p><img src="../img/iconos/alfiler.svg" width="20px" alt="alfiler"> Santiago, Chile</p>
+                <p><img src="../img/iconos/email.svg" width="20px" alt="email"> contacto@comunidadscout.cl</p>
+                
+            </div>
+        </div>
+        <div class="footer-inferior">
+            <p>&copy; 2026 Comunidad Scout </p>
+            <a href=""> Politicas de privacidad </a>
+            <a href=""> Usos de cookies </a>
+            <a href=""> Terminos de uso </a>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/js_user/nosotros.js"></script>
+</body>
+</html>

@@ -2962,3 +2962,365 @@ html {
 }
 
 
+/* =====================================
+   PÁGINA PÚBLICA: NOSOTROS
+===================================== */
+
+.pagina-nosotros {
+    min-height: 100vh;
+    background-color: #f4f7f5;
+}
+
+.pagina-informacion-nosotros {
+    width: min(1120px, 92%);
+    margin: 0 auto;
+    padding: 55px 0 80px;
+}
+
+/* Encabezado */
+
+.encabezado-nosotros {
+    max-width: 750px;
+    margin: 0 auto 45px;
+    text-align: center;
+}
+
+.encabezado-nosotros h1 {
+    margin: 8px 0 15px;
+    color: #163b2c;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+}
+
+.encabezado-nosotros > p:last-child {
+    color: #5f6f65;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* Introducción */
+
+.contenedor-informacion-nosotros {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(36, 77, 52, 0.08);
+}
+
+.introduccion-nosotros {
+    max-width: 750px;
+    margin: 0 auto 35px;
+    text-align: center;
+}
+
+.introduccion-nosotros h2 {
+    margin-bottom: 15px;
+    color: #163b2c;
+    font-size: 27px;
+}
+
+.introduccion-nosotros p {
+    color: #5f6f65;
+    line-height: 1.7;
+}
+
+/* Tarjetas */
+
+.tarjetas-informacion-nosotros {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.tarjeta-informacion-nosotros {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 28px;
+    background-color: #fafcf9;
+    border: 1px solid #e1e7e2;
+    border-bottom: 5px solid #1f5c43;
+    border-radius: 14px;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.tarjeta-informacion-nosotros:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 24px rgba(36, 77, 52, 0.12);
+}
+
+.icono-informacion-nosotros {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e8f2ed;
+    border-radius: 12px;
+    font-size: 29px;
+}
+
+.tarjeta-informacion-nosotros h3 {
+    margin-bottom: 10px;
+    color: #163b2c;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.tarjeta-informacion-nosotros p {
+    flex-grow: 1;
+    margin-bottom: 22px;
+    color: #5d665f;
+    line-height: 1.6;
+}
+
+/* Botones */
+
+.boton-informacion-nosotros {
+    padding: 11px 20px;
+    background-color: #1f5c43;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.boton-informacion-nosotros:hover {
+    background-color: #163b2c;
+}
+
+.boton-informacion-nosotros:disabled {
+    background-color: #87978d;
+    cursor: not-allowed;
+}
+
+/* Estado de carga */
+
+.estado-informacion-nosotros {
+    margin: 25px 0 0;
+    color: #68756c;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Pagina Información */
+.nosotros-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+.nosotros-modal-overlay[hidden] {
+    display: none;
+}
+.nosotros-modal {
+    width: 100%;
+    max-width: 650px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    animation: aparecer-modal-nosotros 0.25s ease;
+}
+@keyframes aparecer-modal-nosotros {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Encabezado del modal */
+.encabezado-modal-nosotros {
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid #e2e9e5;
+}
+.encabezado-modal-nosotros h2 {
+    margin: 5px 0 0;
+    color: #163b2c;
+    font-size: 25px;
+}
+.boton-cerrar-modal-nosotros {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #edf1ef;
+    color: #163b2c;
+    border: none;
+    border-radius: 50%;
+    font-size: 28px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.boton-cerrar-modal-nosotros:hover {
+    background-color: #dce6df;
+}
+/* Contenido desplazable */
+.contenido-modal-nosotros {
+    padding: 28px;
+    overflow-y: auto;
+    color: #4f5952;
+    font-size: 16px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+/* Pie del modal */
+.pie-modal-nosotros {
+    padding: 18px 28px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #e2e9e5;
+}
+/* Evitar desplazamiento de la página de fondo */
+.modal-nosotros-abierto {
+    overflow: hidden;
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .pagina-informacion-nosotros {
+        padding-top: 35px;
+    }
+    .contenedor-informacion-nosotros {
+        padding: 24px 18px;
+    }
+    .tarjetas-informacion-nosotros {
+        grid-template-columns: 1fr;
+    }
+    .encabezado-nosotros {
+        margin-bottom: 30px;
+    }
+    .nosotros-modal {
+        max-height: 85vh;
+    }
+    .encabezado-modal-nosotros,
+    .contenido-modal-nosotros {
+        padding: 20px;
+    }
+    .pie-modal-nosotros {
+        padding: 15px 20px;
+    }
+}
+
+/* Modal del mapa de los grupos */
+.modal-mapa-grupo {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+.modal-mapa-grupo[hidden] {
+    display: none;
+}
+.contenido-modal-mapa {
+    width: 100%;
+    max-width: 850px;
+    max-height: 90vh;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+.encabezado-modal-mapa {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+    background-color: #163b2c;
+    color: #ffffff;
+}
+.encabezado-modal-mapa h2 {
+    margin: 0;
+    font-size: 21px;
+}
+.cerrar-modal-mapa {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 32px;
+    cursor: pointer;
+    line-height: 1;
+}
+.cerrar-modal-mapa:hover {
+    color: #dba447;
+}
+.contenedor-mapa-grupo {
+    width: 100%;
+    height: 430px;
+    min-height: 250px;
+}
+.contenedor-mapa-grupo iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+.pie-modal-mapa {
+    padding: 15px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.pie-modal-mapa p {
+    margin: 0;
+    color: #444444;
+    font-size: 14px;
+}
+.pie-modal-mapa a {
+    color: #163b2c;
+    font-weight: 600;
+    text-decoration: none;
+}
+.pie-modal-mapa a:hover {
+    color: #dba447;
+    text-decoration: underline;
+}
+body.modal-mapa-abierto {
+    overflow: hidden;
+}
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+    .modal-mapa-grupo {
+        padding: 10px;
+    }
+    .contenido-modal-mapa {
+        max-height: 95vh;
+    }
+    .encabezado-modal-mapa h2 {
+        font-size: 17px;
+    }
+    .contenedor-mapa-grupo {
+        height: 350px;
+    }
+    .pie-modal-mapa {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
