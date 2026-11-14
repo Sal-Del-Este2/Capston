@@ -2331,6 +2331,7 @@
     font-size: 1.6rem;
     margin-bottom: 0;
 }
+.boton-actualizar-admin,
 .boton-cancelar-admin,
 .pestana-admin,
 .boton-nuevo-admin,
@@ -2347,6 +2348,7 @@
     transition: background-color 0.2s ease;
 }
 /* ########################################################### */
+.boton-actualizar-admin:hover,
 .boton-cancelar-admin:hover,
 .pestana-admin:hover,
 .boton-nuevo-admin:hover,
@@ -2519,6 +2521,7 @@
     transition: all 0.2s ease;
 }
 /* #################################################### */
+.boton-detalle-operacion,
 .boton-editar-pedido,
 .boton-cancelar-pedido,
 .boton-imagenes-producto,
@@ -2543,6 +2546,7 @@
     color: #286944;
     border: 2px solid #286944;
 }
+.boton-detalle-operacion:hover,
 .boton-editar-pedido:hover,
 .boton-cancelar-pedido:hover,
 .boton-imagenes-producto:hover,

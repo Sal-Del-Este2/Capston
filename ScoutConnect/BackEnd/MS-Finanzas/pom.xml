@@ -18,33 +18,12 @@
 	</properties>
 	<dependencies>
 		<dependency>
-<<<<<<< HEAD
-	    	<groupId>com.fasterxml.jackson.core</groupId>
-	    	<artifactId>jackson-databind</artifactId>
-		</dependency>
-	    <!-- MERCADOPAGO -->
-		<dependency>
-	    	<groupId>com.mercadopago</groupId>
-	    	<artifactId>sdk-java</artifactId>
-	        <version>2.1.29</version>
-	    </dependency>
-		<!-- JWT -->
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt-api</artifactId>
-		    <version>0.12.6</version>
-=======
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
->>>>>>> ms-finanzas-tienda
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

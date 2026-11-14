@@ -1,301 +1,237 @@
-let operaciones = [];
+"use strict";
+const API_DONACIONES_ADMIN = "http://localhost:8082/api/donaciones/admin";
+const TAMANIO_PAGINA = 100;
+let donaciones = [];
 const listaPagos = document.getElementById("lista-pagos-admin");
 const totalRecaudado = document.getElementById("total-recaudado-admin");
-const totalMembresias = document.getElementById("total-membresias-admin");
 const totalDonaciones = document.getElementById("total-donaciones-admin");
 const operacionesPendientes = document.getElementById("operaciones-pendientes-admin");
 const buscarOperacion = document.getElementById("buscar-operacion-admin");
-const filtroTipo = document.getElementById("filtro-tipo-operacion-admin");
 const filtroEstado = document.getElementById("filtro-estado-pago-admin");
 const filtroFechaDesde = document.getElementById("filtro-fecha-desde");
 const filtroFechaHasta = document.getElementById("filtro-fecha-hasta");
 const sinResultados = document.getElementById("sin-resultados-pagos-admin");
+const estadoCarga = document.getElementById("estado-carga-donaciones-admin");
+const botonActualizar = document.getElementById("actualizar-donaciones-admin");
 const contenedorDetalle = document.getElementById("detalle-operacion-admin");
 const contenidoDetalle = document.getElementById("contenido-detalle-operacion");
 const cerrarDetalle = document.getElementById("cerrar-detalle-operacion");
-function escaparHTML(texto) {
-    const elemento = document.createElement("div"); elemento.textContent = String(texto); return elemento.innerHTML;}
-function formatearMoneda(valor) {return valor.toLocaleString("es-CL", {
-    style: "currency",
-    currency: "CLP",
-    maximumFractionDigits: 0
-});}
+function escaparHTML(valor) {
+    const elemento = document.createElement("div");
+    elemento.textContent = String(valor ?? "");
+    return elemento.innerHTML;
+}
+function formatearMoneda(valor) {
+    const monto = Number(valor) || 0;
+    return monto.toLocaleString("es-CL", {
+        style: "currency",
+        currency: "CLP",
+        maximumFractionDigits: 0
+    });
+}
 function formatearFecha(fecha) {
-    if (!fecha) {return "";}
-    const partes = fecha.split("-");
+    if (!fecha) {return "No disponible";}
+    const fechaTexto = String(fecha);
+    // El backend entrega LocalDateTime en formato ISO.
+    const partes = fechaTexto.substring(0, 10).split("-");
+    if (partes.length !== 3) {return "No disponible";}
     return `${partes[2]}-${partes[1]}-${partes[0]}`;
 }
-function cargarOperaciones() {
-    const operacionesGuardadas = JSON.parse(localStorage.getItem("operacionesAdmin")) || [];
-    if (operacionesGuardadas.length > 0) {operaciones = operacionesGuardadas; return;}
-    operaciones = [
-        {
-            id: 1,
-            referencia: "PAY-2026-0001",
-            transaccion: "TBK-846291",
-            fecha: "2026-08-28",
-            usuarioId: 101,
-            nombreUsuario: "Ana Martínez",
-            nickname: "ana_scout",
-            tipo: "MEMBRESIA",
-            detalle: "Cuota agosto 2026",
-            monto: 15000,
-            medioPago: "Webpay",
-            estado: "PAGADO",
-            fechaActualizacion: "2026-08-28 14:32"
-        },
-        {
-            id: 2,
-            referencia: "PAY-2026-0002",
-            transaccion: "TBK-846307",
-            fecha: "2026-08-29",
-            usuarioId: 102,
-            nombreUsuario: "Cristóbal Ventura",
-            nickname: "cristobal_ventura",
-            tipo: "DONACION",
-            tipoDonacion: "IDENTIFICADA",
-            detalle: "Donación identificada",
-            monto: 25000,
-            medioPago: "Webpay",
-            estado: "PAGADO",
-            fechaActualizacion: "2026-08-29 09:18"
-        },
-        {
-            id: 3,
-            referencia: "PAY-2026-0003",
-            transaccion: "TBK-846315",
-            fecha: "2026-08-29",
-            usuarioId: null,
-            nombreUsuario: "Anónimo",
-            nickname: null,
-            tipo: "DONACION",
-            tipoDonacion: "ANONIMA",
-            detalle: "Donación anónima",
-            monto: 10000,
-            medioPago: "Webpay",
-            estado: "PAGADO",
-            fechaActualizacion: "2026-08-29 11:45"
-        },
-        {
-            id: 4,
-            referencia: "PAY-2026-0004",
-            transaccion: null,
-            fecha: "2026-08-30",
-            usuarioId: 103,
-            nombreUsuario: "Felipe Cariz",
-            nickname: "felipe_scout",
-            tipo: "PEDIDO",
-            detalle: "Pedido SC-2026-003",
-            monto: 45990,
-            medioPago: "Webpay",
-            estado: "PENDIENTE",
-            fechaActualizacion: "2026-08-30 16:10"
-        },
-        {
-            id: 5,
-            referencia: "PAY-2026-0005",
-            transaccion: "TBK-846401",
-            fecha: "2026-08-30",
-            usuarioId: 104,
-            nombreUsuario: "Marcela Soto",
-            nickname: "marcela_scout",
-            tipo: "MEMBRESIA",
-            detalle: "Cuota agosto 2026",
-            monto: 15000,
-            medioPago: "Webpay",
-            estado: "RECHAZADO",
-            fechaActualizacion: "2026-08-30 17:22"
-        }
-    ];
-    guardarOperaciones();
+function formatearFechaHora(fecha) {
+    if (!fecha) {return "No disponible"; }
+    const fechaTexto = String(fecha);
+    const fechaFormateada = formatearFecha(fechaTexto);
+    const hora = fechaTexto.length >= 16 ? fechaTexto.substring(11, 16) : "";
+    return hora ? `${fechaFormateada} ${hora}` : fechaFormateada;
 }
-function guardarOperaciones() {localStorage.setItem("operacionesAdmin", JSON.stringify(operaciones));}
-function obtenerNombreTipo(tipo) {
-    if (tipo === "MEMBRESIA") {return "Membresía";}
-    if (tipo === "DONACION") {return "Donación";}
-    return "Compra";
+function normalizarTexto(valor) {return String(valor ?? "").trim().toLowerCase();}
+function obtenerNombreDonante(donacion) {
+    if (donacion.tipoDonacion === "ANONIMA") {return "Donante anónimo";}
+    return donacion.nombreDonante || "Nombre no informado";
 }
 function obtenerClaseEstado(estado) {
-    if (estado === "PAGADO") {return "estado-activo-admin";}
-    if (estado === "PENDIENTE") {return "estado-pendiente-admin";}
+    const estadoNormalizado = normalizarTexto(estado).toUpperCase();
+    if (estadoNormalizado === "PAGADO") {return "estado-activo-admin";}
+    if (estadoNormalizado === "PENDIENTE") {return "estado-pendiente-admin";}
     return "estado-inactivo-admin";
 }
-function actualizarIndicadores() {
-    const operacionesPagadas = operaciones.filter(
-        function (operacion) {return operacion.estado === "PAGADO";}
-    );
-    const membresiasPagadas = operacionesPagadas.filter(function (operacion) {return operacion.tipo === "MEMBRESIA";});
-    const donacionesPagadas = operacionesPagadas.filter(
-        function (operacion) {return operacion.tipo === "DONACION";});
-    const pendientes = operaciones.filter(
-        function (operacion) {return operacion.estado === "PENDIENTE";}
-    );
-    const montoTotal = operacionesPagadas.reduce(
-        function (total, operacion) {return total + operacion.monto;}, 0
-    );
-    const montoMembresias = membresiasPagadas.reduce(
-        function (total, operacion) {return total + operacion.monto;}, 0
-    );
-    const montoDonaciones = donacionesPagadas.reduce(
-        function (total, operacion) {return total + operacion.monto;}, 0);
-    totalRecaudado.textContent = formatearMoneda(montoTotal);
-    totalMembresias.textContent = formatearMoneda(montoMembresias);
-    totalDonaciones.textContent = formatearMoneda(montoDonaciones);
-    operacionesPendientes.textContent = pendientes.length;
+// datos del backend donacion
+async function consultarDonaciones() {
+    if (typeof esAdministradorActivo !== "function" ||
+        !esAdministradorActivo()) {
+        window.location.replace("login.html");
+        return;
+    }
+    if (typeof fetchAutenticado !== "function") {throw new Error("No está disponible el mecanismo de autenticación.");}
+    const donacionesObtenidas = [];
+    let pagina = 0;
+    let totalPaginas = 1;
+    do {
+        const url = `${API_DONACIONES_ADMIN}?pagina=${pagina}&tamanio=${TAMANIO_PAGINA}`;
+        const respuesta = await fetchAutenticado(url, {method: "GET"});
+        if (!respuesta.ok) {throw new Error(`No fue posible consultar las donaciones. Código HTTP: ${respuesta.status}`);}
+        const resultado = await respuesta.json();
+        if (!resultado || !Array.isArray(resultado.content)) {throw new Error("La respuesta del servidor no tiene el formato esperado.");}
+        donacionesObtenidas.push(...resultado.content);
+        totalPaginas = Number(resultado.totalPages) || 0;
+        pagina++;
+    } while (pagina < totalPaginas);
+    donaciones = donacionesObtenidas;
+    // Ordenar desde la donación más reciente.
+    donaciones.sort((a, b) => {return String(b.fecha || "").localeCompare(String(a.fecha || ""));});
+    actualizarIndicadores();
+    mostrarDonaciones();
 }
-function obtenerOperacionesFiltradas() {
-    const texto = buscarOperacion.value.trim().toLowerCase();
+// Resumen
+function actualizarIndicadores() {
+    const donacionesPagadas = donaciones.filter(donacion => normalizarTexto(donacion.estadoPago).toUpperCase() === "PAGADO");
+    const donacionesPendientes = donaciones.filter(donacion => normalizarTexto(donacion.estadoPago).toUpperCase() === "PENDIENTE");
+    const montoTotalRecaudado = donacionesPagadas.reduce((total, donacion) => total + (Number(donacion.monto) || 0), 0);
+    totalRecaudado.textContent = formatearMoneda(montoTotalRecaudado);
+    totalDonaciones.textContent = donaciones.length;
+    operacionesPendientes.textContent = donacionesPendientes.length;
+}
+// Filtros en donacion
+function obtenerDonacionesFiltradas() {
+    const texto = normalizarTexto(buscarOperacion.value);
+    const estadoSeleccionado = filtroEstado.value;
     const fechaDesde = filtroFechaDesde.value;
     const fechaHasta = filtroFechaHasta.value;
-    return operaciones.filter(
-        function (operacion) {
-            const nickname = operacion.nickname || "";
-            const coincideTexto = 
-                operacion.referencia.toLowerCase().includes(texto) ||
-                operacion.nombreUsuario.toLowerCase().includes(texto) ||
-                nickname.toLowerCase().includes(texto);
-            const coincideTipo = filtroTipo.value === "TODOS" ||
-                operacion.tipo === filtroTipo.value;
-            const coincideEstado = filtroEstado.value === "TODOS" ||
-                operacion.estado === filtroEstado.value;
-            const coincideDesde = fechaDesde === "" ||
-                operacion.fecha >= fechaDesde;
-            const coincideHasta = fechaHasta === "" ||
-                operacion.fecha <= fechaHasta;
-            return (coincideTexto && coincideTipo && coincideEstado && coincideDesde && coincideHasta);
-        }
-    );
+    return donaciones.filter(donacion => {
+        const nombre = normalizarTexto(donacion.nombreDonante);
+        const correo = normalizarTexto(donacion.correoDonante);
+        const grupo = normalizarTexto(donacion.grupoNombre);
+        const tipo = normalizarTexto(donacion.tipoDonacion);
+        const coincideTexto =
+            nombre.includes(texto) ||
+            correo.includes(texto) ||
+            grupo.includes(texto) ||
+            tipo.includes(texto) ||
+            (tipo === "anonima" && "donante anónimo".includes(texto));
+
+        const estado = normalizarTexto(donacion.estadoPago).toUpperCase();
+        const coincideEstado = estadoSeleccionado === "TODOS" || estado === estadoSeleccionado;
+        const fechaDonacion = String(donacion.fecha || "").substring(0, 10);
+        const coincideDesde = !fechaDesde || fechaDonacion >= fechaDesde;
+        const coincideHasta = !fechaHasta || fechaDonacion <= fechaHasta;
+        return coincideTexto && coincideEstado && coincideDesde && coincideHasta;
+    });
 }
-function mostrarOperaciones() {
-    const operacionesFiltradas = obtenerOperacionesFiltradas();
+// Mostrar donaciones
+function mostrarDonaciones() {
+    const donacionesFiltradas = obtenerDonacionesFiltradas();
     listaPagos.innerHTML = "";
-    sinResultados.hidden = operacionesFiltradas.length !== 0;
-    operacionesFiltradas.forEach(
-        function (operacion) {
-            const fila = document.createElement("tr");
-            const usuarioVisible =
-                operacion.nickname
-                    ? `
-                        ${escaparHTML(operacion.nombreUsuario)}
-                        <br>
-                        <small>@${escaparHTML(operacion.nickname)}</small>
-                    `
-                    : `
-                        <span class="donacion-anonima">Donante anónimo</span>
-                    `;
-            const botonAnular =
-                operacion.estado === "PENDIENTE"
-                    ? `
-                        <button type="button" class="boton-anular-operacion" data-id="${operacion.id}">Anular</button>
-                    `
-                    : "";
-            fila.innerHTML = `
-                <td><strong>${escaparHTML(operacion.referencia)}</strong></td>
-                <td>${formatearFecha(operacion.fecha)}</td>
-                <td>${usuarioVisible}</td>
-                <td>${obtenerNombreTipo(operacion.tipo)}</td>
-                <td>${escaparHTML(operacion.detalle)}</td>
-                <td>${formatearMoneda(operacion.monto)}</td>
-                <td><span class="estado-usuario-admin ${obtenerClaseEstado(operacion.estado)}" >${operacion.estado}</span></td>
-                <td>
-                    <div class="acciones-tabla-admin">
-                        <button type="button" class="boton-detalle-operacion" data-id="${operacion.id}">Ver detalle</button>
-                        ${botonAnular}
-                    </div>
-                </td>
-            `;
-            listaPagos.appendChild(fila);
-        }
-    );
-    activarBotonesOperaciones();
+    sinResultados.hidden = donacionesFiltradas.length !== 0;
+    donacionesFiltradas.forEach(donacion => {
+        const fila = document.createElement("tr");
+        const donante = escaparHTML(obtenerNombreDonante(donacion));
+        const correo = donacion.tipoDonacion === "IDENTIFICADA" && donacion.correoDonante ? `<br><small>${escaparHTML(donacion.correoDonante)}</small>` : "";
+        const tipo = donacion.tipoDonacion === "ANONIMA" ? "Anónima" : "Identificada";
+        const grupo = donacion.grupoNombre ? escaparHTML(donacion.grupoNombre) : "No asociado";
+        const estado = escaparHTML(donacion.estadoPago || "No disponible");
+        fila.innerHTML = `
+            <td>${escaparHTML(formatearFechaHora(donacion.fecha))}</td>
+            <td>
+                ${donante}
+                ${correo}
+            </td>
+            <td>${tipo}</td>
+            <td>${grupo}</td>
+            <td>${formatearMoneda(donacion.monto)}</td>
+            <td>
+                <span class="estado-usuario-admin ${obtenerClaseEstado(donacion.estadoPago)}">${estado}</span>
+            </td>
+            <td>
+                <div class="acciones-tabla-admin">
+                    <button type="button" class="boton-detalle-operacion" data-id="${Number(donacion.id)}">Ver detalle</button>
+                </div>
+            </td>
+        `;
+        listaPagos.appendChild(fila);
+    });
     actualizarIndicadores();
 }
-function activarBotonesOperaciones() {
-    document
-        .querySelectorAll(".boton-detalle-operacion")
-        .forEach(function (boton) {boton.addEventListener("click", function () {mostrarDetalleOperacion(Number(boton.dataset.id));});});
-    document
-        .querySelectorAll(".boton-anular-operacion")
-        .forEach(function (boton) {boton.addEventListener("click", function () {anularOperacion(Number(boton.dataset.id));});});
-}
-function mostrarDetalleOperacion(idOperacion) {
-    const operacion = operaciones.find(function (elemento) {return elemento.id === idOperacion;});
-    if (!operacion) {return;}
-    const usuarioVisible =operacion.nickname
-            ? `
-                ${escaparHTML(operacion.nombreUsuario)}
-                (@${escaparHTML(operacion.nickname)})
-            `
-            : "Donante anónimo";
+// Donación
+function mostrarDetalleDonacion(idDonacion) {
+    const donacion = donaciones.find(elemento => Number(elemento.id) === Number(idDonacion));
+    if (!donacion) {return;}
+    const esAnonima = donacion.tipoDonacion === "ANONIMA";
+    const nombre = esAnonima ? "Donante anónimo" : donacion.nombreDonante || "No informado";
+    const correo = esAnonima ? "No corresponde" : donacion.correoDonante || "No informado";
     contenidoDetalle.innerHTML = `
         <div class="dato-detalle-operacion">
-            <span>Referencia</span>
-            <strong>${escaparHTML(operacion.referencia)}</strong>
+            <span>Tipo de donación</span>
+            <strong>${escaparHTML(esAnonima ? "Anónima" : "Identificada")}</strong>
         </div>
         <div class="dato-detalle-operacion">
-            <span>Transacción</span>
-            <strong>${escaparHTML(operacion.transaccion || "Pendiente de asignación")}</strong>
+            <span>Donante</span>
+            <strong>${escaparHTML(nombre)}</strong>
         </div>
         <div class="dato-detalle-operacion">
-            <span>Fecha</span>
-            <strong>${formatearFecha(operacion.fecha)}</strong>
-        </div>
-        <div class="dato-detalle-operacion">
-            <span>Usuario</span>
-            <strong>${usuarioVisible}</strong>
-        </div>
-        <div class="dato-detalle-operacion">
-            <span>Operación</span>
-            <strong>${obtenerNombreTipo(operacion.tipo)}</strong>
-        </div>
-        <div class="dato-detalle-operacion">
-            <span>Detalle</span>
-            <strong>${escaparHTML(operacion.detalle)}</strong>
+            <span>Correo electrónico</span>
+            <strong>${escaparHTML(correo)}</strong>
         </div>
         <div class="dato-detalle-operacion">
             <span>Monto</span>
-            <strong>${formatearMoneda(operacion.monto)}</strong>
+            <strong>${formatearMoneda(donacion.monto)}</strong>
         </div>
         <div class="dato-detalle-operacion">
-            <span>Medio de pago</span>
-            <strong>${escaparHTML(operacion.medioPago)}</strong>
+            <span>Fecha de donación</span>
+            <strong>${escaparHTML(formatearFechaHora(donacion.fecha))}</strong>
         </div>
         <div class="dato-detalle-operacion">
-            <span>Estado</span>
-            <strong>${escaparHTML(operacion.estado)}</strong>
+            <span>Estado del pago</span>
+            <strong>${escaparHTML(donacion.estadoPago || "No disponible")}</strong>
         </div>
         <div class="dato-detalle-operacion">
-            <span>Última actualización</span>
-            <strong>${escaparHTML(operacion.fechaActualizacion)}</strong>
+            <span>Grupo asociado</span>
+            <strong>${escaparHTML(donacion.grupoNombre || "No asociado")}</strong>
         </div>
     `;
     contenedorDetalle.hidden = false;
-    contenedorDetalle.scrollIntoView({behavior: "smooth"});
+    contenedorDetalle.scrollIntoView({behavior: "smooth", block: "start"});
 }
-function anularOperacion(idOperacion) {
-    const operacion = operaciones.find(function (elemento) {return elemento.id === idOperacion;});
-    if (!operacion) {return;}
-    if (operacion.estado !== "PENDIENTE") {alert("Solo se pueden anular operaciones pendientes.");return;}
-    const confirmar = confirm(`¿Deseas anular la operación ` + `${operacion.referencia}?`);
-    if (!confirmar) {return;}
-    operacion.estado = "ANULADO";
-    operacion.fechaActualizacion = new Date().toLocaleString("es-CL");
-    guardarOperaciones();
-    mostrarOperaciones();
-    contenedorDetalle.hidden = true;
-}
+// registros de la tabla
+listaPagos.addEventListener("click", function (evento) {
+    const boton = evento.target.closest(".boton-detalle-operacion");
+    if (!boton) {return;}
+    const idDonacion = Number(boton.dataset.id);
+    mostrarDetalleDonacion(idDonacion);
+});
+// Valida las fechas
 function validarRangoFechas() {
-    if (filtroFechaDesde.value !== "" && filtroFechaHasta.value !== "" && filtroFechaDesde.value > filtroFechaHasta.value) {
-        alert("La fecha inicial no puede ser posterior " + "a la fecha final.");
-        filtroFechaHasta.value = "";
-    }
-    mostrarOperaciones();
+    if (
+        filtroFechaDesde.value &&
+        filtroFechaHasta.value &&
+        filtroFechaDesde.value > filtroFechaHasta.value
+    ) {alert("La fecha inicial no puede ser posterior a la fecha final."); filtroFechaHasta.value = "";}
+    mostrarDonaciones();
 }
-buscarOperacion.addEventListener("input", mostrarOperaciones);
-filtroTipo.addEventListener("change", mostrarOperaciones);
-filtroEstado.addEventListener("change", mostrarOperaciones);
+// Actualizacion y carga
+async function cargarDonaciones() {
+    botonActualizar.disabled = true;
+    botonActualizar.textContent = "Actualizando...";
+    estadoCarga.hidden = false;
+    estadoCarga.textContent = "Consultando donaciones...";
+    try {await consultarDonaciones();
+        estadoCarga.textContent = `Se encontraron ${donaciones.length} donaciones registradas.`;
+        if (donaciones.length === 0) {estadoCarga.textContent = "No existen donaciones registradas.";}
+    } catch (error) {
+        console.error("Error al consultar donaciones:", error);
+        estadoCarga.textContent = "No fue posible cargar las donaciones. Revisa la sesión y la conexión con el servidor.";
+        listaPagos.innerHTML = "";
+        sinResultados.hidden = true;
+        totalRecaudado.textContent = formatearMoneda(0);
+        totalDonaciones.textContent = "0";
+        operacionesPendientes.textContent = "0";
+        if (error.message) {console.error("Detalle del error:", error.message);}
+    } finally {botonActualizar.disabled = false; botonActualizar.textContent = "Actualizar";}
+}
+// Filtros y controles
+buscarOperacion.addEventListener("input", mostrarDonaciones);
+filtroEstado.addEventListener("change", mostrarDonaciones);
 filtroFechaDesde.addEventListener("change", validarRangoFechas);
 filtroFechaHasta.addEventListener("change", validarRangoFechas);
+botonActualizar.addEventListener("click", cargarDonaciones);
 cerrarDetalle.addEventListener("click", function () {contenedorDetalle.hidden = true;});
-cargarOperaciones();
-mostrarOperaciones();
+cargarDonaciones();

@@ -1,0 +1,115 @@
+.pagina-donacion {
+            min-height: 80vh;
+            padding: 55px 20px;
+            background: #f4f7f5;
+        }
+
+        .contenedor-donacion {
+            max-width: 650px;
+            margin: auto;
+            padding: 35px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 5px 22px rgba(0, 0, 0, 0.09);
+        }
+
+        .encabezado-donacion {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .encabezado-donacion h1 {
+            color: #163b2c;
+            margin-bottom: 12px;
+        }
+
+        .encabezado-donacion p {
+            color: #666;
+        }
+
+        .campo-donacion {
+            margin-bottom: 20px;
+        }
+
+        .campo-donacion label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .campo-donacion input,
+        .campo-donacion select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .campo-donacion input:focus,
+        .campo-donacion select:focus {
+            outline: none;
+            border-color: #1f5c43;
+            box-shadow: 0 0 0 2px rgba(31, 92, 67, 0.12);
+        }
+
+        .ayuda-donacion {
+            margin-top: 6px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .boton-donar {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #163b2c;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .boton-donar:hover {
+            background: #1f5c43;
+        }
+
+        .boton-donar:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .mensaje-donacion {
+            display: none;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .mensaje-donacion.error {
+            display: block;
+            color: #842029;
+            background: #f8d7da;
+        }
+
+        .mensaje-donacion.info {
+            display: block;
+            color: #084298;
+            background: #cfe2ff;
+        }
+
+        .nota-donacion {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            .contenedor-donacion {
+                padding: 22px;
+            }
+        }
