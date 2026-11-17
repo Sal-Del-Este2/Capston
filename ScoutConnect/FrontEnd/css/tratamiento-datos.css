@@ -1,0 +1,293 @@
+
+/* estilo de pagina tratamiento de datos */
+.pagina-politicas {
+    background-color: #f7f8f6;
+}
+.pagina-contenido-politicas {
+    min-height: 70vh;
+}
+/* Encabezado */
+.encabezado-politicas {
+    padding: 75px 20px 55px;
+    background: linear-gradient(135deg, #f0f3ed, #ffffff);
+}
+.contenido-encabezado-politicas {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.encabezado-politicas h1 {
+    color: #263b2d;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.encabezado-politicas > div > p:not(.subtitulo-panel) {
+    max-width: 850px;
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+.encabezado-politicas .subtitulo-panel,
+.encabezado-listado-politicas .subtitulo-panel,
+.encabezado-modal-politica .subtitulo-panel {
+    color: #71816f;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+}
+/* Datos de versión */
+.datos-version-politicas {
+    margin-top: 28px;
+    padding: 20px 24px;
+    max-width: 650px;
+    background-color: #ffffff;
+    border-left: 4px solid #718b65;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+.datos-version-politicas p {
+    margin: 7px 0;
+    color: #444;
+    font-size: 0.95rem;
+}
+.datos-version-politicas a {
+    color: #426b4b;
+    text-decoration: none;
+}
+.datos-version-politicas a:hover {
+    text-decoration: underline;
+}
+/* Listado */
+.seccion-politicas-publicadas {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 65px 20px 80px;
+}
+.encabezado-listado-politicas {
+    text-align: center;
+    margin-bottom: 38px;
+}
+.encabezado-listado-politicas h2 {
+    color: #263b2d;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.encabezado-listado-politicas > p:last-child {
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+/* Tarjetas */
+.listado-politicas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+.tarjeta-politica {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 1px solid #e1e6df;
+    border-radius: 12px;
+    padding: 26px;
+    min-height: 220px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.045);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tarjeta-politica:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 9px 22px rgba(0, 0, 0, 0.09);
+}
+.tarjeta-politica h3 {
+    color: #2d4433;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.tarjeta-politica p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.tipo-tarjeta-politica {
+    display: inline-block;
+    color: #657b5d;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+}
+.boton-leer-politica {
+    margin-top: auto;
+    align-self: flex-start;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    background-color: #526f50;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.boton-leer-politica:hover {
+    background-color: #3d583c;
+}
+.boton-leer-politica:focus-visible,
+.boton-cerrar-politica:focus-visible,
+.boton-cerrar-modal-politica:focus-visible {
+    outline: 3px solid #b7cda8;
+    outline-offset: 3px;
+}
+/* Estado de carga, vacío o error */
+.estado-politicas {
+    text-align: center;
+    color: #666;
+    margin-top: 30px;
+    line-height: 1.6;
+}
+.estado-politicas.error {
+    color: #a33a35;
+}
+/* modal */
+.modal-politica-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.62);
+}
+.modal-politica-overlay[hidden] {
+    display: none;
+}
+.modal-politica {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 780px;
+    max-height: 85vh;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+/* Encabezado modal */
+.encabezado-modal-politica {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 25px 30px 20px;
+    border-bottom: 1px solid #e5e8e3;
+    background-color: #f8faf7;
+}
+.encabezado-modal-politica h2 {
+    color: #2d4433;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+.version-modal-politica {
+    color: #777;
+    font-size: 0.85rem;
+    margin: 8px 0 0;
+}
+.boton-cerrar-modal-politica {
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: #555;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+/* Contenido desplazable */
+.contenido-modal-politica {
+    padding: 25px 30px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+.tipo-modal-politica {
+    color: #637c5d;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 18px;
+}
+.texto-modal-politica {
+    color: #444;
+    font-size: 0.98rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+/* Pie del modal */
+.pie-modal-politica {
+    display: flex;
+    justify-content: flex-end;
+    padding: 17px 30px;
+    border-top: 1px solid #e5e8e3;
+    background-color: #f8faf7;
+}
+.boton-cerrar-politica {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px;
+    background-color: #526f50;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.boton-cerrar-politica:hover {
+    background-color: #3d583c;
+}
+/* Bloquear desplazamiento del fondo */
+body.modal-politica-abierto {
+    overflow: hidden;
+}
+/* Botón volver arriba */
+#btnSubir {
+    display: none;
+}
+/* responsiva */
+@media (max-width: 600px) {
+
+    .encabezado-politicas {
+        padding: 45px 18px 35px;
+    }
+    .datos-version-politicas {
+        padding: 17px;
+    }
+    .seccion-politicas-publicadas {
+        padding: 45px 16px 55px;
+    }
+    .encabezado-listado-politicas h2 {
+        font-size: 1.65rem;
+    }
+    .modal-politica-overlay {
+        padding: 10px;
+    }
+    .modal-politica {
+        max-height: 90vh;
+    }
+    .encabezado-modal-politica {
+        padding: 20px;
+    }
+    .encabezado-modal-politica h2 {
+        font-size: 1.2rem;
+    }
+    .contenido-modal-politica {
+        padding: 20px;
+    }
+    .pie-modal-politica {
+        padding: 15px 20px;
+    }
+}
