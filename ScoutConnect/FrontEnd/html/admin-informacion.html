@@ -47,7 +47,6 @@
             </div>
         </nav>
     </header>
-
     <main class="gestion-admin">
         <section class="encabezado-gestion-admin">
             <div>
@@ -55,13 +54,8 @@
                 <h1>Información institucional</h1>
                 <p>Actualiza la información pública de la comunidad scout.</p>
             </div>
-
-            <a href="panel-admin.html" class="boton-volver-panel">
-                <img src="../img/iconos/atras.svg" width="30" alt="atras">
-                Volver
-            </a>
+            <a href="panel-admin.html" class="boton-volver-panel"><img src="../img/iconos/atras.svg" width="30" alt="atras">Volver</a>
         </section>
-
         <section class="contenedor-gestion-admin">
             <div class="encabezado-listado-admin">
                 <div>
@@ -69,64 +63,40 @@
                     <h2>Editar información</h2>
                 </div>
             </div>
-
             <form id="form-informacion">
                 <input type="hidden" id="informacion-id">
-
                 <div class="cuadricula-formulario-admin">
                     <div class="campo-admin">
-                        <label for="nombre-institucion">Nombre de la institución</label>
-                        <input type="text" id="nombre-institucion" maxlength="200" required>
+                        <label for="nombre-institucion">Nombre de la institución</label><input type="text" id="nombre-institucion" maxlength="200" required>
                     </div>
-
                     <div class="campo-admin">
-                        <label for="correo-contacto">Correo de contacto</label>
-                        <input type="email" id="correo-contacto" maxlength="150">
+                        <label for="correo-contacto">Correo de contacto</label><input type="email" id="correo-contacto" maxlength="150">
                     </div>
-
                     <div class="campo-admin">
-                        <label for="telefono-contacto">Teléfono de contacto</label>
-                        <input type="text" id="telefono-contacto" maxlength="30">
+                        <label for="telefono-contacto">Teléfono de contacto</label><input type="text" id="telefono-contacto" maxlength="30">
                     </div>
-
                     <div class="campo-admin">
-                        <label for="sitio-web">Sitio web</label>
-                        <input type="url" id="sitio-web" maxlength="255">
+                        <label for="sitio-web">Sitio web</label><input type="url" id="sitio-web" maxlength="255">
                     </div>
-
                     <div class="campo-admin">
-                        <label for="logo-url">URL del logo</label>
-                        <input type="url" id="logo-url" maxlength="500">
+                        <label for="logo-url">URL del logo</label><input type="url" id="logo-url" maxlength="500">
                     </div>
                 </div>
-
                 <div class="campo-admin">
-                    <label for="mision">Misión</label>
-                    <textarea id="mision" rows="4"></textarea>
+                    <label for="mision">Misión</label><textarea id="mision" rows="4"></textarea>
                 </div>
-
                 <div class="campo-admin">
-                    <label for="vision">Visión</label>
-                    <textarea id="vision" rows="4"></textarea>
+                    <label for="vision">Visión</label><textarea id="vision" rows="4"></textarea>
                 </div>
-
                 <div class="campo-admin">
-                    <label for="historia">Historia</label>
-                    <textarea id="historia" rows="5"></textarea>
+                    <label for="historia">Historia</label><textarea id="historia" rows="5"></textarea>
                 </div>
-
                 <div class="campo-admin">
-                    <label for="valores">Valores</label>
-                    <textarea id="valores" rows="4"></textarea>
+                    <label for="valores">Valores</label><textarea id="valores" rows="4"></textarea>
                 </div>
-
                 <div class="acciones-formulario-admin">
-                    <button type="button" id="boton-cancelar" class="boton-cancelar-admin">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="boton-guardar-admin">
-                        Guardar cambios
-                    </button>
+                    <button type="button" id="boton-cancelar" class="boton-cancelar-admin">Cancelar</button>
+                    <button type="submit" class="boton-guardar-admin">Guardar cambios</button>
                 </div>
             </form>
         </section>
