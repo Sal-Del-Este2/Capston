@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagos y donaciones | Comunidad Scout</title>
+    <meta name="description" content="Administración de donaciones de Comunidad Scout.">
+    <title>Donaciones | Comunidad Scout</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/estilos.css">
     <link rel="stylesheet" href="../css/mensajes.css">
@@ -13,11 +15,10 @@
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="panel-admin.html">
-                    <span class="simbolo-logo"><img src="../img/ScoutConnet_2026.svg" width="80px"
-                            alt="flor-de-lis"></span> Comunidad Scout</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#menuAdministrador" aria-controls="menuAdministrador" aria-expanded="false"
-                    aria-label="Abrir menú">
+                    <span class="simbolo-logo"><img src="../img/ScoutConnet_2026.svg" width="80" alt="Flor de lis"></span>Comunidad Scout
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuAdministrador"
+                    aria-controls="menuAdministrador" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="menuAdministrador">
@@ -29,7 +30,9 @@
                                 <li><a class="dropdown-item" href="admin-usuarios.html">Usuarios</a></li>
                                 <li><a class="dropdown-item" href="admin-noticias.html">Noticias</a></li>
                                 <li><a class="dropdown-item" href="admin-eventos.html">Eventos</a></li>
+                                <li><a class="dropdown-item" href="admin-tienda.html">Productos y Pedidos</a></li>
                                 <li><a class="dropdown-item" href="admin-mensajes.html">Mensajes</a></li>
+                                <li><a class="dropdown-item" href="admin-pagos.html">Pagos</a></li>
                             </ul>
                         </div>
                         <div class="nav-item dropdown">
@@ -48,62 +51,54 @@
         </nav>
     </header>
     <main class="gestion-admin">
+        <!-- Encabezado -->
         <section class="encabezado-gestion-admin">
             <div>
                 <p class="subtitulo-admin">Administración</p>
-                <h1>Pagos y donaciones</h1>
-                <p>Revisa las operaciones realizadas, sus estados y referencias de pago.</p>
+                <h1>Donaciones</h1>
+                <p>Consulta las donaciones registradas y el estado de sus pagos.</p>
             </div>
-            <a href="panel-admin.html" class="boton-volver-panel"><img src="../img/iconos/atras.svg" width="30px"
-                    alt="atras"> Volver</a>
+            <a href="panel-admin.html" class="boton-volver-panel"><img src="../img/iconos/atras.svg" width="30" alt="Volver">Volver</a>
         </section>
+        <!-- Resumen -->
         <section class="resumen-gestion-admin">
             <article class="tarjeta-indicador-admin">
                 <span>Total recaudado</span>
                 <strong id="total-recaudado-admin">$0</strong>
             </article>
             <article class="tarjeta-indicador-admin">
-                <span>Pagos de membresía</span>
-                <strong id="total-membresias-admin">$0</strong>
+                <span>Donaciones registradas</span>
+                <strong id="total-donaciones-admin">0</strong>
             </article>
             <article class="tarjeta-indicador-admin">
-                <span>Donaciones recibidas</span>
-                <strong id="total-donaciones-admin">$0</strong>
-            </article>
-            <article class="tarjeta-indicador-admin">
-                <span>Operaciones pendientes</span>
+                <span>Donaciones pendientes</span>
                 <strong id="operaciones-pendientes-admin">0</strong>
             </article>
         </section>
+        <!-- Listado -->
         <section class="contenedor-gestion-admin">
             <div class="encabezado-listado-admin">
                 <div>
                     <p class="subtitulo-admin">Movimientos registrados</p>
-                    <h2>Historial de operaciones</h2>
+                    <h2>Historial de donaciones</h2>
                 </div>
+                <button type="button" id="actualizar-donaciones-admin" class="boton-actualizar-admin">Actualizar</button>
             </div>
+            <!-- Filtros -->
             <div class="filtros-pagos-admin">
                 <div class="campo-filtro-admin">
                     <label for="buscar-operacion-admin">Buscar</label>
-                    <input type="search" id="buscar-operacion-admin" placeholder="Referencia, nombre o nickname">
+                    <input type="search" id="buscar-operacion-admin" placeholder="Nombre, correo o grupo">
                 </div>
                 <div class="campo-filtro-admin">
-                    <label for="filtro-tipo-operacion-admin">Tipo</label>
-                    <select id="filtro-tipo-operacion-admin">
-                        <option value="TODOS">Todos</option>
-                        <option value="MEMBRESIA">Membresía</option>
-                        <option value="DONACION">Donación</option>
-                        <option value="PEDIDO">Compra</option>
-                    </select>
-                </div>
-                <div class="campo-filtro-admin">
-                    <label for="filtro-estado-pago-admin">Estado</label>
+                    <label for="filtro-estado-pago-admin">Estado del pago</label>
                     <select id="filtro-estado-pago-admin">
                         <option value="TODOS">Todos</option>
                         <option value="PAGADO">Pagado</option>
                         <option value="PENDIENTE">Pendiente</option>
                         <option value="RECHAZADO">Rechazado</option>
                         <option value="ANULADO">Anulado</option>
+                        <option value="CANCELADO">Cancelado</option>
                     </select>
                 </div>
                 <div class="campo-filtro-admin">
@@ -115,44 +110,47 @@
                     <input type="date" id="filtro-fecha-hasta">
                 </div>
             </div>
+            <!-- Tabla -->
             <div class="tabla-responsive">
                 <table class="tabla-admin">
                     <thead>
                         <tr>
-                            <th>Referencia</th>
                             <th>Fecha</th>
-                            <th>Usuario</th>
-                            <th>Operación</th>
-                            <th>Detalle</th>
+                            <th>Donante</th>
+                            <th>Tipo</th>
+                            <th>Grupo</th>
                             <th>Monto</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="lista-pagos-admin">
-                        <!-- Se cargará desde JavaScript -->
+                        <!-- Se cargará desde el backend -->
                     </tbody>
                 </table>
             </div>
-            <p id="sin-resultados-pagos-admin" class="mensaje-sin-resultados" hidden>No se encontraron operaciones.</p>
+            <p id="sin-resultados-pagos-admin" class="mensaje-sin-resultados" hidden>No se encontraron donaciones.</p>
+            <p id="estado-carga-donaciones-admin" class="text-center mt-3" role="status" aria-live="polite">Cargando donaciones...</p>
         </section>
-        <!-- Detalle de la operación -->
+        <!-- Detalle -->
         <section id="detalle-operacion-admin" class="contenedor-formulario-admin" hidden>
             <div class="encabezado-formulario-admin">
                 <div>
-                    <p class="subtitulo-admin">Trazabilidad</p>
-                    <h2>Detalle de la operación</h2>
+                    <p class="subtitulo-admin">Información</p>
+                    <h2>Detalle de la donación</h2>
                 </div>
-                <button type="button" id="cerrar-detalle-operacion" class="boton-cerrar-formulario"
-                    aria-label="Cerrar detalle"><img src="../img/iconos/cerrar.svg" width="30px" alt="cerrar"></button>
+                <button type="button" id="cerrar-detalle-operacion" class="boton-cerrar-formulario" aria-label="Cerrar detalle">
+                    <img src="../img/iconos/cerrar.svg" width="30" alt="Cerrar">
+                </button>
             </div>
             <div id="contenido-detalle-operacion" class="contenido-detalle-operacion">
-                <!-- Se cargará desde JavaScript -->
+                <!-- Se cargará desde el backend -->
             </div>
         </section>
     </main>
     <script src="../js/mensajes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/auth.js"></script>
     <script src="../js/js_admin/sesion-admin.js"></script>
     <script src="../js/js_admin/admin-pagos.js"></script>
 </body>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resultado de tu donación a Comunidad Scout.">
+    <title>Resultado de donación | Comunidad Scout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/donacion-resultado.css">
+</head>
+<body class="pagina-donacion-resultado">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="../index.html">
+                    <span class="simbolo-logo">
+                        <img src="../img/ScoutConnet_2026.svg" width="80" alt="Flor de lis">
+                        Comunidad Scout
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#menuResultado" aria-controls="menuResultado"
+                    aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuResultado">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link" href="../index.html">Inicio</a>
+                        <a class="nav-link" href="nosotros.html">Nosotros</a>
+                        <a class="nav-link" href="actividades.html">Noticias y eventos</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="contenedor-resultado-donacion">
+        <section class="tarjeta-resultado-donacion" aria-labelledby="titulo-resultado-donacion">
+            <div class="encabezado-resultado-donacion">
+                <img src="../img/ScoutConnet_2026.png" class="logo-resultado-donacion" width="500px" alt="Comunidad Scout" onerror="this.style.display='none'">
+                <p class="subtitulo-resultado-donacion">Comunidad Scout</p>
+                <h1 id="titulo-resultado-donacion">Resultado de tu donación</h1>
+                <div id="indicador-estado-donacion" class="indicador-estado-donacion estado-pendiente" role="status" aria-live="polite">
+                    <span id="icono-estado-donacion" aria-hidden="true">…</span>
+                    <span id="texto-estado-donacion">Consultando resultado</span>
+                </div>
+                <p id="mensaje-resultado-donacion" class="mensaje-resultado-donacion">Estamos preparando la información de tu operación.</p>
+            </div>
+            <section id="detalle-donacion" class="detalle-donacion" hidden aria-labelledby="titulo-detalle-donacion">
+                <h2 id="titulo-detalle-donacion">Detalle de la donación</h2>
+                <div class="monto-donacion-resultado">
+                    <span>Monto aportado</span>
+                    <strong id="monto-donacion-resultado">$0</strong>
+                </div>
+                <dl class="datos-donacion-resultado">
+                    <div class="fila-dato-donacion">
+                        <dt>Tipo de donación</dt>
+                        <dd id="tipo-donacion-resultado">No disponible</dd>
+                    </div>
+                    <div id="fila-nombre-donante" class="fila-dato-donacion" hidden>
+                        <dt>Donante</dt>
+                        <dd id="nombre-donante-resultado">No disponible</dd>
+                    </div>
+                    <div id="fila-correo-donante" class="fila-dato-donacion" hidden>
+                        <dt>Correo electrónico</dt>
+                        <dd id="correo-donante-resultado">No disponible</dd>
+                    </div>
+                    <div class="fila-dato-donacion">
+                        <dt>Fecha</dt>
+                        <dd id="fecha-donacion-resultado">No disponible</dd>
+                    </div>
+                    <div class="fila-dato-donacion">
+                        <dt>Estado</dt>
+                        <dd id="estado-donacion-resultado">No disponible</dd>
+                    </div>
+                </dl>
+                <p class="nota-comprobante-donacion">Este comprobante se genera con los datos conservados durante el proceso de donación y el resultado recibido al regresar de Webpay.</p>
+                <div class="acciones-donacion-resultado">
+                    <button id="boton-descargar-donacion" type="button" class="btn btn-primary" disabled>Descargar comprobante PDF</button>
+                    <a href="../index.html" class="btn btn-outline-secondary">Volver al inicio</a>
+                </div>
+                <p id="mensaje-comprobante-donacion" class="mensaje-comprobante-donacion" role="status" aria-live="polite"></p>
+            </section>
+            <section id="resultado-sin-datos-donacion" class="resultado-sin-datos-donacion" hidden>
+                <p id="mensaje-sin-datos-donacion">No se encontraron los datos de esta donación en la sesión actual.</p>
+                <a href="../index.html" class="btn btn-outline-secondary">Volver al inicio</a>
+            </section>
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="contenido-footer">
+            <div class="footer-marca">
+                <h3><img src="../img/iconos/flor-de-lis.svg" width="50" alt="Flor de lis"> Comunidad Scout</h3>
+                <p>Aventura, servicio y comunidad <br> para construir un mundo mejor.</p>
+            </div>
+            <div class="footer-enlaces">
+                <h4>Explora</h4>
+                <a href="../index.html">Inicio</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="actividades.html">Noticias y eventos</a>
+            </div>
+            <div class="footer-contacto">
+                <h4>Contacto</h4>
+                <p><img src="../img/iconos/alfiler.svg" width="20" alt=""> Santiago, Chile</p>
+                <p><img src="../img/iconos/email.svg" width="20" alt=""> contacto@comunidadscout.cl</p>
+            </div>
+        </div>
+        <div class="footer-inferior">
+            <p>&copy; 2026 Comunidad Scout</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="../js/donacion-resultado.js"></script>
+</body>
+</html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,42 +8,73 @@
     <link rel="stylesheet" href="../css/estilos.css">
     <link rel="stylesheet" href="../css/mensajes.css">
 </head>
-<a href="../index.html" class="boton-volver"><img src="../img/iconos/atras.svg" width="30px" alt="atras"> Volver al inicio</a>
 <body>
-    <section id="login" class="seccion-login">
-        <div class="contenedor-login">
-            <div class="login-info">
-                <span class="simbolo-login"><img src="../img/ScoutConnet_2026.svg" width="200px" alt="flor-de-lis"></span>
-                <h2>Bienvenido a Comunidad Scout</h2>
-                <p>Ingresa a tu cuenta para acceder a actividades, grupos, eventos y contenidos de la comunidad.</p>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="../index.html">
+                    <span class="simbolo-logo">
+                        <img src="../img/ScoutConnet_2026.svg" width="80px" alt="flor-de-lis"> Comunidad Scout
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuScout"
+                    aria-controls="menuScout" aria-expanded="false" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuScout">
+                    <div class="navbar-nav mx-auto">
+                        <a class="nav-link" href="../index.html">Inicio</a>
+                        <a class="nav-link" href="nosotros.html">Nosotros</a>
+                        <a class="nav-link" href="actividades.html">noticias y Eventos</a>
+                        <a class="nav-link" href="donar.html">Donación</a>
+                        <a class="nav-link" href="login.html">Iniciar sesión</a>
+                    </div>
+                </div>
             </div>
-            <div class="login-formulario">
-                <h3>Iniciar sesión</h3>
-                <form id="form-login">
-                    <div class="campo-login">
-                        <label for="correo-login">Correo electrónico</label>
-                        <input type="email" id="correo-login" placeholder="correo@ejemplo.cl" required>
-                    </div>
-                    <div class="campo-login campo password">
-                        <label for="password-login">Contraseña</label>
-                        <input type="password" id="password-login" placeholder="Ingresa tu contraseña" required>
-                        <button type="button" id="mostrar-password" class="boton-ojo" aria-label="Mostrar contraseña" aria-controls="password-login" aria-pressed="false">
-                            <img id="icono-password" src="../img/iconos/ojo-c.svg" alt="ojo cerrado">
-                        </button>
-                    </div>
-                    <div class="opciones-login">
-                        <label class="recordarme">
-                            <input type="checkbox" id="recordarme">Recordarme
-                        </label>
-                        <button type="button" id="boton-olvidar-password" class="boton-secundario-login">Olvidé mi contraseña</button>
-                        <!-- <a href="#">¿Olvidaste tu contraseña?</a> -->
-                    </div>
-                    <button type="submit" class="boton-login">Ingresar</button>
-                    <p class="registro-login"> ¿No tienes cuenta y eres miembro activo de la comunidad? <a href="#"> solicita el acceso</a></p>
-                </form>
+        </nav>
+    </header>
+    <main class="mis-actividades">
+        <section class="encabezado-actividades">
+            <div>
+                <p class="subtitulo-panel">Comunidad Scout</p>
+                <h1>Iniciar sesión</h1>
+                <p id="descripcion-actividades">Ingresa a tu cuenta para acceder a actividades, grupos, eventos y contenidos de la comunidad.</p>
             </div>
-        </div>
-    </section>
+            <a href="../index.html" class="boton-volver-panel"><img src="../img/iconos/atras.svg" width="30" alt="Volver">Volver</a>
+        </section>
+        <section id="login" class="seccion-login">
+            <div class="contenedor-login">
+                <div class="login-info">
+                    <span class="simbolo-login"><img src="../img/ScoutConnet_2026.svg" width="200px" alt="flor-de-lis"></span>
+                    <h2>Bienvenido a Comunidad Scout</h2>
+                </div>
+                <div class="login-formulario">
+                    <form id="form-login">
+                        <div class="campo-login">
+                            <label for="correo-login">Correo electrónico</label>
+                            <input type="email" id="correo-login" placeholder="correo@ejemplo.cl" required>
+                        </div>
+                        <div class="campo-login campo password">
+                            <label for="password-login">Contraseña</label>
+                            <input type="password" id="password-login" placeholder="Ingresa tu contraseña" required>
+                            <button type="button" id="mostrar-password" class="boton-ojo" aria-label="Mostrar contraseña" aria-controls="password-login" aria-pressed="false">
+                                <img id="icono-password" src="../img/iconos/ojo-c.svg" alt="ojo cerrado">
+                            </button>
+                        </div>
+                        <div class="opciones-login">
+                            <label class="recordarme">
+                                <input type="checkbox" id="recordarme">Recordarme
+                            </label>
+                            <button type="button" id="boton-olvidar-password" class="boton-secundario-login">Olvidé mi contraseña</button>
+                            <!-- <a href="#">¿Olvidaste tu contraseña?</a> -->
+                        </div>
+                        <button type="submit" class="boton-login">Ingresar</button>
+                        <p class="registro-login"> ¿No tienes cuenta y eres miembro activo de la comunidad? <a href="#"> solicita el acceso</a></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
     <footer class="footer">
         <div class="contenido-footer">
             <div class="footer-marca">

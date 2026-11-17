@@ -1,0 +1,224 @@
+.pagina-donacion-resultado {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f6f8;
+}
+.contenedor-resultado-donacion {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+.tarjeta-resultado-donacion {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 5px 22px rgba(0, 0, 0, 0.08);
+}
+/* El encabezado */
+.encabezado-resultado-donacion {
+    text-align: center;
+    margin-bottom: 35px;
+}
+.logo-resultado-donacion {
+    display: block;
+    width: 200px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 5px;
+}
+.subtitulo-resultado-donacion {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+.encabezado-resultado-donacion h1 {
+    color: #173f35;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 22px;
+}
+.mensaje-resultado-donacion {
+    color: #475569;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 18px auto 0;
+    max-width: 600px;
+}
+/* Estado */
+.indicador-estado-donacion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+#icono-estado-donacion {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.estado-pendiente {
+    color: #854d0e;
+    background-color: #fef3c7;
+}
+.estado-aprobado {
+    color: #166534;
+    background-color: #dcfce7;
+}
+.estado-rechazado,
+.estado-cancelado,
+.estado-error {
+    color: #991b1b;
+    background-color: #fee2e2;
+}
+/* Detalle de la donación */
+.detalle-donacion {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 28px;
+}
+.detalle-donacion h2 {
+    color: #173f35;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 22px;
+}
+/* Monto */
+.monto-donacion-resultado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 25px 15px;
+    margin-bottom: 25px;
+    background-color: #f0f7f3;
+    border-radius: 12px;
+}
+.monto-donacion-resultado span {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+.monto-donacion-resultado strong {
+    color: #176b45;
+    font-size: 2rem;
+    font-weight: 700;
+}
+/* Datos */
+.datos-donacion-resultado {
+    margin: 0;
+}
+.fila-dato-donacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 14px 5px;
+    border-bottom: 1px solid #e9edf1;
+}
+.fila-dato-donacion dt {
+    color: #64748b;
+    font-weight: 500;
+}
+.fila-dato-donacion dd {
+    color: #1e293b;
+    font-weight: 600;
+    text-align: right;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+/* nota */
+.nota-comprobante-donacion {
+    margin-top: 22px;
+    padding: 14px 16px;
+    background-color: #f8fafc;
+    border-left: 4px solid #94a3b8;
+    border-radius: 5px;
+    color: #64748b;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+/* Acciones, botones */
+.acciones-donacion-resultado {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+.acciones-donacion-resultado .btn {
+    min-width: 210px;
+    padding: 11px 18px;
+    font-weight: 600;
+}
+#boton-descargar-donacion {
+    background-color: #176b45;
+    border-color: #176b45;
+}
+#boton-descargar-donacion:hover:not(:disabled) {
+    background-color: #125638;
+    border-color: #125638;
+}
+#boton-descargar-donacion:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+.mensaje-comprobante-donacion {
+    min-height: 22px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #475569;
+}
+/* Para el resultado sin datos */
+.resultado-sin-datos-donacion {
+    padding: 25px 15px;
+    text-align: center;
+    background-color: #fff7ed;
+    border-radius: 10px;
+    color: #9a3412;
+}
+.resultado-sin-datos-donacion p {
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+/* responsivo */
+@media (max-width: 768px) {
+    .contenedor-resultado-donacion {
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+    .tarjeta-resultado-donacion {
+        padding: 28px 20px;
+    }
+    .encabezado-resultado-donacion h1 {
+        font-size: 1.6rem;
+    }
+    .detalle-donacion h2 {
+        font-size: 1.25rem;
+    }
+    .monto-donacion-resultado strong {
+        font-size: 1.7rem;
+    }
+}
+@media (max-width: 480px) {
+    .tarjeta-resultado-donacion {
+        padding: 24px 16px;
+    }
+    .fila-dato-donacion {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .fila-dato-donacion dd {
+        text-align: left;
+    }
+    .acciones-donacion-resultado {
+        flex-direction: column;
+    }
+    .acciones-donacion-resultado .btn {
+        width: 100%;
+    }
+}

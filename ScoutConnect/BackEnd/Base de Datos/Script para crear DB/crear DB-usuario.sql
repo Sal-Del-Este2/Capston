@@ -48,7 +48,25 @@ INSERT INTO grupos (nombre, comuna_id)
 VALUES ('Reino Likankura',36),('Reino Anchimellen',35);
 select * from grupos order by id;
 
---6
+-- 6
+CREATE TABLE estados_rama (
+    id BIGSERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE
+);
+INSERT INTO estados_rama (nombre) VALUES
+    ('ACTIVO'),('INACTIVO');
+-- 7
+CREATE TABLE ramas (
+    id BIGSERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL UNIQUE,
+    estado_rama_id BIGINT NOT NULL,
+    fecha_creacion TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    CONSTRAINT fk_rama_estado FOREIGN KEY (estado_rama_id) REFERENCES estados_rama(id)
+);
+INSERT INTO ramas (nombre, estado_rama_id)
+VALUES
+    ('Manada', 1),('Tropa', 1),('Avanzada', 1),('Clan', 1);
+--8
 CREATE TABLE usuarios (
     id BIGSERIAL PRIMARY KEY,
 	nombre VARCHAR(255),
@@ -61,6 +79,7 @@ CREATE TABLE usuarios (
 	estado_id BIGINT,
 	rol_id BIGINT,
 	grupo_id BIGINT,
+	rama_id BIGINT,
 	direccion VARCHAR(255),
 	comuna_id BIGINT,
 	pdf_dato bytea,
@@ -69,13 +88,14 @@ CREATE TABLE usuarios (
 	CONSTRAINT fk_usuarios_estados FOREIGN KEY (estado_id) REFERENCES estados(id) ON UPDATE CASCADE ON DELETE SET NULL,
 	CONSTRAINT fk_usuarios_roles FOREIGN KEY (rol_id) REFERENCES roles(id) ON UPDATE CASCADE ON DELETE SET NULL,
 	CONSTRAINT fk_usuarios_grupos FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE CASCADE ON DELETE SET NULL,
-    CONSTRAINT fk_usuarios_comunas FOREIGN KEY (comuna_id) REFERENCES comunas(id)ON UPDATE CASCADE ON DELETE SET NULL);
+	CONSTRAINT fk_usuario_rama FOREIGN KEY (rama_id) REFERENCES ramas(id), ON UPDATE CASCADE ON DELETE SET NULL
+    CONSTRAINT fk_usuarios_comunas FOREIGN KEY (comuna_id) REFERENCES comunas(id) ON UPDATE CASCADE ON DELETE SET NULL);
 INSERT INTO usuarios (nombre, rut, telefono, nacimiento, nickname, correo, password, estado_id, rol_id, grupo_id, direccion, comuna_id)
 VALUES
-('Administrador','11.222.333-4','9 11112222','1982/11/29','admin','admin@comunidadscout.cl','ClaveAdmin#2026',1,1,1,'dirección admin',35),
-('Dirigente','22.333.444-5','9 22223333','1985/10/19','dirigente','dirigente@comunidadscout.cl','ClaveDirigente#2026',1,4,1,'dirección dirigente',36),
-('Luis Lopez','33.444.555-6','9 33334444','2020/10/15','Azul','loopez@comunidadscout.cl','Banco.123456789',1,2,1,'dirección luis',36),
-('Apoderado','44.555.666-7','9 44445555','1990/09/06','apoderado','apoderado@comunidadscout.cl', 'Banco.123456789',1,3,1,'dirección apoderado',36);
+('Administrador','11.222.333-4','9 11112222','1982/11/29','admin','admin@comunidadscout.cl','ClaveAdmin#2026',1,1,1,1,'dirección admin',35),
+('Dirigente','22.333.444-5','9 22223333','1985/10/19','dirigente','dirigente@comunidadscout.cl','ClaveDirigente#2026',1,4,1,1,'dirección dirigente',36),
+('Luis Lopez','33.444.555-6','9 33334444','2020/10/15','Azul','loopez@comunidadscout.cl','Banco.123456789',1,2,1,1,'dirección luis',36),
+('Apoderado','44.555.666-7','9 44445555','1990/09/06','apoderado','apoderado@comunidadscout.cl', 'Banco.123456789',1,3,1,1,'dirección apoderado',36);
 select * from usuarios order by id;
 
 -- securitizar contraseñas
@@ -87,7 +107,7 @@ select * from usuarios order by id;
 --UPDATE usuarios
 --SET password = crypt(password, gen_salt('bf'));
 
--- 7
+-- 9
 -- crear tabla mensaje
 CREATE TABLE mensajes (
     id BIGSERIAL PRIMARY KEY,
@@ -104,7 +124,7 @@ CREATE TABLE mensajes (
     CONSTRAINT chk_mensajes_asunto CHECK (char_length(trim(asunto)) BETWEEN 1 AND 255),
     CONSTRAINT chk_mensajes_estado CHECK (estado IN ('NO_LEIDO', 'LEIDO', 'ENVIADO'))
 );
---8
+--10
 -- crear tabla adjunto mensaje
 CREATE TABLE adjuntos_mensaje (
     id BIGSERIAL PRIMARY KEY,
