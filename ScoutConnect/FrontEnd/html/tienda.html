@@ -12,14 +12,9 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-scout">
             <div class="container">
-                <a class="navbar-brand fw-bold" href="../index.html">
-                    <img src="../img/ScoutConnet_2026.svg" width="80" alt="Flor de lis">
-                    Comunidad Scout
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#menuTienda" aria-controls="menuTienda"
-                    aria-expanded="false" aria-label="Abrir menú">
-                    <span class="navbar-toggler-icon"></span>
+                <a class="navbar-brand fw-bold" href="../index.html"><img src="../img/ScoutConnet_2026.svg" width="80" alt="logo">Comunidad Scout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuTienda" aria-controls="menuTienda"
+                    aria-expanded="false" aria-label="Abrir menú"><span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="menuTienda">
                     <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
@@ -32,9 +27,8 @@
                         <img src="../img/iconos/carrito.svg" width="30" alt="">
                         <span id="cantidad-carrito">0</span>
                     </button>
-                    <button id="vaciar-carrito-navbar" type="button"
-                        aria-label="Vaciar carrito" title="Vaciar carrito">
-                        <img src="../img/iconos/papelera.svg" width="30" alt="">
+                    <button id="vaciar-carrito-navbar" type="button" aria-label="Vaciar carrito" title="Vaciar carrito">
+                        <img src="../img/iconos/papelera.svg" width="30" alt="papelera">
                     </button>
                 </div>
             </div>
@@ -73,12 +67,8 @@
     <div id="modal-carrito" class="modal" role="dialog" aria-modal="true"
         aria-labelledby="titulo-modal-carrito">
         <div class="contenido-modal">
-            <button class="cerrar-carrito boton-cerrar-modal" type="button"
-                aria-label="Cerrar"><img src="../img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
-            <h2 id="titulo-modal-carrito">
-                <img src="../img/iconos/carrito.svg" width="40" alt="">
-                Mi carrito
-            </h2>
+            <button class="cerrar-carrito boton-cerrar-modal" type="button" aria-label="Cerrar"><img src="../img/iconos/cerrar.svg" width="20px" alt="cerrar"></button>
+            <h2 id="titulo-modal-carrito"><img src="../img/iconos/carrito.svg" width="40" alt="">Mi carrito</h2>
             <div id="lista-carrito">
                 <p>Tu carrito está vacío.</p>
             </div>
@@ -86,9 +76,7 @@
             <h3>Total: <span id="total-carrito">$0</span></h3>
             <p id="mensaje-carrito" role="status" aria-live="polite"></p>
             <button id="vaciar-carrito" type="button">Vaciar carrito</button>
-            <button id="confirmar-pago" type="button" class="btn btn-success">
-                Continuar a Webpay
-            </button>
+            <button id="confirmar-pago" type="button" class="btn btn-success">Continuar a Webpay</button>
         </div>
     </div>
     <!-- Modal de resultado y comprobante de compra -->
@@ -123,16 +111,13 @@
                 <!-- Resumen -->
                 <div class="comprobante-resumen">
                     <div class="fila-resumen">
-                        <span>Neto total:</span>
-                        <strong id="comprobante-neto"></strong>
+                        <span>Neto total:</span><strong id="comprobante-neto"></strong>
                     </div>
                     <div class="fila-resumen">
-                        <span>IVA:</span>
-                        <strong id="comprobante-iva"></strong>
+                        <span>IVA:</span><strong id="comprobante-iva"></strong>
                     </div>
                     <div class="fila-resumen fila-total">
-                        <span>Total:</span>
-                        <strong id="comprobante-total"></strong>
+                        <span>Total:</span><strong id="comprobante-total"></strong>
                     </div>
                 </div>
                 <hr>

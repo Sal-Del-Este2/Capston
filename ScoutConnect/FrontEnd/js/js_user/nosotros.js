@@ -61,6 +61,12 @@ botonesInformacion.forEach(boton => {
     boton.disabled = true;
     boton.addEventListener("click", () => {const seccion = boton.dataset.seccion; mostrarInformacion(seccion);});
 });
+// Boton para subir
+const btnSubir = document.getElementById("btnSubir");
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {btnSubir.style.display = "block";
+    } else {btnSubir.style.display = "none";}
+});
 // Eventos para cerrar la ventana
 botonCerrarModal.addEventListener("click", cerrarModal);
 botonCerrarInformacion.addEventListener("click", cerrarModal);
