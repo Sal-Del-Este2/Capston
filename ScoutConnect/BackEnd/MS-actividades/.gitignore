@@ -1,5 +1,4 @@
-.env
-
-### VS Code ###
-.vscode/
+target/
 /target/
+.vscode/
+.env
