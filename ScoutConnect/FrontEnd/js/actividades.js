@@ -98,7 +98,7 @@ function mostrarNoticias() {
         tarjeta.classList.add("tarjeta-actividad");
         tarjeta.innerHTML = `
             <div class="icono-actividad" aria-hidden="true">
-                📰
+                <img src="../img/iconos/periodico.svg" width="40px" alt="periodico">
             </div>
             <div class="informacion-actividad">
                 <div class="encabezado-tarjeta-actividad">
@@ -127,7 +127,7 @@ function mostrarEventos() {
             `
             : `
             <div class="icono-actividad" aria-hidden="true">
-                📅
+                <img src="../img/iconos/evento2.svg" width="40px" alt="evento">
             </div>
         `;
         tarjeta.innerHTML = ` ${imagen}
@@ -158,9 +158,7 @@ async function abrirDetalleEvento(idEvento) {
         const evento = await leerRespuesta(respuesta);
         if (!respuesta.ok) {throw new Error(evento.error || "No se pudo cargar el evento.");}
         tituloDetalle.textContent = evento.titulo;
-        const fotos = Array.isArray(evento.fotos)
-                ? evento.fotos
-                : [];
+        const fotos = Array.isArray(evento.fotos) ? evento.fotos : [];
         const galeria =fotos.length ? fotos.map(function (foto) {
             return `
                 <img src="${obtenerUrlFoto(foto)}" alt="${escaparHTML(foto.nombreArchivo)}"
