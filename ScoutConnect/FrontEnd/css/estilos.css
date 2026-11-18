@@ -1213,8 +1213,8 @@ color: inherit;
 }
 
 .boton-panel:hover {
-  background-color: #163b2c;
-  color: #ffffff;
+  background-color: #428d5f;
+  color: #2b2a2a;
 }
 
 /* Diseño adaptable */
@@ -1374,37 +1374,6 @@ color: inherit;
   border-top: 1px solid #e2e9e5;
 }
 
-.boton-cancelar-perfil,
-.boton-guardar-perfil {
-  padding: 12px 22px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.boton-cancelar-perfil {
-  background-color: transparent;
-  color: #5d665f;
-  border: 1px solid #b8c2bc;
-}
-
-.boton-cancelar-perfil:hover {
-  background-color: #edf1ef;
-  color: #333333;
-}
-
-.boton-guardar-perfil {
-  background-color: #1f5c43;
-  color: #ffffff;
-  border: 2px solid #1f5c43;
-}
-
-.boton-guardar-perfil:hover {
-  background-color: #163b2c;
-  border-color: #163b2c;
-}
-
 /* Adaptación para celulares */
 
 @media (max-width: 700px) {
@@ -1428,7 +1397,7 @@ color: inherit;
     flex-direction: column-reverse;
   }
   .boton-cancelar-perfil,
-    .boton-guardar-perfil {
+  .boton-guardar-perfil {
     width: 100%;
     text-align: center;
   }
@@ -1727,7 +1696,8 @@ color: inherit;
   font-size: 1.6rem;
   margin-bottom: 0;
 }
-
+.boton-nuevo-mensaje,
+.boton-ver-eventos,
 .boton-ir-tienda {
   display: inline-block;
   background-color: #244d34;
@@ -1738,10 +1708,11 @@ color: inherit;
   font-weight: 700;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
-
+.boton-nuevo-mensaje:hover,
+.boton-ver-eventos:hover,
 .boton-ir-tienda:hover {
-  background-color: #193a27;
-  color: #ffffff;
+  background-color: #428d5f;
+  color: #363636;
   transform: translateY(-2px);
 }
 
@@ -1915,23 +1886,6 @@ color: inherit;
   color: #244d34;
   font-size: 1.6rem;
   margin-bottom: 0;
-}
-
-.boton-ver-eventos {
-  display: inline-block;
-  background-color: #244d34;
-  color: #ffffff;
-  padding: 11px 20px;
-  border-radius: 9px;
-  text-decoration: none;
-  font-weight: 700;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.boton-ver-eventos:hover {
-  background-color: #193a27;
-  color: #ffffff;
-  transform: translateY(-2px);
 }
 
 .lista-actividades {
@@ -2108,24 +2062,6 @@ color: inherit;
   margin-bottom: 0;
 }
 
-.boton-nuevo-mensaje,
-.boton-enviar-mensaje {
-  background-color: #244d34;
-  color: #ffffff;
-  border: none;
-  border-radius: 9px;
-  padding: 11px 20px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.boton-nuevo-mensaje:hover,
-.boton-enviar-mensaje:hover {
-  background-color: #193a27;
-  transform: translateY(-2px);
-}
-
 .acciones-mensajes {
   display: flex;
   align-items: center;
@@ -2171,7 +2107,8 @@ color: inherit;
 }
 
 .boton-eliminar-seleccionados:hover:not(:disabled) {
-  background-color: #922d2d;
+  background-color: #cf7676;
+  color: #333232;
 }
 
 .boton-eliminar-seleccionados:disabled {
@@ -2269,17 +2206,17 @@ color: inherit;
   transition: all 0.2s ease;
 }
 
-.boton-leer-mensaje,
-.boton-responder-mensaje {
+/* .boton-leer-mensaje, */
+/* .boton-responder-mensaje {
   color: #286944;
   border: 2px solid #286944;
-}
+} */
 
-.boton-leer-mensaje:hover,
-.boton-responder-mensaje:hover {
+/* .boton-leer-mensaje:hover, */
+/* .boton-responder-mensaje:hover {
   color: #ffffff;
   background-color: #286944;
-}
+} */
 
 .boton-eliminar-mensaje {
   color: #a63232;
@@ -3112,9 +3049,12 @@ color: inherit;
   color: #9d3030;
   border: 2px solid #9d3030;
 }
-
-/* #################################################### */
-
+.boton-enviar-mensaje,
+.boton-leer-mensaje,
+.boton-cancelar-mensaje,
+.boton-guardar-perfil,
+.boton-cancelar-perfil,
+.boton-responder-mensaje,
 .boton-detalle-operacion,
 .boton-editar-pedido,
 .boton-cancelar-pedido,
@@ -3140,7 +3080,12 @@ color: inherit;
   color: #286944;
   border: 2px solid #286944;
 }
-
+.boton-enviar-mensaje:hover,
+.boton-leer-mensaje:hover,
+.boton-cancelar-mensaje:hover,
+.boton-guardar-perfil:hover,
+.boton-cancelar-perfil:hover,
+.boton-responder-mensaje:hover,
 .boton-detalle-operacion:hover,
 .boton-editar-pedido:hover,
 .boton-cancelar-pedido:hover,
