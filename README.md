@@ -58,3 +58,6 @@ Ambos grupos gestionan sus actividades y comunicaciones informalmente mediante r
 ## Metodología de trabajo del equipo.
 El desarrollo se realizará utilizando metodología ágil Scrum, permitiendo una implementación progresiva para validar los requerimientos y funcionalidades.
 ## Arquitectura de la solución.
+
+## para DeepWiki
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Sal-Del-Este2/Capston)
