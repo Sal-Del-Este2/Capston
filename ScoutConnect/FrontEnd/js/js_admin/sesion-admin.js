@@ -36,3 +36,10 @@ function validarSesionAdministrador() {
 ].forEach(evento => {document.addEventListener(evento, reiniciarTemporizadorInactividad, {passive: true});});
 // return true;
 validarSesionAdministrador();
+// Boton para subir
+const btnSubir = document.getElementById("btnSubir");
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {btnSubir.style.display = "block";
+    } else {btnSubir.style.display = "none";}
+});
+btnSubir.addEventListener("click", () => {window.scrollTo({top: 0, behavior: "smooth"});});

@@ -8,6 +8,13 @@ const tituloBienvenida = document.getElementById("titulo-bienvenida");
 if (tituloBienvenida && nombreUsuario) {tituloBienvenida.innerHTML = `
         <img src="../img/iconos/perfil.svg" width="30px" alt="Icono perfil"> ${nombreUsuario} `;
 }
+// Boton para subir
+const btnSubir = document.getElementById("btnSubir");
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {btnSubir.style.display = "block";
+    } else {btnSubir.style.display = "none";}
+});
+btnSubir.addEventListener("click", () => {window.scrollTo({top: 0, behavior: "smooth"});});
 //Cerrar la sesión
 if (botonCerrarSesion) {botonCerrarSesion.addEventListener("click", function (evento) {
     evento.preventDefault();
