@@ -134,6 +134,13 @@ color: inherit;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
+.contenedor-grupos {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
 
 .tarjeta-rama {
   padding: 30px 24px;
@@ -347,11 +354,11 @@ color: inherit;
   line-height: 1.6;
 }
 
-.contenedor-grupos {
+/* .contenedor-grupos {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-}
+  grid-template-columns: repeat(2, 2fr);
+  gap: 50px;
+} */
 
 .tarjeta-grupo {
   background-color: white;
@@ -3316,15 +3323,16 @@ color: inherit;
   .pagina-inicio .contenido-nosotros {
     gap: 35px;
   }
+  .pagina-inicio .contenedor-grupos,
   .pagina-inicio .contenedor-ramas {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .pagina-inicio .contenedor-eventos {
     grid-template-columns: 1fr;
   }
-  .pagina-inicio .contenedor-grupos {
+  /* .pagina-inicio .contenedor-grupos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  } */
   .pagina-tienda .contenedor-productos {
     grid-template-columns: repeat(2,minmax(0, 1fr));
   }
@@ -3351,9 +3359,9 @@ color: inherit;
     height: 280px;
   }
   .pagina-inicio .contenedor-ramas,
-    .pagina-inicio .contenedor-noticias,
-    .pagina-inicio .contenedor-grupos,
-    .pagina-tienda .contenedor-productos {
+  .pagina-inicio .contenedor-noticias,
+  .pagina-inicio .contenedor-grupos,
+  .pagina-tienda .contenedor-productos {
     grid-template-columns: 1fr;
   }
   .pagina-inicio .encabezado-eventos {
@@ -3473,6 +3481,7 @@ html {
     width: 100%;
   }
   /* Ramas */
+  .contenedor-grupos,
   .contenedor-ramas {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -3485,9 +3494,9 @@ html {
     grid-template-columns: repeat(2, 1fr);
   }
   /* Grupos */
-  .contenedor-grupos {
+  /* .contenedor-grupos {
     grid-template-columns: repeat(2, 1fr);
-  }
+  } */
   /* Footer */
   .contenido-footer {
     grid-template-columns: 1fr 1fr;
@@ -3528,6 +3537,7 @@ html {
     height: auto;
   }
   /* Ramas */
+  .contenedor-grupos,
   .contenedor-ramas {
     grid-template-columns: 1fr;
   }
